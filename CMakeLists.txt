@@ -3,4 +3,4 @@ project(computing4-uml)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(computing4-uml main.cpp)
+add_executable(computing4-uml assignment/main.cpp)
