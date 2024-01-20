@@ -40,10 +40,7 @@ public:
      */
     Direction opposite() const {
         const auto orientationIndex = toInt();
-        const auto OppositeOrientation =
-            static_cast<Orientation>(orientationIndex ^ 1);
-
-        return Direction(OppositeOrientation);
+        return Direction(static_cast<Orientation>(orientationIndex ^ 1));
     }
 
 private:
@@ -73,16 +70,15 @@ public:
      * \param filepath The filepath of the texture file.
      */
     explicit ControllableSprite(const std::string&filepath) {
-        const std::filesystem::path absolutePath =
-            std::filesystem::absolute(filepath);
+        const std::filesystem::path absolutePath = std::filesystem::absolute(filepath);
         std::cout << "Loading texture file: " << absolutePath << std::endl;
 
         if (!texture.loadFromFile(filepath)) {
-            throw new std::invalid_argument("Fail to load the texture.");
+            throw std::invalid_argument("Failed to load the texture.");
         }
 
         this->setTexture(texture);
-        this->setPosition(0, 0);
+        this->setPosition(sf::Vector2f(0.0f, 0.0f));
     }
 
     /**
@@ -136,8 +132,10 @@ public:
             return;
 
         const float ds = 1 / sqrt(x * x + y * y);
-        const auto position = this->getPosition();
-        this->setPosition(position.x + x * ds * dt, position.y + y * ds * dt);
+        auto position = this->getPosition();
+        position.x += x * ds * dt;
+        position.y += y * ds * dt;
+        this->setPosition(position);
     }
 
 private:
@@ -169,25 +167,25 @@ int main() {
             }
 
             if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code == sf::Keyboard::W) {
+                if (event.key.code == sf::Keyboard::Key::W) {
                     sprite.enableDirection(Direction::UP);
-                } else if (event.key.code == sf::Keyboard::A) {
+                } else if (event.key.code == sf::Keyboard::Key::A) {
                     sprite.enableDirection(Direction::LEFT);
-                } else if (event.key.code == sf::Keyboard::S) {
+                } else if (event.key.code == sf::Keyboard::Key::S) {
                     sprite.enableDirection(Direction::DOWN);
-                } else if (event.key.code == sf::Keyboard::D) {
+                } else if (event.key.code == sf::Keyboard::Key::D) {
                     sprite.enableDirection(Direction::RIGHT);
                 }
             }
 
             if (event.type == sf::Event::KeyReleased) {
-                if (event.key.code == sf::Keyboard::W) {
+                if (event.key.code == sf::Keyboard::Key::W) {
                     sprite.disableDirection(Direction::UP);
-                } else if (event.key.code == sf::Keyboard::A) {
+                } else if (event.key.code == sf::Keyboard::Key::A) {
                     sprite.disableDirection(Direction::LEFT);
-                } else if (event.key.code == sf::Keyboard::S) {
+                } else if (event.key.code == sf::Keyboard::Key::S) {
                     sprite.disableDirection(Direction::DOWN);
-                } else if (event.key.code == sf::Keyboard::D) {
+                } else if (event.key.code == sf::Keyboard::Key::D) {
                     sprite.disableDirection(Direction::RIGHT);
                 }
             }
