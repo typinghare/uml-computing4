@@ -1,9 +1,11 @@
-#include <iostream>
+#include <cstdlib>
 
 int main() {
-    constexpr int num = 1;
-    const int* p = &num;
-    std::cout << *p;
+    const int arraySize = 10;
+
+    int* pIntArray;
+    pIntArray = (int*) malloc(arraySize * sizeof(int));
+    free(pIntArray);
 
     return 0;
 }
