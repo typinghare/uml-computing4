@@ -1,4 +1,4 @@
-// NOLINT(legal/copyright)
+// Copyright 2024 James Chen
 #include <cmath>
 #include <filesystem>
 #include <iostream>
@@ -15,7 +15,7 @@ constexpr char SPRITE_FILEPATH[] = "sprite.png";
 class Direction {
     enum class Orientation { UP, DOWN, LEFT, RIGHT };
 
-public:
+ public:
     static const Direction UP;
     static const Direction DOWN;
     static const Direction LEFT;
@@ -33,17 +33,19 @@ public:
     /**
      * \brief Returns the corresponding integer.
      */
-    int toInt() const { return static_cast<int>(this->orientation); }
+    [[nodiscard]] int toInt() const {
+        return static_cast<int>(this->orientation);
+    }
 
     /**
      * \brief Returns the opposite direction.
      */
-    Direction opposite() const {
+    [[nodiscard]] Direction opposite() const {
         const auto orientationIndex = toInt();
         return Direction(static_cast<Orientation>(orientationIndex ^ 1));
     }
 
-private:
+ private:
     Orientation orientation;
 };
 
@@ -56,7 +58,8 @@ const Direction Direction::RIGHT{Orientation::RIGHT};
  * \brief In game development, a sprite is a movable texture. Last semester I
  * created a 2D farming game using Python, and I try to transplant the logic to
  * here.
- * \see https://github.com/typinghare/wildtrace-farm/blob/main/src/world/character.py
+ * \see
+ * https://github.com/typinghare/wildtrace-farm/blob/main/src/world/character.py
  */
 class ControllableSprite final : public sf::Sprite {
     /**
@@ -64,13 +67,14 @@ class ControllableSprite final : public sf::Sprite {
      */
     constexpr static float SPEED{0.5};
 
-public:
+ public:
     /**
      * \brief Creates a sprite.
      * \param filepath The filepath of the texture file.
      */
-    explicit ControllableSprite(const std::string&filepath) {
-        const std::filesystem::path absolutePath = std::filesystem::absolute(filepath);
+    explicit ControllableSprite(const std::string &filepath) {
+        const std::filesystem::path absolutePath =
+            std::filesystem::absolute(filepath);
         std::cout << "Loading texture file: " << absolutePath << std::endl;
 
         if (!texture.loadFromFile(filepath)) {
@@ -85,7 +89,7 @@ public:
      * \brief Enables a specific dierction
      * \param direction The direction to enable.
      */
-    void enableDirection(const Direction&direction) {
+    void enableDirection(const Direction &direction) {
         // Set the key state to true
         this->keyState[direction.toInt()] = true;
 
@@ -100,7 +104,7 @@ public:
      * \brief Disables a specific direction.
      * \param direction The direction to disable.
      */
-    void disableDirection(const Direction&direction) {
+    void disableDirection(const Direction &direction) {
         // Set the key state and movement state to false
         this->keyState[direction.toInt()] = false;
         this->movementState[direction.toInt()] = false;
@@ -116,7 +120,7 @@ public:
      * \brief Updates the position of this sprite.
      * \param dt Delta time in milliseconds.
      */
-    void update(const int&dt) {
+    void update(const int &dt) {
         int x = 0, y = 0;
 
         if (movementState[Direction::UP.toInt()])
@@ -131,14 +135,14 @@ public:
         if (x == 0 && y == 0)
             return;
 
-        const float ds = 1 / sqrt(x * x + y * y);
+        const float ds = 1.0f / static_cast<float>(sqrt(x * x + y * y));
         auto position = this->getPosition();
-        position.x += x * ds * dt;
-        position.y += y * ds * dt;
+        position.x += static_cast<float>(x) * ds * static_cast<float>(dt);
+        position.y += static_cast<float>(y) * ds * static_cast<float>(dt);
         this->setPosition(position);
     }
 
-private:
+ private:
     sf::Texture texture;
     std::array<bool, Direction::ORIENTAION_COUNT> keyState{};
     std::array<bool, Direction::ORIENTAION_COUNT> movementState{};
@@ -150,8 +154,13 @@ int main() {
                             WINDOW_TITLE);
     window.setFramerateLimit(WINDOW_FPS);
 
-    // Create a sprite
-
+    // Create a circle and a sprite
+    constexpr int CIRCLE_RADIUS = 100.f;
+    sf::CircleShape circleShape(CIRCLE_RADIUS);
+    circleShape.setFillColor(sf::Color::Green);
+    circleShape.setPosition(
+        sf::Vector2f(static_cast<float>(WINDOW_WIDTH) / 2.0f - CIRCLE_RADIUS,
+                     static_cast<float>(WINDOW_HEIGHT) / 2.0f - CIRCLE_RADIUS));
     ControllableSprite sprite(SPRITE_FILEPATH);
 
     // Game loop
@@ -193,6 +202,9 @@ int main() {
 
         // Clear the window before rendering
         window.clear();
+
+        // Draw the circle
+        window.draw(circleShape);
 
         // Update sprite and draw the sprite onto the window
         sprite.update(dt);

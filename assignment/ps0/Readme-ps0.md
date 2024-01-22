@@ -10,7 +10,9 @@ Time to Complete: Jan 19, 2024
 
 ## Description
 
-This project creates a small game using SFML. Players can control a battle plane using `W` (Up), `A` (Left), `S` (Down), and `D` (Right). Note that this project uses `SFML v2.6`.
+This project creates a small game using SFML. Players can control a battle plane using `W` (Up), `A` (Left), `S` (Down), and `D` (Right). The battle plane may fly out of the screen, as boundary collision is not detected. Players can control the plane to move along two axes at the same time. For instance, the plane can move up and right at the same time when the player press `W` and `D`. The plane stops moving when players release the keys.
+
+Note that this project uses `SFML v2.6`.
 
 ### Features
 
@@ -63,7 +65,8 @@ I carefully read the Academic Integrity Statement on [UMass Lowell's official we
 
 I think the **fifth item
 ** "Submission of academic work for which credit has already been earned without instructor permission (“self-plagiarism”)" and the
-**seventh item** "Assists other students in any of these acts" would apply most to this class.
+**seventh item
+** "Assists other students in any of these acts" would apply most to this class.
 
 As everybody knows, code is an academic achievement that is most likely to be plagiarized. Some students use the same code for several classes to reduce their workload. However, they cannot learn anything new from the class if they do so. It is also immoral to give code to others and just let them copy and paste. But I am a bit confused when reading this. Is refactoring my previous code regarded as a self-plagiarism? I have written a lot of code and I often transplant some code from one language to another. I do this to learn a new language and review the language that I learned a couple of years ago. For the "ps0" homework, I reviewed the game I created in Python, and I transplanted some logic to this homework. I finish everything by myself without relying on AI. I added lots of comments to showcase my idea while writing code.
 
