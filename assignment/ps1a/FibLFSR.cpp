@@ -4,22 +4,18 @@
 #include <string>
 
 namespace PhotoMagic {
-std::array<int, 3> FibLFSR::taps = {10, 12, 13};
+std::array<int, 3> FibLFSR::tabIndexes = {10, 12, 13};
 
-FibLFSR::FibLFSR(const std::string& seed) : seed_len(seed.length()) {
-    // Convert the seed string to an integer (member property)
-    this->seed = 0;
+FibLFSR::FibLFSR(const std::string& seed) : len(seed.length()), lfsr(0) {
+    // Convert the seed string into the initial LFSR
     for (const char& bit : seed) {
-        this->seed = this->seed << 1 | bit - '0';
+        lfsr = lfsr << 1 | bit - '0';
     }
 
-    // Save the initial seed
-    this->init_seed = this->seed;
-
     // Initialize the mask
-    this->mask = 0;
-    for (int i = 0; i < seed_len; ++i) {
-        this->mask = (this->mask << 1) | 1;
+    mask = 0;
+    for (int i = 0; i < len; ++i) {
+        mask = (mask << 1) | 1;
     }
 }
 
@@ -33,25 +29,31 @@ int FibLFSR::generate(const int k) {
 }
 
 int FibLFSR::step() {
-    int ans = seed >> (seed_len - 1);
-    for (const int& pos : taps) {
-        ans ^= (seed >> pos) & 1;
+    int ans = lfsr >> (len - 1);
+    for (const int& pos : tabIndexes) {
+        ans ^= (lfsr >> pos) & 1;
     }
 
-    seed = (seed << 1 | ans) & this->mask;
+    lfsr = (lfsr << 1 | ans) & this->mask;
 
     return ans;
 }
 
-int FibLFSR::getSeed() const { return seed; }
+int FibLFSR::getLfsr() const { return lfsr; }
 
-std::string FibLFSR::getSeedBinaryString() const {
+std::string FibLFSR::getLfsrBinaryString() const {
     std::stringstream ss;
-    for (int i = static_cast<int>(seed_len - 1); i >= 0; --i) {
-        ss << (seed >> i & 1 ? '1' : '0');
+    for (int i = static_cast<int>(len - 1); i >= 0; --i) {
+        ss << (lfsr >> i & 1 ? '1' : '0');
     }
 
     return ss.str();
+}
+
+std::ostream& operator<<(std::ostream& os, const FibLFSR& lfsr) {
+    os << lfsr.getLfsrBinaryString();
+
+    return os;
 }
 
 }  // namespace PhotoMagic

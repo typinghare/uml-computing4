@@ -32,6 +32,8 @@ BOOST_AUTO_TEST_CASE(testGenerateInstr) {
     BOOST_REQUIRE_EQUAL(l.generate(9), 51);
 }
 
+// Test the output operator. The output string should be equal to the seed
+// string if the LFSR object was not modified
 BOOST_AUTO_TEST_CASE(testOutputOperator) {
     const std::string initialLFSR = "0110110001101100";
     const FibLFSR l(initialLFSR);
@@ -40,6 +42,8 @@ BOOST_AUTO_TEST_CASE(testOutputOperator) {
     BOOST_REQUIRE_EQUAL(ss.str(), initialLFSR);
 }
 
+// The the output operator. The output string should change after calling the
+// generate method (k >= 1). The expected LFSR value is
 BOOST_AUTO_TEST_CASE(testGenerateAndOutput) {
     const std::string initialLFSR = "0110110001101100";
     const std::string expectedLFSRAfterGenerate = "1101100001100110";

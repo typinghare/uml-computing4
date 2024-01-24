@@ -1,12 +1,9 @@
 // Copyright 2024 James Chen
 #include "FibLFSR.hpp"
 
-namespace PhotoMagic {
+// I don't know what this file is for
 
-std::ostream& operator<<(std::ostream& os, const FibLFSR& lfsr) {
-    os << lfsr.getSeedBinaryString();
-
-    return os;
+int main() {
+    std::cout << "This is the main function in PhotoMagic.cpp" << std::endl;
+    return 0;
 }
-
-}  // namespace PhotoMagic
