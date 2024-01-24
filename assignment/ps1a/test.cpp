@@ -32,15 +32,21 @@ BOOST_AUTO_TEST_CASE(testGenerateInstr) {
     BOOST_REQUIRE_EQUAL(l.generate(9), 51);
 }
 
-BOOST_AUTO_TEST_CASE(testOverrideOperator) {
-    FibLFSR l("0110110001101100");
+BOOST_AUTO_TEST_CASE(testOutputOperator) {
+    const std::string initialLFSR = "0110110001101100";
+    const FibLFSR l(initialLFSR);
     std::stringstream ss;
     ss << l;
-    BOOST_REQUIRE_EQUAL(ss.str(), "0110110001101100");
+    BOOST_REQUIRE_EQUAL(ss.str(), initialLFSR);
+}
 
+BOOST_AUTO_TEST_CASE(testGenerateAndOutput) {
+    const std::string initialLFSR = "0110110001101100";
+    const std::string expectedLFSRAfterGenerate = "1101100001100110";
+    FibLFSR l(initialLFSR);
     l.generate(9);
-    ss.str("");
-    ss.clear();
+
+    std::stringstream ss;
     ss << l;
-    BOOST_REQUIRE_EQUAL(ss.str(), "1101100001100110");
+    BOOST_REQUIRE_EQUAL(ss.str(), expectedLFSRAfterGenerate);
 }
