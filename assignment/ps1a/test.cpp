@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_CASE(testGenerateInstr) {
 }
 
 // Test the output operator. The output string should be equal to the seed
-// string if the LFSR object was not modified
+// string if the LFSR object is not modified
 BOOST_AUTO_TEST_CASE(testOutputOperator) {
     const std::string initialLFSR = "0110110001101100";
     const FibLFSR l(initialLFSR);
@@ -53,12 +53,4 @@ BOOST_AUTO_TEST_CASE(testGenerateAndOutput) {
     std::stringstream ss;
     ss << l;
     BOOST_REQUIRE_EQUAL(ss.str(), expectedLFSRAfterGenerate);
-}
-
-// Test the lfsr
-BOOST_AUTO_TEST_CASE(testLfsr) {
-    FibLFSR l("0110110001101100");
-    l.generate(9);
-
-    BOOST_REQUIRE_EQUAL(l.getLfsr(), 55398);
 }

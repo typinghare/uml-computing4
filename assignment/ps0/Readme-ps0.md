@@ -6,7 +6,7 @@ Name: Zhuojian Chen (James)
 
 Section: COMP 2040 P 1 203
 
-Time to Complete: Jan 19, 2024
+Time to Complete: Jan 21, 2024
 
 ## Description
 
@@ -36,6 +36,8 @@ According to ChatGPT, `-I` is a compiler flag used to add additional directories
 I added the two commands to the `Makefile`, and I can compile my files at the end. I deleted these two options when uploading the code to Gradescope.
 
 #### Lint Problem
+
+> This issue has been addressed after I use clang-format as the code formatter.
 
 The cpplint keeps warning me about the indentation. It requires me to add a space before access modifiers such as `private` and `public`. But my IDE's formatter does not support this. So I ignore the problems.
 
@@ -87,4 +89,4 @@ I use CLion Nova IDE, a JetBrains product, for my homework. I then copy and past
 
 A battle plane picture from the internet:
 
-![battle plane](./sprite.png)
+![battle plane](./screenshot.png)

@@ -23,22 +23,22 @@ class Direction {
     constexpr static int ORIENTAION_COUNT = 4;
 
     /**
-     * \brief Creates a direction.
-     * \param initOrientation The initial orientation.
+     * @brief Creates a direction.
+     * @param initOrientation The initial orientation.
      */
     explicit Direction(const Orientation initOrientation) {
         this->orientation = initOrientation;
     }
 
     /**
-     * \brief Returns the corresponding integer.
+     * @brief Returns the corresponding integer.
      */
     [[nodiscard]] int toInt() const {
         return static_cast<int>(this->orientation);
     }
 
     /**
-     * \brief Returns the opposite direction.
+     * @brief Returns the opposite direction.
      */
     [[nodiscard]] Direction opposite() const {
         const auto orientationIndex = toInt();
@@ -55,7 +55,7 @@ const Direction Direction::LEFT{Orientation::LEFT};
 const Direction Direction::RIGHT{Orientation::RIGHT};
 
 /**
- * \brief In game development, a sprite is a movable texture. Last semester I
+ * @brief In game development, a sprite is a movable texture. Last semester I
  * created a 2D farming game using Python, and I try to transplant the logic to
  * here.
  * \see
@@ -63,16 +63,16 @@ const Direction Direction::RIGHT{Orientation::RIGHT};
  */
 class ControllableSprite final : public sf::Sprite {
     /**
-     * \brief To simplify the logic, the sprite moves at a constant speed.
+     * @brief To simplify the logic, the sprite moves at a constant speed.
      */
     constexpr static float SPEED{0.5};
 
  public:
     /**
-     * \brief Creates a sprite.
-     * \param filepath The filepath of the texture file.
+     * @brief Creates a sprite.
+     * @param filepath The filepath of the texture file.
      */
-    explicit ControllableSprite(const std::string &filepath) {
+    explicit ControllableSprite(const std::string& filepath) : sf::Sprite() {
         const std::filesystem::path absolutePath =
             std::filesystem::absolute(filepath);
         std::cout << "Loading texture file: " << absolutePath << std::endl;
@@ -86,10 +86,10 @@ class ControllableSprite final : public sf::Sprite {
     }
 
     /**
-     * \brief Enables a specific dierction
-     * \param direction The direction to enable.
+     * @brief Enables a specific dierction
+     * @param direction The direction to enable.
      */
-    void enableDirection(const Direction &direction) {
+    void enableDirection(const Direction& direction) {
         // Set the key state to true
         this->keyState[direction.toInt()] = true;
 
@@ -101,10 +101,10 @@ class ControllableSprite final : public sf::Sprite {
     }
 
     /**
-     * \brief Disables a specific direction.
-     * \param direction The direction to disable.
+     * @brief Disables a specific direction.
+     * @param direction The direction to disable.
      */
-    void disableDirection(const Direction &direction) {
+    void disableDirection(const Direction& direction) {
         // Set the key state and movement state to false
         this->keyState[direction.toInt()] = false;
         this->movementState[direction.toInt()] = false;
@@ -117,10 +117,10 @@ class ControllableSprite final : public sf::Sprite {
     }
 
     /**
-     * \brief Updates the position of this sprite.
-     * \param dt Delta time in milliseconds.
+     * @brief Updates the position of this sprite.
+     * @param dt Delta time in milliseconds.
      */
-    void update(const int &dt) {
+    void update(const int& dt) {
         int x = 0, y = 0;
 
         if (movementState[Direction::UP.toInt()])

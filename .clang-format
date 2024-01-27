@@ -1,14 +1,14 @@
 ---
 Language: Cpp
 BasedOnStyle: LLVM
-AccessModifierOffset: -4
+AccessModifierOffset: -3
 AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
 AlignOperands: true
 AlignTrailingComments: false
 AlwaysBreakTemplateDeclarations: Yes
-BraceWrapping: 
-  AfterCaseLabel: false
+BraceWrapping:
+  AfterCaseLabel: true
   AfterClass: false
   AfterControlStatement: false
   AfterEnum: false
@@ -26,13 +26,15 @@ BraceWrapping:
   SplitEmptyNamespace: true
 BreakBeforeBraces: Custom
 BreakConstructorInitializers: AfterColon
-IncludeCategories: 
-  - Regex: '^<.*'
+IncludeCategories:
+  - Regex: '^<[^.]*\.h>$'  # C system headers
     Priority: 1
-  - Regex: '^".*'
+  - Regex: '^<[^.]*>$'  # C++ system headers
     Priority: 2
-  - Regex: '.*'
+  - Regex: '^<[^.]*\.h(pp)?>$'  # Other h/hpp files
     Priority: 3
+  - Regex: '^".*"'  # Other files
+    Priority: 4
 IncludeIsMainRegex: '([-_](test|unittest))?$'
 IndentCaseLabels: true
 IndentWidth: 4
@@ -40,9 +42,12 @@ InsertNewlineAtEOF: true
 MacroBlockBegin: ''
 MacroBlockEnd: ''
 MaxEmptyLinesToKeep: 2
-NamespaceIndentation: All
-SpaceAfterTemplateKeyword: false
-SpaceBeforeRangeBasedForLoopColon: false
+NamespaceIndentation: None
+PointerAlignment: Left
+SpaceAfterTemplateKeyword: true
+SpaceBeforeRangeBasedForLoopColon: true
 SpacesInAngles: false
 TabWidth: 4
-...
+SpacesBeforeTrailingComments: 2
+Cpp11BracedListStyle: false
+AlignAfterOpenBracket: true

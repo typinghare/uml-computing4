@@ -26,7 +26,7 @@ STATIC_LIB = PhotoMagic.a
 .PHONY: all clean lint
 
 #all: $(PROGRAM_TEST) $(PROGRAM_PHOTO_MAGIC)
-all: $(PROGRAM_PHOTO_MAGIC)
+all: $(PROGRAM_TEST) $(PROGRAM_PHOTO_MAGIC)
 
 # Wildcard recipe to make .o files from corresponding .cpp file
 # Note: this command matches .cpp file one by one, and "$<" here refers to the
@@ -55,6 +55,10 @@ runPhotoMagic: $(PROGRAM_PHOTO_MAGIC)
 # Run all tests with Boost and clean after running it
 runTest: $(PROGRAM_TEST)
 	./$(PROGRAM_TEST) && make clean
+
+# Clean all object files
+cleanObjects:
+	rm -f *.o
 
 # Clean all object files and program files
 # "-f" flag refers to "force", which suppresses the "No such file or directory"

@@ -6,29 +6,63 @@ Name: Zhuojian Chen (James)
 
 Section: COMP 2040 P 1 203
 
-Time to Complete: Jan 23, 2024
+Time to Complete: Jan 27, 2024
 
 ## Representation Explanation
 
-In the `FibLFSR` class, the register bits are represented using an integer (`int lfsr`). This choice was driven by the efficiency and simplicity that an integer type offers for bitwise operations. The `lfsr` stores the current state of the LFSR. Each bit of this integer corresponds to a bit in the LFSR.
+When I first did this assignment, I used `int` type to represent the register bits. However, later when I checked out a YouTube video associated with `LFSR`, and I found that `std::bitset` is a better choice as representation. Therefore, I refactored my code on Jan 27, 2024.
 
-When I was reading the instructions, I was not sure whether the length of the seed is unchanged 16. If so, I will use `short` instead of `int`, since performing left shift operation to a short `lfsr` removes the most significant bit of it. However, if the length of the given seed is less than 16, a problem may arise: the `lfsr` variable does not store the real `lfsr` value, as the leftmost several bits are "garbage bits", which should be all zeros.
+According to `cppreference.com`, [std::bitset](https://en.cppreference.com/w/cpp/utility/bitset) represents a fixed-size sequence of N bits. Bitwise operators are overridden in this class, and therefore it can be applied to bitwise operations as if a number.
 
-To fix the problem, I introduced two member variables in `FibLFSR`: `seed_len` and `mask`, where `seed_len` is the length of the seed string, which is also the bits of LFSR, and `mask` is an integer that the rightmost n bits are one, where `n = len`. Whenever a `step()` method is called, a left shift operation is performed on the `lfsr`, it will be performed a bitwise AND operation with `mask`, so that the left irrelevant bits are eliminated.
+Moreover, it provides a constructor that takes a binary string as well as a `to_string()` method to convert itself into a printable binary string. These utility functions greatly reduced the amount of code when I refactored my code.
 
-The core code for the `LFSR` is the following snippet from the `step()` method:
+The core code of the `FibLFSR` class is the `step()` method. With the help of `std::bitset` class, the code becomes more concise and readable:
 
-```c++
+~~~c++
 // Get the current most significant bit (leftmost bit)
-int ans = lfsr >> (len - 1);
+int ans = lfsr[SEED_LENGTH - 1];
 
 // Let the bit perform XOR operations with tabs
 for (const int& tabIndex : tabIndexes) {
-    ans ^= (lfsr >> tabIndex) & 1;
+    ans ^= lfsr[tabIndex];
 }
-```
+
+// Update lfsr
+lfsr <<= 1;
+lfsr.set(0, ans);
+~~~
 
 ## Unit Tests
 
 A discussion of what's being tested in your two additional Boost unit tests.
 
+> According to **_What to turn in_** section in the PDF file, it says "two additional Boost unit tests", so I just wrote two tests.
+
+### 1
+
+The first unit test is designed to evaluate the functionality of the overridden "<<" operator. This operator, once overridden, is responsible for outputting a string representation of the Linear Feedback Shift Register (LFSR) in a readable binary format to the specified ostream.
+
+If the LFSR object is not modified, the output string should be equal to the seed string, therefore
+
+~~~c++
+const std::string initialLFSR = "0110110001101100";
+const FibLFSR l(initialLFSR);
+std::stringstream ss;
+ss << l;
+BOOST_REQUIRE_EQUAL(ss.str(), initialLFSR);
+~~~
+
+### 2
+
+The second unit test further evaluates the overridden "<<" operator. In this test, the operator is used to generate an output string after nine iterations of the LFSR. The expected state of the LFSR for comparison is determined through manual calculation.
+
+~~~c++
+const std::string initialLFSR = "0110110001101100";
+const std::string expectedLFSRAfterGenerate = "1101100001100110";
+FibLFSR l(initialLFSR);
+l.generate(9);
+
+std::stringstream ss;
+ss << l;
+BOOST_REQUIRE_EQUAL(ss.str(), expectedLFSRAfterGenerate);
+~~~

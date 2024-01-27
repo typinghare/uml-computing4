@@ -4,7 +4,23 @@
 
 namespace PhotoMagic {
 
-void transform(sf::Image& image, FibLFSR* fibLfsr) {}
+void transform(sf::Image& image, FibLFSR* fibLfsr) {
+    const sf::Vector2u size = image.getSize();
+    for (int row = 0; row < size.y; ++row) {
+        for (int col = 0; col < size.x; ++col) {
+            const int t_r = fibLfsr->generate(8);
+            const int t_g = fibLfsr->generate(8);
+            const int t_b = fibLfsr->generate(8);
+
+            sf::Color pixel = image.getPixel(col, row);
+            pixel.r ^= t_r;
+            pixel.g ^= t_g;
+            pixel.b ^= t_b;
+
+            image.setPixel(col, row, pixel);
+        }
+    }
+}
 
 SpriteTexture::SpriteTexture(const sf::Image& image) {
     texture = std::make_shared<sf::Texture>();
@@ -13,47 +29,41 @@ SpriteTexture::SpriteTexture(const sf::Image& image) {
 }
 
 void displayImages(sf::Image& inputImage, sf::Image& outputImage) {
-    static constexpr unsigned IMAGE_GAP = 50;
     static constexpr unsigned WINDOW_FPS = 60;
-    static constexpr auto WINDOW_TITLE =
-        "Left is the input image | Right is the output image";
 
     // Get the size of two images
     const auto inputImageSize = inputImage.getSize();
     const auto outputImageSize = outputImage.getSize();
 
-    // Caluclate the window size
-    const unsigned windowWidth{ inputImageSize.x + outputImageSize.x +
-                                IMAGE_GAP };
-    const unsigned windowHeight{ std::max(inputImageSize.y,
-                                          outputImageSize.y) };
-    const sf::VideoMode windowSize{ windowWidth, windowHeight };
-
-    // Create a window
-    sf::RenderWindow window(windowSize, WINDOW_TITLE);
-    window.setFramerateLimit(WINDOW_FPS);
-    window.clear(sf::Color::White);
+    // Create two windows for two images respectively
+    sf::RenderWindow inputImageWindow(
+        sf::VideoMode(inputImageSize.x, inputImageSize.y), "Input Image");
+    sf::RenderWindow outputImageWindow(
+        sf::VideoMode(outputImageSize.x, outputImageSize.y), "Output Image");
+    inputImageWindow.setFramerateLimit(WINDOW_FPS);
+    outputImageWindow.setFramerateLimit(WINDOW_FPS);
 
     const SpriteTexture inputSpriteTexture(inputImage);
     const SpriteTexture outputSpriteTexture(outputImage);
 
-    // Set the position for the output sprite
-    const auto inputWidth = inputSpriteTexture.texture->getSize().x;
-    outputSpriteTexture.sprite->setPosition(
-        static_cast<float>(inputWidth) + IMAGE_GAP, 0);
+    // Render images and display windows
+    inputImageWindow.clear();
+    inputImageWindow.draw(*inputSpriteTexture.sprite);
+    inputImageWindow.display();
+    outputImageWindow.clear();
+    outputImageWindow.draw(*outputSpriteTexture.sprite);
+    outputImageWindow.display();
 
-    // Render and display the two images
-    window.clear();
-    window.draw(*inputSpriteTexture.sprite);
-    window.draw(*outputSpriteTexture.sprite);
-    window.display();
-
-    while (window.isOpen()) {
+    while (inputImageWindow.isOpen() && outputImageWindow.isOpen()) {
         sf::Event event{};
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                window.close();
-            }
+        while (inputImageWindow.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                inputImageWindow.close();
+        }
+
+        while (outputImageWindow.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                outputImageWindow.close();
         }
     }
 }

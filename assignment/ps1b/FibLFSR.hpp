@@ -2,9 +2,9 @@
 #ifndef FIBLFSR_HPP_
 #define FIBLFSR_HPP_
 
+#include <array>
 #include <iostream>
 #include <string>
-#include <array>
 
 namespace PhotoMagic {
 /**
@@ -12,6 +12,11 @@ namespace PhotoMagic {
  * algorithm.
  */
 class FibLFSR {
+    /**
+     * @brief The length of seeds.
+     */
+    constexpr static int SEED_LENGTH = 16;
+
     /**
      * @brief The indexes of tabs. In each step, the bits at the tab indexes
      * will be used to perform XOR operations with the leftmost bit. In this
@@ -22,7 +27,8 @@ class FibLFSR {
  public:
     /**
      * @brief Creates an instance with the given seed.
-     * @param seed The seed.
+     * @param seed A binary string (ascii) of length 16. Each character should
+     * either be '0' or '1'.
      */
     explicit FibLFSR(const std::string& seed);
 
@@ -38,24 +44,13 @@ class FibLFSR {
     int generate(int k);
 
     /**
-     * @brief Returns the current LFSR integer.
-     */
-    [[nodiscard]] int getLfsr() const;
-
-    /**
      * @brief Returns the binary string form of the LFSR integer.
      */
     [[nodiscard]] std::string getLfsrBinaryString() const;
 
  private:
-    // The length of the seed string, which is also the bits of LFSR
-    const size_t len;
-
     // The LFSR
-    int lfsr;
-
-    // An integer that the rightmost n bits are one, where n = len
-    int mask;
+    std::bitset<SEED_LENGTH> lfsr;
 };
 
 /**
