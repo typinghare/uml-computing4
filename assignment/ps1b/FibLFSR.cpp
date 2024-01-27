@@ -1,5 +1,6 @@
 // Copyright 2024 James Chan
 #include "FibLFSR.hpp"
+#include <bitset>
 #include <sstream>
 #include <string>
 

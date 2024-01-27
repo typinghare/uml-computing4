@@ -2,12 +2,12 @@
 COMPILER = g++
 
 # C++ Flags
-CFLAGS = --std=c++17 -Wall -Werror -pedantic -g -I /opt/homebrew/include
-#CFLAGS = --std=c++17 -Wall -Werror -pedantic -g
+#CFLAGS = --std=c++17 -Wall -Werror -pedantic -g -I /opt/homebrew/include
+CFLAGS = --std=c++17 -Wall -Werror -pedantic -g
 
 # Libraries
-LIB = -L /opt/homebrew/lib -lboost_unit_test_framework
-#LIB = -lboost_unit_test_framework
+#LIB = -L /opt/homebrew/lib -lboost_unit_test_framework
+LIB = -lboost_unit_test_framework
 
 # Hpp files (dependencies)
 DEPS = FibLFSR.hpp
