@@ -54,3 +54,11 @@ BOOST_AUTO_TEST_CASE(testGenerateAndOutput) {
     ss << l;
     BOOST_REQUIRE_EQUAL(ss.str(), expectedLFSRAfterGenerate);
 }
+
+// Test the lfsr
+BOOST_AUTO_TEST_CASE(testLfsr) {
+    FibLFSR l("0110110001101100");
+    l.generate(9);
+
+    BOOST_REQUIRE_EQUAL(l.getLfsr(), 55398);
+}

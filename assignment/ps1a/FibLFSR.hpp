@@ -37,7 +37,7 @@ class FibLFSR {
     int generate(int k);
 
     /**
-     * \brief Returns the LFSR integer.
+     * \brief Returns the current LFSR integer.
      */
     [[nodiscard]] int getLfsr() const;
 

@@ -8,6 +8,7 @@ OBJECTS = FibLFSR.o PhotoMagic.o
 TEST_OBJECTS = FibLFSR.o test.o
 PROGRAM = ps1
 TEST_PROGRAM = test_program
+STATIC = PhotoMagic.a
 
 .PHONY: all clean lint
 
@@ -17,8 +18,8 @@ all: $(PROGRAM)
 %.o: %.cpp $(DEPS)
 	$(CC) $(CFLAGS) -c $<
 
-$(PROGRAM): $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@
+$(PROGRAM): $(STATIC)
+	$(CC) $(CFLAGS) -o $@ "./${STATIC}"
 
 $(TEST_PROGRAM): $(TEST_OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LIB)
@@ -30,13 +31,13 @@ lint:
 	cpplint *.cpp *.hpp
 
 # Create a PhotoMagi.a static library containing FibLFSR.o and PhotoMagic.o
-static: $(PROGRAM)
-	ar rcs PhotoMagic.a ${OBJECTS}
+$(STATIC): $(OBJECTS)
+	ar rcs $(STATIC) $(OBJECTS)
 
 # Run the main function
-PhotoMagic: $(PROGRAM)
+PhotoMagic: $(PROGRAM) $(STATIC)
 	./$(PROGRAM)
 
 # Run all tests with Boost
 test: $(TEST_PROGRAM)
-	./$(TEST_PROGRAM)
+	./$(TEST_PROGRAM) && make clean

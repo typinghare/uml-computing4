@@ -29,9 +29,12 @@ int FibLFSR::generate(const int k) {
 }
 
 int FibLFSR::step() {
+    // Get the current most significant bit (leftmost bit)
     int ans = lfsr >> (len - 1);
-    for (const int& pos : tabIndexes) {
-        ans ^= (lfsr >> pos) & 1;
+
+    // Let the bit perform XOR operations with tabs
+    for (const int& tabIndex : tabIndexes) {
+        ans ^= (lfsr >> tabIndex) & 1;
     }
 
     lfsr = (lfsr << 1 | ans) & this->mask;
