@@ -77,8 +77,8 @@ BOOST_AUTO_TEST_CASE(testConvertPasswordToSeed) {
     BOOST_REQUIRE(isAllBit);
 }
 
-// A image should be complete the same as the original image after being
-// tranformed twice by the same seed.
+// An image should be completely the same as the original image after being
+// transformed twice by the same seed.
 BOOST_AUTO_TEST_CASE(testM) {
     static const auto SEED = "0000111100001111";
 

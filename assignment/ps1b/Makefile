@@ -2,19 +2,20 @@
 COMPILER = g++
 
 # C++ Flags
-CFLAGS = --std=c++17 -Wall -Werror -pedantic -g -I /opt/homebrew/include
-#CFLAGS = --std=c++17 -Wall -Werror -pedantic -g
+#CFLAGS = --std=c++17 -Wall -Werror -pedantic -g -I /opt/homebrew/include
+CFLAGS = --std=c++17 -Wall -Werror -pedantic -g
 
 # Libraries
-LIB = -L /opt/homebrew/lib -lsfml-graphics -lsfml-window -lsfml-system -lboost_unit_test_framework
-#LIB = -lsfml-graphics -lsfml-window -lsfml-system -lboost_unit_test_framework
+#LIB = -L /opt/homebrew/lib -lsfml-graphics -lsfml-window -lsfml-system -lboost_unit_test_framework
+LIB = -lsfml-graphics -lsfml-window -lsfml-system -lboost_unit_test_framework
 
 # Hpp files (dependencies)
 DEPS = FibLFSR.hpp
 
 # Cpp files that should be compiled into object files
-OBJECTS = FibLFSR.o PhotoMagic.o main.o
-TEST_OBJECTS = FibLFSR.o PhotoMagic.o test.o
+OBJECTS = FibLFSR.o PhotoMagic.o
+OBJECTS_PHOTO_MAGIC = main.o
+OBJECTS_TEST = test.o
 
 # Programs
 PROGRAM_PHOTO_MAGIC = PhotoMagic
@@ -25,8 +26,10 @@ STATIC_LIB = PhotoMagic.a
 
 .PHONY: all clean lint
 
-#all: $(PROGRAM_TEST) $(PROGRAM_PHOTO_MAGIC)
+# Generate `PhotoMagic`, `test`, and `PhotoMagic.a` (static library)
+# All object files will be removed
 all: $(PROGRAM_TEST) $(PROGRAM_PHOTO_MAGIC)
+	make cleanObjects
 
 # Wildcard recipe to make .o files from corresponding .cpp file
 # Note: this command matches .cpp file one by one, and "$<" here refers to the
@@ -35,12 +38,12 @@ all: $(PROGRAM_TEST) $(PROGRAM_PHOTO_MAGIC)
 	$(COMPILER) $(CFLAGS) -c $<
 
 # Program `PhotoMagic`
-$(PROGRAM_PHOTO_MAGIC): $(STATIC_LIB)
-	$(COMPILER) $(CFLAGS) -o $@ "./${STATIC_LIB}" $(LIB)
+$(PROGRAM_PHOTO_MAGIC): $(STATIC_LIB) $(OBJECTS_PHOTO_MAGIC)
+	$(COMPILER) $(CFLAGS) -o $@ "./$(STATIC_LIB)" $(OBJECTS_PHOTO_MAGIC) $(LIB)
 
 # Program `test`
-$(PROGRAM_TEST): $(TEST_OBJECTS)
-	$(COMPILER) $(CFLAGS) -o $@ $^ $(LIB)
+$(PROGRAM_TEST): $(STATIC_LIB) $(OBJECTS_TEST)
+	$(COMPILER) $(CFLAGS) -o $@ "./$(STATIC_LIB)" $(OBJECTS_TEST) $(LIB)
 
 # Create a PhotoMagi.a static library containing FibLFSR.o and PhotoMagic.o
 $(STATIC_LIB): $(OBJECTS)

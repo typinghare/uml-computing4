@@ -37,10 +37,13 @@ std::string convertPasswordToSeed(const std::string& password) {
     seed.reserve(SEED_LENGTH);
 
     for (size_t i = 0; i < SEED_LENGTH; ++i) {
-        const bool isBitSet =
-            (ans & (1u << i)) != 0 && (ans & (1u << (i + SEED_LENGTH)));
+        const unsigned int lowerBit = ans & (1u << i);
+        const unsigned int upperBit = ans & (1u << (i + SEED_LENGTH));
+        const bool isBitSet = (lowerBit ^ upperBit) == 1;
         seed.push_back(isBitSet ? '1' : '0');
     }
+
+    std::cout << seed;
 
     return seed;
 }
@@ -58,7 +61,7 @@ void displayImages(sf::Image& inputImage, sf::Image& outputImage) {
     const auto inputImageSize = inputImage.getSize();
     const auto outputImageSize = outputImage.getSize();
 
-    // Create two windows for two images respectively
+    // Create two windows for the two images respectively
     sf::RenderWindow inputImageWindow(
         sf::VideoMode(inputImageSize.x, inputImageSize.y), "Input Image");
     sf::RenderWindow outputImageWindow(
