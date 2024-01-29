@@ -32,6 +32,10 @@ lfsr <<= 1;
 lfsr.set(0, ans);
 ~~~
 
+### Last update (Jan 29, 2024)
+
+I mistakenly put the main function in the `PhotoMagic.cpp`. Just took it out and put it to a `main.cpp` file.
+
 ## Unit Tests
 
 A discussion of what's being tested in your two additional Boost unit tests.

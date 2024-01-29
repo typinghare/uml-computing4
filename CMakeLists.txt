@@ -26,8 +26,8 @@ add_executable(ps0
 target_link_libraries(ps0 sfml-graphics sfml-audio)
 
 # ps1a
-
 add_executable(ps1a
+        assignment/ps1a/main.cpp
         assignment/ps1a/test.cpp
         assignment/ps1a/FibLFSR.cpp
         assignment/ps1a/FibLFSR.hpp

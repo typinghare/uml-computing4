@@ -2,19 +2,20 @@
 COMPILER = g++
 
 # C++ Flags
-CFLAGS = --std=c++17 -Wall -Werror -pedantic -g -I /opt/homebrew/include
-#CFLAGS = --std=c++17 -Wall -Werror -pedantic -g
+# CFLAGS = --std=c++17 -Wall -Werror -pedantic -g -I /opt/homebrew/include
+CFLAGS = --std=c++17 -Wall -Werror -pedantic -g
 
 # Libraries
-LIB = -L /opt/homebrew/lib -lboost_unit_test_framework
-#LIB = -lboost_unit_test_framework
+# LIB = -L /opt/homebrew/lib -lboost_unit_test_framework
+LIB = -lboost_unit_test_framework
 
 # Hpp files (dependencies)
 DEPS = FibLFSR.hpp
 
 # Cpp files that should be compiled into object files
 OBJECTS = FibLFSR.o PhotoMagic.o
-TEST_OBJECTS = FibLFSR.o test.o
+OBJECTS_PHOTO_MAGIC = main.o
+OBJECTS_TEST = test.o
 
 # Programs
 PROGRAM_PHOTO_MAGIC = PhotoMagic
@@ -23,6 +24,7 @@ PROGRAM_TEST = test
 # Static library
 STATIC_LIB = PhotoMagic.a
 
+# Generate `PhotoMagic`, `test`, and `PhotoMagic.a` (static library)
 .PHONY: all clean lint
 
 all: $(PROGRAM_TEST) $(PROGRAM_PHOTO_MAGIC)
@@ -34,12 +36,12 @@ all: $(PROGRAM_TEST) $(PROGRAM_PHOTO_MAGIC)
 	$(COMPILER) $(CFLAGS) -c $<
 
 # Program `PhotoMagic`
-$(PROGRAM_PHOTO_MAGIC): $(STATIC_LIB)
-	$(COMPILER) $(CFLAGS) -o $@ "./${STATIC_LIB}" $(LIB)
+$(PROGRAM_PHOTO_MAGIC): $(STATIC_LIB) $(OBJECTS_PHOTO_MAGIC)
+	$(COMPILER) $(CFLAGS) -o $@ $(OBJECTS_PHOTO_MAGIC) $(STATIC_LIB) $(LIB)
 
 # Program `test`
-$(PROGRAM_TEST): $(TEST_OBJECTS)
-	$(COMPILER) $(CFLAGS) -o $@ $^ $(LIB)
+$(PROGRAM_TEST): $(STATIC_LIB) $(OBJECTS_TEST)
+	$(COMPILER) $(CFLAGS) -o $@ $(OBJECTS_TEST) $(STATIC_LIB) $(LIB)
 
 # Create a PhotoMagi.a static library containing FibLFSR.o and PhotoMagic.o
 $(STATIC_LIB): $(OBJECTS)
