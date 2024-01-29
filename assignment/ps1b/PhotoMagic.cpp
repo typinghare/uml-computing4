@@ -9,14 +9,10 @@ void transform(sf::Image& image, FibLFSR* fibLfsr) {
     const sf::Vector2u size = image.getSize();
     for (unsigned int row = 0; row < size.y; ++row) {
         for (unsigned int col = 0; col < size.x; ++col) {
-            const int t_r = fibLfsr->generate(8);
-            const int t_g = fibLfsr->generate(8);
-            const int t_b = fibLfsr->generate(8);
-
             sf::Color pixel = image.getPixel(col, row);
-            pixel.r ^= t_r;
-            pixel.g ^= t_g;
-            pixel.b ^= t_b;
+            pixel.r ^= fibLfsr->generate(8);
+            pixel.g ^= fibLfsr->generate(8);
+            pixel.b ^= fibLfsr->generate(8);
 
             image.setPixel(col, row, pixel);
         }
@@ -39,11 +35,9 @@ std::string convertPasswordToSeed(const std::string& password) {
     for (size_t i = 0; i < SEED_LENGTH; ++i) {
         const unsigned int lowerBit = ans & (1u << i);
         const unsigned int upperBit = ans & (1u << (i + SEED_LENGTH));
-        const bool isBitSet = (lowerBit ^ upperBit) == 1;
+        const bool isBitSet = (lowerBit ^ upperBit) == 0;
         seed.push_back(isBitSet ? '1' : '0');
     }
-
-    std::cout << seed;
 
     return seed;
 }
