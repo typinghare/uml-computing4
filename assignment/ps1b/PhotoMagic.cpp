@@ -1,13 +1,14 @@
 // Copyright 2024 James Chen
 #include "PhotoMagic.hpp"
+#include <climits>
 #include <string>
 
 namespace PhotoMagic {
 
 void transform(sf::Image& image, FibLFSR* fibLfsr) {
     const sf::Vector2u size = image.getSize();
-    for (int row = 0; row < size.y; ++row) {
-        for (int col = 0; col < size.x; ++col) {
+    for (unsigned int row = 0; row < size.y; ++row) {
+        for (unsigned int col = 0; col < size.x; ++col) {
             const int t_r = fibLfsr->generate(8);
             const int t_g = fibLfsr->generate(8);
             const int t_b = fibLfsr->generate(8);
@@ -20,6 +21,28 @@ void transform(sf::Image& image, FibLFSR* fibLfsr) {
             image.setPixel(col, row, pixel);
         }
     }
+}
+
+std::string convertPasswordToSeed(const std::string& password) {
+    constexpr size_t SEED_LENGTH = 16;
+    unsigned int ans = 0;
+
+    for (size_t i = 0; i < password.length(); ++i) {
+        unsigned int t = static_cast<unsigned char>(password[i]);
+        t <<= i % SEED_LENGTH;
+        ans ^= t;
+    }
+
+    std::string seed;
+    seed.reserve(SEED_LENGTH);
+
+    for (size_t i = 0; i < SEED_LENGTH; ++i) {
+        const bool isBitSet =
+            (ans & (1u << i)) != 0 && (ans & (1u << (i + SEED_LENGTH)));
+        seed.push_back(isBitSet ? '1' : '0');
+    }
+
+    return seed;
 }
 
 SpriteTexture::SpriteTexture(const sf::Image& image) {

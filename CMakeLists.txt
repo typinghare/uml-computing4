@@ -14,7 +14,6 @@ add_executable(ps1b
         assignment/ps1b/PhotoMagic.cpp
         assignment/ps1b/FibLFSR.hpp
         assignment/ps1b/FibLFSR.cpp
-        assignment/ps1b/pixels.cpp
         assignment/ps1b/main.cpp
         assignment/ps1b/test.cpp
 )
@@ -40,3 +39,4 @@ target_link_libraries(ps1a Boost::unit_test_framework)
 add_executable(playground-2d-array-pointer playground/size.cpp)
 add_executable(playground-size playground/size.cpp)
 add_executable(bitwise-test playground/bitwise-test.cpp)
+add_executable(rand-between playground/rand-between.cpp)

@@ -3,9 +3,9 @@
 #define FIBLFSR_HPP_
 
 #include <array>
+#include <bitset>
 #include <iostream>
 #include <string>
-#include <bitset>
 
 namespace PhotoMagic {
 /**
@@ -13,6 +13,7 @@ namespace PhotoMagic {
  * algorithm.
  */
 class FibLFSR {
+ public:
     /**
      * @brief The length of seeds.
      */
@@ -25,7 +26,6 @@ class FibLFSR {
      */
     static std::array<int, 3> tabIndexes;
 
- public:
     /**
      * @brief Creates an instance with the given seed.
      * @param seed A binary string (ascii) of length 16. Each character should

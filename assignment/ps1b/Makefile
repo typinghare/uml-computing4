@@ -14,7 +14,7 @@ DEPS = FibLFSR.hpp
 
 # Cpp files that should be compiled into object files
 OBJECTS = FibLFSR.o PhotoMagic.o main.o
-TEST_OBJECTS = FibLFSR.o test.o
+TEST_OBJECTS = FibLFSR.o PhotoMagic.o test.o
 
 # Programs
 PROGRAM_PHOTO_MAGIC = PhotoMagic

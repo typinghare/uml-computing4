@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <memory>
+#include <string>
 #include <SFML/Graphics.hpp>
 #include "FibLFSR.hpp"
 
@@ -22,6 +23,12 @@ class FibLFSR;
  * @param fibLfsr The FibLFSR object to use.
  */
 void transform(sf::Image& image, FibLFSR* fibLfsr);
+
+/**
+ * @brief Converts an alphanumeric password to a LFSR initial seed.
+ * @param password The alphanumeric password to convert.
+ */
+std::string convertPasswordToSeed(const std::string& password);
 
 /**
  * @brief A struct containing two shared pointers: texture and sprite.

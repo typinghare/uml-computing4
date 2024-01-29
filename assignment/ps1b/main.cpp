@@ -5,7 +5,9 @@
 /**
  * @brief Takes three arguments: an input picture filename, an output picture
  * filename, and a binary password (the initial LFSR seed). It should display
- * the transformed picture on the screen.
+ * the transformed picture on the screen. Note that since I implement a function
+ * that can convert a alphanumeric string into a seed string, the third arugment
+ * can be a alphanumeric password.
  * @param size The size of the argument list.
  * @param arguments The command line arguments.
  */
@@ -18,7 +20,7 @@ int main(const int size, const char* arguments[]) {
 
     const std::string inputFilename{ arguments[1] };
     const std::string outputFilename{ arguments[2] };
-    const std::string seed{ arguments[3] };
+    const std::string seed{ PhotoMagic::convertPasswordToSeed(arguments[3]) };
 
     // Create images
     sf::Image originalImage, processedImage;
