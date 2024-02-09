@@ -1,4 +1,4 @@
-# PS1: Linear Feedback Shift Register (part A)
+# PS1: Linear Feedback Shift Register (part B)
 
 ## Contact
 

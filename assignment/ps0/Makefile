@@ -2,7 +2,7 @@ CC = g++
 #CFLAGS = --std=c++17 -Wall -Werror -pedantic -g
 #LIB = -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system -lboost_unit_test_framework
 CFLAGS = --std=c++17 -Wall -Werror -pedantic -g -I /opt/homebrew/include
-LIB = -L /opt/homebrew/lib -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system -lboost_unit_test_framework
+LIB = -L /opt/homebrew/lib -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
 # Your .hpp files
 DEPS = 
 # Your compiled .o files

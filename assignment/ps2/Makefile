@@ -16,7 +16,7 @@ DEPS = PTree.hpp
 OBJECTS = PTree.o main.o
 
 # Program
-PROGRAM = PTREE
+PROGRAM = PTree
 
 .PHONY: all clean lint run
 
@@ -34,7 +34,7 @@ $(PROGRAM): $(OBJECTS)
 	$(COMPILER) $(CFLAGS) -o $@ $^ $(LIB)
 
 run: $(PROGRAM)
-	./$(PROGRAM) $(filter-out $@,$(MAKECMDGOALS)) && make clean
+	./$(PROGRAM) 120 12 30 && make clean
 
 # Clean all object files and program files
 # "-f" flag refers to "force", which suppresses the "No such file or directory"

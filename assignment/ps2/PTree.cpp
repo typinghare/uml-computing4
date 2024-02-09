@@ -8,13 +8,12 @@
 
 namespace PTree {
 
-// NOLINTNEXTLINE
-void pTree(sf::RenderWindow* window, const Line& mainSide, int N) {
-    // Fill color pool
-    static constexpr unsigned NUM_FILL_COLOR = 6;
+void pTree(sf::RenderWindow* window, const Square& square, const float& deltaAlpha, int N) {
+    // Fill colors pool
+    static constexpr unsigned NUM_FILL_COLOR = 7;
     static const std::array<sf::Color, NUM_FILL_COLOR> FILL_COLORS{
-        sf::Color::Blue,   sf::Color::Black,   sf::Color::Green,
-        sf::Color::Yellow, sf::Color::Magenta, sf::Color::Cyan
+        sf::Color(255, 0, 0), sf::Color(255, 127, 0), sf::Color(255, 255, 0), sf::Color(0, 255, 0),
+        sf::Color(0, 0, 255), sf::Color(75, 0, 130),  sf::Color(148, 0, 211),
     };
 
     // Terminate the recursion when N <= 0
@@ -23,34 +22,72 @@ void pTree(sf::RenderWindow* window, const Line& mainSide, int N) {
     }
 
     // Draw the square
-    drawSquare(window, mainSide, FILL_COLORS[N % NUM_FILL_COLOR]);
+    drawSquare(window, square, FILL_COLORS[N % NUM_FILL_COLOR]);
 
     // Recursion
-    const auto nextMainSides = getNextMainSides(mainSide);
-    pTree(window, nextMainSides[0], --N);
-    pTree(window, nextMainSides[1], --N);
+    if (N > 1) {
+        --N;
+        const auto nextSquares = getNextSquares(square, deltaAlpha);
+        pTree(window, nextSquares[0], deltaAlpha, N);
+        pTree(window, nextSquares[1], deltaAlpha, N);
+    }
 }
 
-void drawSquare(
-    sf::RenderWindow* window, const Line& mainSide, const sf::Color& color) {
-    // Find the vector between two vertices
-    const sf::Vector2f vector = mainSide.A - mainSide.B;
+void drawSquare(sf::RenderWindow* window, const Square& square, const sf::Color& color) {
+    // Create a square shape
+    sf::RectangleShape squareShape;
+    squareShape.setPosition(square.tlVertex.x, square.tlVertex.y);
+    squareShape.setSize(sf::Vector2f(square.sideLength, square.sideLength));
+    squareShape.setRotation(-square.alpha);
+    squareShape.setFillColor(color);
+    squareShape.setOutlineThickness(1);
+    squareShape.setOutlineColor(sf::Color::Black);
 
-    // Calculate the length of the side
-    const float sideLength =
-        std::sqrt(vector.x * vector.x + vector.y * vector.y);
-
-    // Create a square
-    sf::RectangleShape square;
-    square.setSize(sf::Vector2f(sideLength, sideLength));
-    square.setFillColor(color);
-    square.setPosition(mainSide.A.x, mainSide.B.y - sideLength);
-
-    window->draw(square);
+    // Draw the square shape onto the screen
+    window->draw(squareShape);
 }
 
-std::array<Line, 2> getNextMainSides(const Line& mainSide) {
-    return { mainSide, mainSide };
+std::array<Square, 2> getNextSquares(const Square& square, const float& deltaAlpha) {
+    // Beta in degrees
+    const auto beta = square.alpha + deltaAlpha;
+    const auto sinBeta = sinDeg(beta);
+    const auto cosBeta = cosDeg(beta);
+
+    // Find the next two sides
+    const auto leftSideLength = square.sideLength * cosDeg(deltaAlpha);
+    const auto rightSideLength = square.sideLength * sinDeg(deltaAlpha);
+
+    // Tranformers
+    const sf::Vector2f tlLeftVec{ -sinBeta, -cosBeta };
+    const sf::Vector2f trLeftVec{ cosBeta - sinBeta, -sinBeta - cosBeta };
+    const sf::Vector2f tlRightVec{ cosBeta - sinBeta, -sinBeta - cosBeta };
+    const sf::Vector2f trRightVec{ +cosBeta, -sinBeta };
+
+    // Vertices
+    const sf::Vector2f leftTlVertex = square.tlVertex + leftSideLength * tlLeftVec;
+    const sf::Vector2f leftTrVertex = square.tlVertex + leftSideLength * trLeftVec;
+    const sf::Vector2f rightTlVertex = square.trVertex + rightSideLength * tlRightVec;
+    const sf::Vector2f rightTrVertex = square.trVertex + rightSideLength * trRightVec;
+
+    // Create the next two squares
+    const Square leftSquare{ leftTlVertex, leftTrVertex, leftSideLength, beta };
+    const Square rightSquare{ rightTlVertex, rightTrVertex, rightSideLength, beta - 90 };
+
+    return { leftSquare, rightSquare };
 }
+
+inline float degreeToRadian(const float& degree) {
+    static constexpr float C = M_PI / 180;
+    return C * degree;
+}
+
+inline float radianToDegree(const float& radian) {
+    static constexpr float C = 180 / M_PI;
+    return C * radian;
+}
+
+inline float sinDeg(const float& degree) { return std::sin(degreeToRadian(degree)); }
+
+inline float cosDeg(const float& degree) { return std::cos(degreeToRadian(degree)); }
 
 }  // namespace PTree

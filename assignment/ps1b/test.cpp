@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE(testM) {
     static const auto SEED = "0000111100001111";
 
     sf::Image image;
-    image.loadFromFile("img/cat.jpg");
+    image.loadFromFile("assets/cat.jpg");
 
     // Transform the image
     FibLFSR fibLfsr{ SEED };
@@ -94,7 +94,7 @@ BOOST_AUTO_TEST_CASE(testM) {
     transform(image, &fibLfsr);
 
     const sf::Image originalImage;
-    image.loadFromFile("img/cat.jpg");
+    image.loadFromFile("assets/cat.jpg");
 
     // Traverse all pixels and check if the restored image is completely equals
     // to the original image

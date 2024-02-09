@@ -43,6 +43,14 @@ add_executable(ps2
 )
 target_link_libraries(ps2 sfml-graphics)
 
+# ps3
+add_executable(ps3
+    assignment/ps3a/src/main.cpp
+    assignment/ps3a/src/Sokoban.hpp
+    assignment/ps3a/src/Sokoban.cpp
+)
+target_link_libraries(ps3 sfml-graphics)
+
 # playground
 add_executable(playground-2d-array-pointer playground/size.cpp)
 add_executable(playground-size playground/size.cpp)

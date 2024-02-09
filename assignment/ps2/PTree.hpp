@@ -8,37 +8,79 @@
 namespace PTree {
 
 /**
- * @brief A line consiting of two coordinates, which are represented by vectors.
+ * @brief A square can be unambiguously determined by one vertext, the length of
+ * four sides, and the angle between the significant side and the horizontal
+ * axis (X axis). For the sake of symmetry, top-left and top-right are stored.
  */
-struct Line {
-    sf::Vector2f A;
-    sf::Vector2f B;
+struct Square {
+    /**
+     * @brief The top-left vertex.
+     */
+    sf::Vector2f tlVertex{};
+
+    /**
+     * @brief The top-right vertex.
+     */
+    sf::Vector2f trVertex{};
+
+    /**
+     * @brief The length of the side.
+     */
+    float sideLength{ 0 };
+
+    /**
+     * @brief The angle in degrees between the significant side and the
+     * horizontal axis.
+     */
+    float alpha{ 0 };
 };
 
 /**
  * @brief Draws a Pythagoras tree recursively.
  * @param window The window to draw onto.
- * @param mainSide The main side of the square to draw.
+ * @param square The initial square to draw.
+ * @param deltaAlpha The difference in alpha.
  * @param N A recursive variable. The function stops recurse when N equals to 1.
  * Every recursion takes 1 from N.
  */
-void pTree(sf::RenderWindow* window, const Line& mainSide, int N);
+void pTree(sf::RenderWindow* window, const Square& square, const float& deltaAlpha, int N);
 
 /**
  * @brief Draws a square based on the main side.
  * @param window The window to draw onto.
- * @param mainSide The main side of the square to draw.
+ * @param square THe square to draw.
  * @param color The fill color of the square.
- * @return The next two main sides.
  */
-void drawSquare(
-    sf::RenderWindow* window, const Line& mainSide, const sf::Color& color);
+void drawSquare(sf::RenderWindow* window, const Square& square, const sf::Color& color);
 
 /**
- * @brief Get the next two main sides.
- * @param mainSide The current main side.
+ * @brief Returns the next two squares.
+ * @param square The current square.
+ * @param deltaAlpha The difference in alpha.
  */
-std::array<Line, 2> getNextMainSides(const Line& mainSide);
+std::array<Square, 2> getNextSquares(const Square& square, const float& deltaAlpha);
+
+/**
+ * @brief Converts a degree into radian.
+ * @param degree The degree to convert.
+ */
+inline float degreeToRadian(const float& degree);
+
+/**
+ * @brief Converts a radian into degree.
+ * @param radian The radian to convert.
+ */
+inline float radianToDegree(const float& radian);
+
+/**
+ * @brief Finds the sine value of a degree.
+ */
+inline float sinDeg(const float& degree);
+
+/**
+ * @brief Finds the consine value of a degree.
+ */
+inline float cosDeg(const float& degree);
 
 }  // namespace PTree
 
