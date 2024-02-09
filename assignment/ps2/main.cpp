@@ -9,6 +9,7 @@
 
 // Global constants
 const char* WINDOW_TITLE = "Pythagoras Tree";
+const char* ICON_FILENAME = "./assets/icon.png";
 constexpr unsigned WINDOW_FPS = 60;
 constexpr int EXIT_CODE = 1;
 constexpr int DEFAULT_ANGLE = 45;
@@ -45,28 +46,28 @@ int main(const int size, const char* arguments[]) {
     }
 
     // Get L, N, and A
-    const auto tuple = parseArguments(arguments[1], arguments[2], size == 4 ? arguments[3] : "0");
-    const auto L = std::get<0>(tuple);
-    const auto N = std::get<1>(tuple);
-    const auto A = std::get<2>(tuple);
+    const auto tuple{ parseArguments(arguments[1], arguments[2], size == 4 ? arguments[3] : "0") };
+    const auto L{ std::get<0>(tuple) };
+    const auto N{ std::get<1>(tuple) };
+    const auto A{ std::get<2>(tuple) };
 
     // Create a window
-    const unsigned windowWidth = static_cast<unsigned>(L) * 4 + std::min(N, 9) * 80;
-    const unsigned windowHeight = windowWidth * 9 / 16;
+    const unsigned windowWidth{ static_cast<unsigned>(L) * 4 + std::min(N, 9) * 80 };
+    const unsigned windowHeight{ windowWidth * 10 / 16 };
     sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), WINDOW_TITLE);
     window.setFramerateLimit(WINDOW_FPS);
     window.clear(sf::Color::White);
 
     // Load the icon (extra feature)
     sf::Image icon;
-    if (icon.loadFromFile("./assets/icon.png")) {
+    if (icon.loadFromFile(ICON_FILENAME)) {
         window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     }
 
     // Determine the coordinates of top-left corner and right-left corner
-    const float leftX = (static_cast<float>(windowWidth) - L) / 2 - (A - 45) * 5;
-    const float rightX = (static_cast<float>(windowWidth) + L) / 2 - (A - 45) * 5;
-    const float y = static_cast<float>(windowHeight) * 0.65f;
+    const float leftX{ (static_cast<float>(windowWidth) - L) / 2 - (A - 45) * 5 };
+    const float rightX{ (static_cast<float>(windowWidth) + L) / 2 - (A - 45) * 5 };
+    const float y{ static_cast<float>(windowHeight) * 0.7f };
     const sf::Vector2f baseSquareTlVertex{ leftX, y };
     const sf::Vector2f baseSquareTrVertex{ rightX, y };
 

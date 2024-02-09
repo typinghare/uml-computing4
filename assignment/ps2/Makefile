@@ -34,7 +34,7 @@ $(PROGRAM): $(OBJECTS)
 	$(COMPILER) $(CFLAGS) -o $@ $^ $(LIB)
 
 run: $(PROGRAM)
-	./$(PROGRAM) 120 12 30 && make clean
+	./$(PROGRAM) 160 9 30 && make clean
 
 # Clean all object files and program files
 # "-f" flag refers to "force", which suppresses the "No such file or directory"

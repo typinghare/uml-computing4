@@ -59,14 +59,13 @@ std::array<Square, 2> getNextSquares(const Square& square, const float& deltaAlp
 
     // Tranformers
     const sf::Vector2f tlLeftVec{ -sinBeta, -cosBeta };
-    const sf::Vector2f trLeftVec{ cosBeta - sinBeta, -sinBeta - cosBeta };
-    const sf::Vector2f tlRightVec{ cosBeta - sinBeta, -sinBeta - cosBeta };
+    const sf::Vector2f trVec{ cosBeta - sinBeta, -sinBeta - cosBeta };
     const sf::Vector2f trRightVec{ +cosBeta, -sinBeta };
 
     // Vertices
     const sf::Vector2f leftTlVertex = square.tlVertex + leftSideLength * tlLeftVec;
-    const sf::Vector2f leftTrVertex = square.tlVertex + leftSideLength * trLeftVec;
-    const sf::Vector2f rightTlVertex = square.trVertex + rightSideLength * tlRightVec;
+    const sf::Vector2f leftTrVertex = square.tlVertex + leftSideLength * trVec;
+    const sf::Vector2f rightTlVertex = square.trVertex + rightSideLength * trVec;
     const sf::Vector2f rightTrVertex = square.trVertex + rightSideLength * trRightVec;
 
     // Create the next two squares
