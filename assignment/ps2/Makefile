@@ -2,12 +2,12 @@
 COMPILER = g++
 
 # C++ Flags
-CFLAGS = --std=c++17 -Wall -Werror -pedantic -g -I /opt/homebrew/include
-# CFLAGS = --std=c++17 -Wall -Werror -pedantic -g
+#CFLAGS = --std=c++17 -Wall -Werror -pedantic -g -I /opt/homebrew/include
+CFLAGS = --std=c++17 -Wall -Werror -pedantic -g
 
 # Libraries
-LIB = -L /opt/homebrew/lib -lsfml-graphics -lsfml-window -lsfml-system
-# LIB = -lsfml-graphics -lsfml-window -lsfml-system
+#LIB = -L /opt/homebrew/lib -lsfml-graphics -lsfml-window -lsfml-system
+LIB = -lsfml-graphics -lsfml-window -lsfml-system
 
 # Hpp files (dependencies)
 DEPS = PTree.hpp
