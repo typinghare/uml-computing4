@@ -1,7 +1,5 @@
 // Copyright 2024 James Chen
-#include <fstream>
 #include <iostream>
-
 #include "Sokoban.hpp"
 
 int main(const int size, const char* arguments[]) {
@@ -10,7 +8,7 @@ int main(const int size, const char* arguments[]) {
         return 1;
     }
 
-    std::string level = arguments[1];
+    const std::string level = arguments[1];
     SB::Sokoban sokoban;
     loadLevel(sokoban, level);
 

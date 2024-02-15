@@ -31,9 +31,9 @@ Sokoban::~Sokoban() {
     delete player;
 }
 
-int Sokoban::width() const { return m_width; }
+unsigned Sokoban::width() const { return m_width; }
 
-int Sokoban::height() const { return m_height; }
+unsigned Sokoban::height() const { return m_height; }
 
 sf::Vector2u Sokoban::playerLoc() const { return m_playerLoc; }
 

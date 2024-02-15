@@ -44,12 +44,21 @@ add_executable(ps2
 target_link_libraries(ps2 sfml-graphics)
 
 # ps3
-add_executable(ps3
+add_executable(ps3a
     assignment/ps3a/main.cpp
     assignment/ps3a/Sokoban.hpp
     assignment/ps3a/Sokoban.cpp
 )
-target_link_libraries(ps3 sfml-graphics)
+target_link_libraries(ps3a sfml-graphics)
+
+# ps3
+add_executable(ps3b
+    assignment/ps3b/main.cpp
+    assignment/ps3b/Sokoban.hpp
+    assignment/ps3b/Sokoban.cpp
+    assignment/ps3b/SokobanConstants.h
+)
+target_link_libraries(ps3b sfml-graphics)
 
 # playground
 add_executable(playground-2d-array-pointer playground/size.cpp)
@@ -57,3 +66,4 @@ add_executable(playground-size playground/size.cpp)
 add_executable(bitwise-test playground/bitwise-test.cpp)
 add_executable(rand-between playground/rand-between.cpp)
 add_executable(swap playground/swap.cpp)
+add_executable(findMode playground/find-mode.cpp)

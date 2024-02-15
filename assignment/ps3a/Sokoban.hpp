@@ -19,8 +19,8 @@ inline const char* GAME_NAME = "Sokoban";
 inline constexpr unsigned TILE_HEIGHT = 64;
 inline constexpr unsigned TILE_WIDTH = 64;
 
-// inline const std::string TILESET_DIR = "./assets/tileset/";
-inline const std::string TILESET_DIR = "";
+// Tileset directory
+inline const std::string TILESET_DIR = "./assets/tileset/";
 
 // Tiles filename
 inline const std::string TILE_BLOCK_06_FILENAME = TILESET_DIR + "block_06.png";
@@ -62,12 +62,12 @@ class Sokoban final : public sf::Drawable {
     /**
      * @brief Returns the width of the game board.
      */
-    [[nodiscard]] int width() const;
+    [[nodiscard]] unsigned width() const;
 
     /**
      * @brief Returns the height of the game board.
      */
-    [[nodiscard]] int height() const;
+    [[nodiscard]] unsigned height() const;
 
     /**
      * @brief Returns the players' current position; (0, 0) represents the upper-left cell in the
