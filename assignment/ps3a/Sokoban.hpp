@@ -20,7 +20,7 @@ inline constexpr unsigned TILE_HEIGHT = 64;
 inline constexpr unsigned TILE_WIDTH = 64;
 
 // Tileset directory
-inline const std::string TILESET_DIR = "./assets/tileset/";
+inline const std::string TILESET_DIR = "assets/tileset/";
 
 // Tiles filename
 inline const std::string TILE_BLOCK_06_FILENAME = TILESET_DIR + "block_06.png";
@@ -62,12 +62,12 @@ class Sokoban final : public sf::Drawable {
     /**
      * @brief Returns the width of the game board.
      */
-    [[nodiscard]] unsigned width() const;
+    [[nodiscard]] int width() const;
 
     /**
      * @brief Returns the height of the game board.
      */
-    [[nodiscard]] unsigned height() const;
+    [[nodiscard]] int height() const;
 
     /**
      * @brief Returns the players' current position; (0, 0) represents the upper-left cell in the
@@ -112,6 +112,8 @@ class Sokoban final : public sf::Drawable {
     std::unordered_map<Direction, sf::Texture*> playerTextureMap;
     sf::Sprite* player;
     std::vector<sf::Sprite*> tiles;
+    unsigned timeElapsedInMs;
+    sf::Font font;
 
     /**
      * @brief Returns the tile of a specific coordinate.
@@ -134,6 +136,10 @@ class Sokoban final : public sf::Drawable {
      */
     void initPlayerTextureMap();
 
+    /**
+     * @brief Sets the player's orientation.
+     * @param direction The direction the player orientente.
+     */
     void setPlayerOrientation(const Direction& direction);
 };
 

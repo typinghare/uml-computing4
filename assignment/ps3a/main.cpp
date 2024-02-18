@@ -20,6 +20,7 @@ int main(const int size, const char* arguments[]) {
     window.setFramerateLimit(60);
 
     // Game loop
+    sf::Clock clock;
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
@@ -28,6 +29,8 @@ int main(const int size, const char* arguments[]) {
                 break;
             }
         }
+
+        sokoban.update(clock.restart().asMilliseconds());
 
         if (window.isOpen()) {
             window.clear();
