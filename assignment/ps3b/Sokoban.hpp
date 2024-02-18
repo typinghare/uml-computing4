@@ -4,6 +4,9 @@
 #define SOKOBAN_H
 
 #include <functional>
+#include <memory>
+#include <unordered_map>
+#include <vector>
 #include <SFML/Graphics.hpp>
 #include "SokobanConstants.hpp"
 
@@ -39,6 +42,12 @@ class Sokoban final : public sf::Drawable {
     void movePlayer(Direction direction);
 
     /**
+     * @brief Updates the game in a game frame.
+     * @param dt The delta time in microseconds between this frame and the previous frame.
+     */
+    void update(const int64_t& dt);
+
+    /**
      * @brief Reads a map from a level file (.lvl) and loads the content to the sokoban object.
      */
     friend std::ifstream& operator>>(std::ifstream& ifstream, Sokoban& sokoban);
@@ -49,6 +58,21 @@ class Sokoban final : public sf::Drawable {
     friend std::ofstream& operator<<(std::ofstream& ofstream, const Sokoban& sokoban);
 
  protected:
+    /**
+     * @brief Draws the tiles onto the render target.
+     */
+    void drawTiles(sf::RenderTarget& target) const;
+
+    /**
+     * @brief Draws the player onto the render target.
+     */
+    void drawPlayer(sf::RenderTarget& target) const;
+
+    /**
+     * @brief Drwas the elapsed time text onto the render target.
+     */
+    void drawElapsedTime(sf::RenderTarget& target) const;
+
     /**
      * @brief Draws the.
      */
@@ -78,6 +102,11 @@ class Sokoban final : public sf::Drawable {
     std::unordered_map<char, std::shared_ptr<sf::Texture>> tileTextureMap;
 
     /**
+     * @brief Associates each direction with the corresponding player texture.
+     */
+    std::unordered_map<Direction, std::shared_ptr<sf::Texture>> playerTextureMap;
+
+    /**
      * @brief Associates each direction with the corresponding player sprite. Player sprites vary
      * depending on the orientation.
      */
@@ -90,14 +119,14 @@ class Sokoban final : public sf::Drawable {
     std::vector<std::shared_ptr<sf::Sprite>> tileGrid;
 
     /**
-     * @brief Player's current orientation.
+     * @brief Player's current orientation. The default orientation is down.
      */
     Direction playerOrientation = Direction::Down;
 
     /**
-     * @brief The time elasped in milliseconds.
+     * @brief The time elasped in microseconds.
      */
-    unsigned timeElapsedInMs = 0;
+    int64_t timeElapsedInMicroseconds = 0;
 
     /**
      * @brief The font for the diplayed text.
@@ -115,10 +144,17 @@ class Sokoban final : public sf::Drawable {
     void initPlayerSpriteMap();
 
     /**
-     * @brief Returns the tile of a specific coordinate.
+     * @brief Returns the tile at a specified coordinate.
      * @param coordinate The coordinate of the tile to get.
      */
     [[nodiscard]] std::shared_ptr<sf::Sprite> getTile(const sf::Vector2i& coordinate) const;
+
+    /**
+     * @brief Sets the tile at a specified coordiante.
+     * @param coordinate The coordiante of the tile to set.
+     * @param tile The tile to set.
+     */
+    void setTile(const sf::Vector2i& coordinate, const std::shared_ptr<sf::Sprite>& tile);
 
     /**
      * @brief Converts a character into the corresponding sprite.
@@ -133,6 +169,29 @@ class Sokoban final : public sf::Drawable {
      */
     void traverseTileGrid(
         const std::function<bool(sf::Vector2i, std::shared_ptr<sf::Sprite>)>& callback) const;
+
+    /**
+     * @brief Returns the next location based on the current location and the orientation.
+     * @param currentLoc The current location.
+     * @param orientation The orientation.
+     */
+    [[nodiscard]] static sf::Vector2i
+    getNextLoc(const sf::Vector2i& currentLoc, const Direction& orientation);
+
+    /**
+     * @brief Returns the tile texture at the block of specified coordiante.
+     * @param coordinate The coordinate of the block.
+     */
+    [[nodiscard]] const sf::Texture* getBlockTexture(const sf::Vector2i& coordinate) const;
+
+    /**
+     * @brief Moves a box towards a specified direction. Note that the block at the from coordinate
+     * must be a box.
+     * @param fromCoordinate The initial coordinate.
+     * @param direction The direction to move the box.
+     * @return true if the box can be moved; false otherwise.
+     */
+    bool moveBox(const sf::Vector2i& fromCoordinate, const Direction& direction);
 };
 
 }  // namespace SB

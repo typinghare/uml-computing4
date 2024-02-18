@@ -16,8 +16,8 @@ namespace SB {
 inline const char* GAME_NAME = "Sokoban";
 
 // The size of each tile
-inline constexpr unsigned TILE_HEIGHT = 64;
-inline constexpr unsigned TILE_WIDTH = 64;
+inline constexpr int TILE_HEIGHT = 64;
+inline constexpr int TILE_WIDTH = 64;
 
 // Tileset directory
 inline const std::string TILESET_DIR = "assets/tileset/";

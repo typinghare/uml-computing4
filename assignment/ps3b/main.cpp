@@ -1,7 +1,7 @@
 // Copyright 2024 James Chen
 
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include "Sokoban.hpp"
 
 /**
@@ -27,10 +27,11 @@ int main(const int size, const char* arguments[]) {
     ifstream >> sokoban;
 
     // Create a window
-    const auto windowWidth = sokoban.width() * SB::TILE_WIDTH;
-    const auto windowHeight = sokoban.height() * SB::TILE_HEIGHT;
-    const auto videoMode = sf::VideoMode(windowWidth, windowHeight);
+    const auto windowWidth{ sokoban.width() * SB::TILE_WIDTH };
+    const auto windowHeight{ sokoban.height() * SB::TILE_HEIGHT };
+    const auto videoMode{ sf::VideoMode(windowWidth, windowHeight) };
     sf::RenderWindow window(videoMode, SB::GAME_NAME);
+    window.clear(sf::Color::White);
     window.setFramerateLimit(60);
 
     // Game loop
@@ -42,9 +43,21 @@ int main(const int size, const char* arguments[]) {
                 window.close();
                 break;
             }
+
+            if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code == sf::Keyboard::Key::W) {
+                    sokoban.movePlayer(SB::Direction::Up);
+                } else if (event.key.code == sf::Keyboard::Key::A) {
+                    sokoban.movePlayer(SB::Direction::Left);
+                } else if (event.key.code == sf::Keyboard::Key::S) {
+                    sokoban.movePlayer(SB::Direction::Down);
+                } else if (event.key.code == sf::Keyboard::Key::D) {
+                    sokoban.movePlayer(SB::Direction::Right);
+                }
+            }
         }
 
-        sokoban.update(clock.restart().asMilliseconds());
+        sokoban.update(clock.restart().asMicroseconds());
 
         if (window.isOpen()) {
             window.clear();

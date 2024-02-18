@@ -53,10 +53,6 @@ void Sokoban::update(const int& dt) { timeElapsedInMs += dt; }
 
 sf::Sprite* Sokoban::getTile(const sf::Vector2i& coordinate) const {
     const int index = coordinate.x + coordinate.y * m_width;
-    if (index < 0 || index > tiles.size()) {
-        throw new std::invalid_argument("");
-    }
-
     return tiles.at(index);
 }
 

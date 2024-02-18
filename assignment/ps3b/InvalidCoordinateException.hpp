@@ -4,6 +4,7 @@
 #define INVALIDCOORDINATEEXCEPTION_H
 
 #include <string>
+#include <SFML/Graphics.hpp>
 
 namespace SB {
 

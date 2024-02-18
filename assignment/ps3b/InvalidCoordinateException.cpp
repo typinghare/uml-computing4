@@ -13,4 +13,4 @@ InvalidCoordinateException::InvalidCoordinateException(const sf::Vector2i& coord
 
 const char* InvalidCoordinateException::what() const noexcept { return message.c_str(); }
 
-}
+}  // namespace SB

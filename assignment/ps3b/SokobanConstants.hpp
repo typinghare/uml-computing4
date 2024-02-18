@@ -18,8 +18,8 @@ namespace SB {
 inline const char* GAME_NAME = "Sokoban";
 
 // The height and width in pixel of each tile
-inline constexpr unsigned TILE_HEIGHT = 64;
-inline constexpr unsigned TILE_WIDTH = 64;
+inline constexpr int TILE_HEIGHT = 64;
+inline constexpr int TILE_WIDTH = 64;
 
 // Tile characters. In the level (.lvl) files, each character corresponds to a specific texture of
 // has particular meaning to the corresponding position.
