@@ -62,8 +62,8 @@ sf::Sprite* Sokoban::getTile(const sf::Vector2i& coordinate) const {
 
 void Sokoban::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     // Draw tiles
-    for (int row = 0; row < m_width; ++row) {
-        for (int col = 0; col < m_height; ++col) {
+    for (int row = 0; row < m_height; ++row) {
+        for (int col = 0; col < m_width; ++col) {
             const auto tile = getTile({ col, row });
             if (tile == nullptr)
                 continue;
@@ -123,11 +123,10 @@ std::ifstream& operator>>(std::ifstream& ifstream, Sokoban& sokoban) {
             const char c = line.at(col);
             const auto tile = sokoban.charToTile(c);
             if (tile == nullptr) {
-                std::cout << row << " " << col << std::endl;
                 continue;
             }
 
-            sokoban.tiles.push_back(sokoban.charToTile(c));
+            sokoban.tiles.push_back(tile);
             if (c == TILE_CHAR_PLYAER) {
                 sokoban.m_playerLoc = { col, row };
             }

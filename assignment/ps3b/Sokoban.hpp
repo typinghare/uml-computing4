@@ -3,6 +3,7 @@
 #ifndef SOKOBAN_H
 #define SOKOBAN_H
 
+#include <functional>
 #include <SFML/Graphics.hpp>
 #include "SokobanConstants.hpp"
 
@@ -41,6 +42,11 @@ class Sokoban final : public sf::Drawable {
      * @brief Reads a map from a level file (.lvl) and loads the content to the sokoban object.
      */
     friend std::ifstream& operator>>(std::ifstream& ifstream, Sokoban& sokoban);
+
+    /**
+     * @brief Outputs a sokoban game to a level file (.lvl).
+     */
+    friend std::ofstream& operator<<(std::ofstream& ofstream, const Sokoban& sokoban);
 
  protected:
     /**
@@ -113,29 +119,20 @@ class Sokoban final : public sf::Drawable {
      * @param coordinate The coordinate of the tile to get.
      */
     [[nodiscard]] std::shared_ptr<sf::Sprite> getTile(const sf::Vector2i& coordinate) const;
-};
-
-/**
- * @brief This exception is thrown when an invalid coordinate is used.
- */
-class InvalidCoordinateException final : public std::exception {
- public:
-    /**
-     * @brief Creates an InvalidCoordinateException instance.
-     * \param coordinate The invalid coordinate.
-     */
-    explicit InvalidCoordinateException(const sf::Vector2i& coordinate) noexcept;
 
     /**
-     * @brief Gets the excception message.
+     * @brief Converts a character into the corresponding sprite.
      */
-    const char* what() const noexcept override;
+    [[nodiscard]] std::shared_ptr<sf::Sprite> charToTile(const char& c) const;
 
- private:
     /**
-     * @brief The exception message.
+     * @brief Iterates over each tile in the grid and invokes the specified callback function
+     * for each tile, providing the tile's coordinate and its associated sprite. The callback
+     * function should return true to continue the traversal or false to stop it.
+     * @param callback The callback function to be invoked for each tile.
      */
-    std::string message;
+    void traverseTileGrid(
+        const std::function<bool(sf::Vector2i, std::shared_ptr<sf::Sprite>)>& callback) const;
 };
 
 }  // namespace SB

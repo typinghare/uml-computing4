@@ -1,7 +1,8 @@
 // Copyright 2024 James Chen
 
 #include "Sokoban.hpp"
-#include <sstream>
+#include <fstream>
+#include "InvalidCoordinateException.hpp"
 #include "SokobanConstants.hpp"
 
 namespace SB {
@@ -46,7 +47,55 @@ void Sokoban::movePlayer(const Direction direction) {
     // If the coordinate is a block, don't move
 }
 
-void Sokoban::draw(sf::RenderTarget& target, sf::RenderStates states) const {}
+std::ifstream& operator>>(std::ifstream& ifstream, Sokoban& sokoban) {
+    // Clear all tiles
+    sokoban.tileTextureMap.clear();
+
+    // The first line consists of height and width
+    ifstream >> sokoban.m_height >> sokoban.m_width;
+
+    // Ignore the rest of the line
+    ifstream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    // Continue the read the following lines
+    for (int row = 0; row < sokoban.m_height; ++row) {
+        std::string line;
+        getline(ifstream, line);
+        for (int col = 0; col < sokoban.m_width; ++col) {
+            const char c = line.at(col);
+            if (const auto tile = sokoban.charToTile(c)) {
+                sokoban.tileGrid.push_back(tile);
+                if (c == TILE_CHAR_PLYAER) {
+                    sokoban.m_playerLoc = { col, row };
+                }
+            }
+        }
+    }
+
+    return ifstream;
+}
+
+std::ofstream& operator<<(std::ofstream& ofstream, const Sokoban& sokoban) { return ofstream; }
+
+void Sokoban::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+    // Draw tiles
+    traverseTileGrid([&](auto coordinate, auto tile) {
+        const sf::Vector2i position = { coordinate.x * TILE_WIDTH, coordinate.y * TILE_HEIGHT };
+        const sf::Vector2f positionFloat(position);
+        tile->setPosition(positionFloat);
+        target.draw(*tile);
+
+        return true;
+    });
+
+    // Draw the player
+    const auto player = playerSpriteMap.at(playerOrientation);
+    player->setPosition({
+        static_cast<float>(m_playerLoc.x * TILE_WIDTH),
+        static_cast<float>(m_playerLoc.y * TILE_HEIGHT),
+    });
+    target.draw(*player);
+}
 
 void Sokoban::initTileTextureMap() {
     const auto groundTexture{ std::make_shared<sf::Texture>() };
@@ -100,12 +149,29 @@ std::shared_ptr<sf::Sprite> Sokoban::getTile(const sf::Vector2i& coordinate) con
     return tileGrid.at(index);
 }
 
-InvalidCoordinateException::InvalidCoordinateException(const sf::Vector2i& coordinate) noexcept {
-    std::ostringstream oss;
-    oss << "Invalid coordinate: (" << coordinate.x << ", " << coordinate.y << ")";
-    message = oss.str();
+std::shared_ptr<sf::Sprite> Sokoban::charToTile(const char& c) const {
+    const auto it = tileTextureMap.find(c);
+    if (it == tileTextureMap.end()) {
+        return nullptr;
+    }
+
+    const auto sprite{ std::shared_ptr<sf::Sprite>() };
+    sprite->setTexture(*it->second);
+
+    return sprite;
 }
 
-const char* InvalidCoordinateException::what() const noexcept { return message.c_str(); }
+void Sokoban::traverseTileGrid(
+    const std::function<bool(sf::Vector2i, std::shared_ptr<sf::Sprite>)>& callback) const {
+
+    auto stopIteration = false;
+    for (int row = 0; !stopIteration && row < m_height; ++row) {
+        for (int col = 0; !stopIteration && col < m_width; ++col) {
+            if (const auto tile = getTile({ col, row })) {
+                stopIteration = callback({ col, row }, tile);
+            }
+        }
+    }
+}
 
 }  // namespace SB

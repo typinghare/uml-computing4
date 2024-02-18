@@ -1,3 +1,5 @@
+// Copyright 2024 James Chen
+
 #ifndef SOKOBANCONSTANTS_H
 #define SOKOBANCONSTANTS_H
 
@@ -8,14 +10,14 @@
  * 1. The name of the game
  * 2. The size of each tiles
  * 3. Tilesets' filenames
- * 4.
+ * 4. Enumeration classes.
  */
 namespace SB {
 
 // The name of the game
 inline const char* GAME_NAME = "Sokoban";
 
-// The height and width of each tile
+// The height and width in pixel of each tile
 inline constexpr unsigned TILE_HEIGHT = 64;
 inline constexpr unsigned TILE_WIDTH = 64;
 

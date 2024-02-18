@@ -58,6 +58,8 @@ add_executable(ps3b
     assignment/ps3b/Sokoban.cpp
     assignment/ps3b/SokobanConstants.hpp
     assignment/ps3b/test.cpp
+    assignment/ps3b/InvalidCoordinateException.hpp
+    assignment/ps3b/InvalidCoordinateException.cpp
 )
 target_link_libraries(ps3b sfml-graphics)
 

@@ -25,4 +25,31 @@ int main(const int size, const char* arguments[]) {
         throw std::invalid_argument("File not found: " + levelFilename);
     }
     ifstream >> sokoban;
+
+    // Create a window
+    const auto windowWidth = sokoban.width() * SB::TILE_WIDTH;
+    const auto windowHeight = sokoban.height() * SB::TILE_HEIGHT;
+    const auto videoMode = sf::VideoMode(windowWidth, windowHeight);
+    sf::RenderWindow window(videoMode, SB::GAME_NAME);
+    window.setFramerateLimit(60);
+
+    // Game loop
+    sf::Clock clock;
+    while (window.isOpen()) {
+        sf::Event event{};
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+                break;
+            }
+        }
+
+        sokoban.update(clock.restart().asMilliseconds());
+
+        if (window.isOpen()) {
+            window.clear();
+            window.draw(sokoban);
+            window.display();
+        }
+    }
 }
