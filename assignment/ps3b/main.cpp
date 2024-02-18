@@ -1,6 +1,7 @@
-
 // Copyright 2024 James Chen
+
 #include <iostream>
+#include <fstream>
 #include "Sokoban.hpp"
 
 /**
@@ -16,5 +17,12 @@ int main(const int size, const char* arguments[]) {
         return 1;
     }
 
-    const std::string level = arguments[1];
+    const std::string levelFilename = arguments[1];
+    SB::Sokoban sokoban;
+
+    std::ifstream ifstream{ levelFilename };
+    if (!ifstream.is_open()) {
+        throw std::invalid_argument("File not found: " + levelFilename);
+    }
+    ifstream >> sokoban;
 }

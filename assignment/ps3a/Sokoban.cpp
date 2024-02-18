@@ -41,22 +41,29 @@ int Sokoban::width() const { return m_width; }
 
 int Sokoban::height() const { return m_height; }
 
-sf::Vector2u Sokoban::playerLoc() const { return m_playerLoc; }
+sf::Vector2i Sokoban::playerLoc() const { return m_playerLoc; }
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
 void Sokoban::movePlayer(const Direction& direction) {}
 
+// ReSharper disable once CppMemberFunctionMayBeStatic
 bool Sokoban::isWon() { return false; }
 
 void Sokoban::update(const int& dt) { timeElapsedInMs += dt; }
 
-sf::Sprite* Sokoban::getTile(const sf::Vector2u& coordinate) const {
-    return this->tiles[coordinate.x + coordinate.y * m_width];
+sf::Sprite* Sokoban::getTile(const sf::Vector2i& coordinate) const {
+    const int index = coordinate.x + coordinate.y * m_width;
+    if (index < 0 || index > tiles.size()) {
+        throw new std::invalid_argument("");
+    }
+
+    return tiles.at(index);
 }
 
 void Sokoban::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     // Draw tiles
-    for (unsigned row = 0; row < m_width; ++row) {
-        for (unsigned col = 0; col < m_height; ++col) {
+    for (int row = 0; row < m_width; ++row) {
+        for (int col = 0; col < m_height; ++col) {
             const auto tile = getTile({ col, row });
             if (tile == nullptr)
                 continue;
@@ -110,9 +117,9 @@ std::ifstream& operator>>(std::ifstream& ifstream, Sokoban& sokoban) {
     // Continue the read the following lines
     std::string line;
     getline(ifstream, line);
-    for (unsigned row = 0; row < sokoban.m_height; ++row) {
+    for (int row = 0; row < sokoban.m_height; ++row) {
         getline(ifstream, line);
-        for (unsigned col = 0; col < sokoban.m_width; ++col) {
+        for (int col = 0; col < sokoban.m_width; ++col) {
             const char c = line.at(col);
             const auto tile = sokoban.charToTile(c);
             if (tile == nullptr) {

@@ -73,7 +73,7 @@ class Sokoban final : public sf::Drawable {
      * @brief Returns the players' current position; (0, 0) represents the upper-left cell in the
      * upper-left corner.
      */
-    [[nodiscard]] sf::Vector2u playerLoc() const;
+    [[nodiscard]] sf::Vector2i playerLoc() const;
 
     /**
      * @brief Changes the player's location with the given direction.
@@ -105,9 +105,9 @@ class Sokoban final : public sf::Drawable {
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
  private:
-    unsigned m_width;
-    unsigned m_height;
-    sf::Vector2u m_playerLoc;
+    int m_width;
+    int m_height;
+    sf::Vector2i m_playerLoc;
     std::unordered_map<char, sf::Texture*> tileMap;
     std::unordered_map<Direction, sf::Texture*> playerTextureMap;
     sf::Sprite* player;
@@ -119,7 +119,7 @@ class Sokoban final : public sf::Drawable {
      * @brief Returns the tile of a specific coordinate.
      * @param coordinate
      */
-    [[nodiscard]] sf::Sprite* getTile(const sf::Vector2u& coordinate) const;
+    [[nodiscard]] sf::Sprite* getTile(const sf::Vector2i& coordinate) const;
 
     /**
      * @brief Converts a character to the corresponding sprite.

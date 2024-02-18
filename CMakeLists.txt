@@ -56,7 +56,8 @@ add_executable(ps3b
     assignment/ps3b/main.cpp
     assignment/ps3b/Sokoban.hpp
     assignment/ps3b/Sokoban.cpp
-    assignment/ps3b/SokobanConstants.h
+    assignment/ps3b/SokobanConstants.hpp
+    assignment/ps3b/test.cpp
 )
 target_link_libraries(ps3b sfml-graphics)
 

@@ -51,6 +51,12 @@ inline const std::string TILE_PLAYER_08_FILENAME = TILESET_DIR + "player_08.png"
 inline const std::string TILE_PLAYER_17_FILENAME = TILESET_DIR + "player_17.png";
 inline const std::string TILE_PLAYER_20_FILENAME = TILESET_DIR + "player_20.png";
 
+/**
+ * @brief Enumerates four cardinal directions: Up, Down, Left, and Right. This enumeration follows
+ * the naming convention used in SFML.
+ */
+enum class Direction { Up, Down, Left, Right };
+
 }  // namespace SB
 
 #endif
