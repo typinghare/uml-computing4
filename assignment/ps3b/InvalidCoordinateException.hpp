@@ -15,7 +15,7 @@ class InvalidCoordinateException final : public std::exception {
  public:
     /**
      * @brief Creates an InvalidCoordinateException instance.
-     * \param coordinate The invalid coordinate.
+     * @param coordinate The invalid coordinate.
      */
     explicit InvalidCoordinateException(const sf::Vector2i& coordinate) noexcept;
 

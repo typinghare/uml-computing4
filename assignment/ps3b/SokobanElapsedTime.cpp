@@ -2,10 +2,11 @@
 
 #include "SokobanElapsedTime.hpp"
 #include <string>
+#include "SokobanConstants.hpp"
 
 namespace SB {
 
-SokobanElapsedTime::SokobanElapsedTime() { m_font.loadFromFile("assets/font/digital-7.mono.ttf"); }
+SokobanElapsedTime::SokobanElapsedTime() { m_font.loadFromFile(FONT_DIGITAL7_FILENAME); }
 
 void SokobanElapsedTime::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     const unsigned seconds = m_elapsedTimeInMicroseconds / 1000000u;

@@ -2,10 +2,11 @@
 
 #include "SokobanScore.hpp"
 #include <string>
+#include "SokobanConstants.hpp"
 
 namespace SB {
 
-SokobanScore::SokobanScore() { m_font.loadFromFile("assets/font/digital-7.mono.ttf"); }
+SokobanScore::SokobanScore() { m_font.loadFromFile(FONT_DIGITAL7_FILENAME); }
 
 bool SokobanScore::isWon() const { return m_score == m_maxScore; }
 

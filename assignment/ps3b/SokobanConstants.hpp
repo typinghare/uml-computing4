@@ -45,6 +45,12 @@ inline const std::string ASSETS_DIR = "./assets/";
 // Tileset directory
 inline const std::string TILESET_DIR = ASSETS_DIR + "tileset/";
 
+// Level directory
+inline const std::string LEVEL_DIR = ASSETS_DIR + "level/";
+
+// Font directory
+inline const std::string FONT_DIR = ASSETS_DIR + "font/";
+
 // Tiles filename
 inline const std::string TILE_ENVIRONMENT_03_FILENAME = TILESET_DIR + "environment_03.png";
 inline const std::string TILE_BLOCK_06_FILENAME = TILESET_DIR + "block_06.png";
@@ -55,6 +61,9 @@ inline const std::string TILE_PLAYER_05_FILENAME = TILESET_DIR + "player_05.png"
 inline const std::string TILE_PLAYER_08_FILENAME = TILESET_DIR + "player_08.png";
 inline const std::string TILE_PLAYER_17_FILENAME = TILESET_DIR + "player_17.png";
 inline const std::string TILE_PLAYER_20_FILENAME = TILESET_DIR + "player_20.png";
+
+// Fonts filename
+inline const std::string FONT_DIGITAL7_FILENAME = FONT_DIR + "digital-7.mono.ttf";
 
 /**
  * @brief Enumerates four cardinal directions: Up, Down, Left, and Right. This enumeration follows
