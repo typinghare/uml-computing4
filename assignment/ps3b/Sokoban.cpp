@@ -83,7 +83,7 @@ std::ifstream& operator>>(std::ifstream& ifstream, Sokoban& sokoban) {
 
 std::ofstream& operator<<(std::ofstream& ofstream, const Sokoban& sokoban) { return ofstream; }
 
-void Sokoban::draw(sf::RenderTarget& target, const sf::RenderStates states) const {
+void Sokoban::draw(sf::RenderTarget& target,const sf::RenderStates states) const {
     SokobanTileGrid::draw(target, states);
     SokobanPlayer::draw(target, states);
     SokobanElapsedTime::draw(target, states);

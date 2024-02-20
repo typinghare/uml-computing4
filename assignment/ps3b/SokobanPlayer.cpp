@@ -34,7 +34,7 @@ SokobanPlayer::SokobanPlayer() {
     m_playerSpriteMap[Direction::Left] = playerLeftSprite;
 }
 
-void SokobanPlayer::draw(sf::RenderTarget& target, const sf::RenderStates states) const {
+void SokobanPlayer::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     const auto player = m_playerSpriteMap.at(m_playerOrientation);
     player->setPosition({
         static_cast<float>(m_playerLoc.x * TILE_WIDTH),

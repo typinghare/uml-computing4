@@ -2,12 +2,10 @@
 COMPILER = g++
 
 # C++ Flags
-CFLAGS = --std=c++17 -Wall -Werror -pedantic -g -I /opt/homebrew/include
-# CFLAGS = --std=c++17 -Wall -Werror -pedantic -g
+CFLAGS = --std=c++20 -Wall -Werror -pedantic -g
 
 # Libraries
-LIB = -L /opt/homebrew/lib -lsfml-graphics -lsfml-window -lsfml-system -lboost_unit_test_framework
-# LIB = -lsfml-graphics -lsfml-window -lsfml-system -lboost_unit_test_framework
+LIB = -lsfml-graphics -lsfml-window -lsfml-system -lboost_unit_test_framework
 
 # Code source directory
 SRC = ./

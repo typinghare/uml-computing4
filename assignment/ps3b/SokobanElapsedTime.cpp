@@ -5,9 +5,7 @@
 
 namespace SB {
 
-SokobanElapsedTime::SokobanElapsedTime() {
-    m_font.loadFromFile("assets/font/digital-7.mono.ttf");
-}
+SokobanElapsedTime::SokobanElapsedTime() { m_font.loadFromFile("assets/font/digital-7.mono.ttf"); }
 
 void SokobanElapsedTime::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     const unsigned seconds = m_elapsedTimeInMicroseconds / 1000000u;
@@ -29,8 +27,6 @@ void SokobanElapsedTime::draw(sf::RenderTarget& target, sf::RenderStates states)
     target.draw(text);
 }
 
-void SokobanElapsedTime::update(const int64_t& dt) {
-    m_elapsedTimeInMicroseconds += dt;
-}
+void SokobanElapsedTime::update(const int64_t& dt) { m_elapsedTimeInMicroseconds += dt; }
 
 }  // namespace SB
