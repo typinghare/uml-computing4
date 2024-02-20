@@ -29,9 +29,9 @@ int main(const int size, const char* arguments[]) {
     // Create a window
     const auto windowWidth{ sokoban.width() * SB::TILE_WIDTH };
     const auto windowHeight{ sokoban.height() * SB::TILE_HEIGHT };
-    const auto videoMode{ sf::VideoMode(windowWidth, windowHeight) };
-    sf::RenderWindow window(videoMode, SB::GAME_NAME);
-    window.clear(sf::Color::White);
+    const auto windowVideoMode{ sf::VideoMode(windowWidth, windowHeight) };
+    const auto windowTitle = SB::GAME_NAME + " by " + SB::AUTHOR_NAME;
+    sf::RenderWindow window(windowVideoMode, windowTitle);
     window.setFramerateLimit(60);
 
     // Game loop
@@ -60,7 +60,7 @@ int main(const int size, const char* arguments[]) {
         sokoban.update(clock.restart().asMicroseconds());
 
         if (window.isOpen()) {
-            window.clear();
+            window.clear(sf::Color::White);
             window.draw(sokoban);
             window.display();
         }

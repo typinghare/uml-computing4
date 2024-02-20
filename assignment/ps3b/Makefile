@@ -6,20 +6,31 @@ CFLAGS = --std=c++17 -Wall -Werror -pedantic -g -I /opt/homebrew/include
 # CFLAGS = --std=c++17 -Wall -Werror -pedantic -g
 
 # Libraries
-LIB = -L /opt/homebrew/lib -lsfml-graphics -lsfml-window -lsfml-system
-# LIB = -lsfml-graphics -lsfml-window -lsfml-system
+LIB = -L /opt/homebrew/lib -lsfml-graphics -lsfml-window -lsfml-system -lboost_unit_test_framework
+# LIB = -lsfml-graphics -lsfml-window -lsfml-system -lboost_unit_test_framework
 
 # Code source directory
 SRC = ./
 
 # Hpp files (dependencies)
-DEPS = ${SRC}Sokoban.hpp ${SRC}SokobanConstants.hpp ${SRC}InvalidCoordinateException.hpp
+DEPS = $(SRC)Sokoban.hpp \
+       $(SRC)SokobanConstants.hpp \
+       $(SRC)SokobanTileGrid.hpp \
+       $(SRC)SokobanPlayer.hpp \
+       $(SRC)SokobanScore.hpp \
+       $(SRC)SokobanElapsedTime.hpp \
+       $(SRC)InvalidCoordinateException.hpp \
 
 # Object files that are not in the static library
-OBJECTS = ${SRC}main.o
+OBJECTS = $(SRC)main.o
 
 # The object files that the static library includes
-STATIC_LIB_OBJECTS = ${SRC}Sokoban.o ${SRC}InvalidCoordinateException.o
+STATIC_LIB_OBJECTS = $(SRC)Sokoban.o \
+					 $(SRC)SokobanTileGrid.o \
+					 $(SRC)SokobanPlayer.o \
+					 $(SRC)SokobanScore.o \
+ 					 $(SRC)SokobanElapsedTime.o \
+ 					 $(SRC)InvalidCoordinateException.o \
 
 # Static library
 STATIC_LIB = Sokoban.a
@@ -27,9 +38,15 @@ STATIC_LIB = Sokoban.a
 # Program
 PROGRAM = Sokoban
 
-.PHONY: all clean lint run
+# The test object files
+TEST_OBJECTS = $(SRC)test.o
 
-${SRC}%.o: ${SRC}%.cpp $(DEPS)
+# The test program
+TEST_PROGRAM = test
+
+.PHONY: all test clean lint run
+
+$(SRC)%.o: $(SRC)%.cpp $(DEPS)
 	$(COMPILER) $(CFLAGS) -c $<
 
 $(PROGRAM): $(OBJECTS) $(STATIC_LIB)
@@ -40,11 +57,18 @@ $(STATIC_LIB): $(STATIC_LIB_OBJECTS)
 
 all: $(PROGRAM)
 
+$(TEST_PROGRAM): $(TEST_OBJECTS) $(STATIC_LIB)
+	$(COMPILER) $(CFLAGS) -o $@ $^ $(LIB)
+
+# Run unit test
+boost: $(TEST_PROGRAM)
+	./$< && make clean
+
 run: $(PROGRAM)
-	./$(PROGRAM) assets/level/level1.lvl && make clean
+	./$< assets/level/level2.lvl && make clean
 
 clean:
-	rm -f ${SRC}*.o $(PROGRAM) $(STATIC_LIB)
+	rm -f $(SRC)*.o $(PROGRAM) $(STATIC_LIB) $(TEST_PROGRAM)
 
 lint:
 	cpplint *.hpp *.cpp

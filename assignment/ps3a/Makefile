@@ -2,12 +2,12 @@
 COMPILER = g++
 
 # C++ Flags
-CFLAGS = --std=c++17 -Wall -Werror -pedantic -g -I /opt/homebrew/include
-# CFLAGS = --std=c++17 -Wall -Werror -pedantic -g
+#CFLAGS = --std=c++17 -Wall -Werror -pedantic -g -I /opt/homebrew/include
+CFLAGS = --std=c++17 -Wall -Werror -pedantic -g
 
 # Libraries
-LIB = -L /opt/homebrew/lib -lsfml-graphics -lsfml-window -lsfml-system
-# LIB = -lsfml-graphics -lsfml-window -lsfml-system
+#LIB = -L /opt/homebrew/lib -lsfml-graphics -lsfml-window -lsfml-system
+LIB = -lsfml-graphics -lsfml-window -lsfml-system
 
 # Code source directory
 SRC = ./
@@ -41,7 +41,7 @@ $(STATIC_LIB): $(STATIC_LIB_OBJECTS)
 all: $(PROGRAM)
 
 run: $(PROGRAM)
-	./$(PROGRAM) assets/level/level1.lvl && make clean
+	./$(PROGRAM) assets/level/level4.lvl && make clean
 
 clean:
 	rm -f ${SRC}*.o $(PROGRAM) $(STATIC_LIB)

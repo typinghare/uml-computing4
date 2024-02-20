@@ -7,7 +7,7 @@
 
 /**
  * @brief Sokoban game constants. Include but not limit to the following:
- * 1. The name of the game
+ * 1. The name of the game and the author
  * 2. The size of each tiles
  * 3. Tilesets' filenames
  * 4. Enumeration classes.
@@ -15,7 +15,10 @@
 namespace SB {
 
 // The name of the game
-inline const char* GAME_NAME = "Sokoban";
+inline const std::string GAME_NAME = "Sokoban";
+
+// The author name
+inline const std::string AUTHOR_NAME = "James Chen";
 
 // The height and width in pixel of each tile
 inline constexpr int TILE_HEIGHT = 64;
@@ -58,6 +61,18 @@ inline const std::string TILE_PLAYER_20_FILENAME = TILESET_DIR + "player_20.png"
  * the naming convention used in SFML.
  */
 enum class Direction { Up, Down, Left, Right };
+
+/**
+ * @brief Enumerates tile characters.
+ */
+enum class TileChar : char {
+    Player = TILE_CHAR_PLYAER,
+    Empty = TILE_CHAR_EMPTY,
+    Wall = TILE_CHAR_WALL,
+    Box = TILE_CHAR_BOX,
+    Storage = TILE_CHAR_STORAGE,
+    BoxStorage = TILE_CHAR_BOX_STORAGE,
+};
 
 }  // namespace SB
 

@@ -17,7 +17,7 @@ Sokoban::Sokoban() :
     setPlayerOrientation(Direction::Down);
 
     // Initailizes font
-    font.loadFromFile("assets/font/digital-7.mono.ttf");
+    m_font.loadFromFile("assets/font/digital-7.mono.ttf");
 }
 
 Sokoban::~Sokoban() {
@@ -91,7 +91,7 @@ void Sokoban::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 
     // Create a text and draw it on the target window
     sf::Text text;
-    text.setFont(font);
+    text.setFont(m_font);
     text.setString(stringToPrint);
     text.setCharacterSize(28);
     text.setFillColor(sf::Color::Black);

@@ -113,7 +113,7 @@ class Sokoban final : public sf::Drawable {
     sf::Sprite* player;
     std::vector<sf::Sprite*> tiles;
     unsigned timeElapsedInMs;
-    sf::Font font;
+    sf::Font m_font;
 
     /**
      * @brief Returns the tile of a specific coordinate.
