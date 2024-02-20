@@ -4,7 +4,6 @@ project(computing4-uml)
 set(CMAKE_CXX_STANDARD 17)
 
 # Packages
-include_directories(/opt/homebrew/include)
 find_package(SFML 2.6 COMPONENTS graphics audio REQUIRED)
 find_package(Boost 1.83 REQUIRED COMPONENTS unit_test_framework)
 
@@ -57,7 +56,6 @@ add_executable(ps3b
     assignment/ps3b/Sokoban.hpp
     assignment/ps3b/Sokoban.cpp
     assignment/ps3b/SokobanConstants.hpp
-    assignment/ps3b/test.cpp
     assignment/ps3b/InvalidCoordinateException.hpp
     assignment/ps3b/InvalidCoordinateException.cpp
     assignment/ps3b/SokobanElapsedTime.hpp

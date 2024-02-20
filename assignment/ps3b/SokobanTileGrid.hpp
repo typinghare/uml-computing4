@@ -37,19 +37,19 @@ class SokobanTileGrid : public virtual sf::Drawable {
      */
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
+    /**
+     * @brief Returns the tile character at a specified coordinate.
+     * @param coordinate The coordinate of the tile character to get.
+     */
+    [[nodiscard]] TileChar getTileChar(const sf::Vector2i& coordinate) const;
 
     /**
-     * @brief Returns the tile at a specified coordinate.
-     * @param coordinate The coordinate of the tile to get.
+     * @brief Sets the tile character for a specified coordiante. If the tile character changes, the
+     * corresponding tile in the tile grid changes synchronously.
+     * @param coordinate The coordiante of the tile character to set.
+     * @param tileChar The tile character to set.
      */
-    [[nodiscard]] std::shared_ptr<sf::Sprite> getTile(const sf::Vector2i& coordinate) const;
-
-    /**
-     * @brief Sets the tile at a specified coordiante.
-     * @param coordinate The coordiante of the tile to set.
-     * @param tile The tile to set.
-     */
-    void setTile(const sf::Vector2i& coordinate, const std::shared_ptr<sf::Sprite>& tile);
+    void setTileChar(const sf::Vector2i& coordinate, TileChar tileChar);
 
     /**
      * @brief Iterates over each tile in the grid and invokes the specified callback function
@@ -57,8 +57,13 @@ class SokobanTileGrid : public virtual sf::Drawable {
      * function should return true to continue the traversal or false to stop it.
      * @param callback The callback function to be invoked for each tile.
      */
-    void traverseTileGrid(
-        const std::function<bool(sf::Vector2i, std::shared_ptr<sf::Sprite>)>& callback) const;
+    void traverseTileGrid(const std::function<bool(sf::Vector2i, TileChar)>& callback) const;
+
+    /**
+     * @brief Converts a character into the corresponding tile sprite.
+     * @return The corresponding tile sprite; nullptr if the tile char is not supported.
+     */
+    [[nodiscard]] std::shared_ptr<sf::Sprite> getTile(const TileChar& tileChar) const;
 
     /**
      * @brief The number of tile columns.
@@ -78,6 +83,11 @@ class SokobanTileGrid : public virtual sf::Drawable {
     std::unordered_map<TileChar, std::shared_ptr<sf::Texture>> m_tileTextureMap;
 
     /**
+     * @brief The initial tile char grid.
+     */
+    std::vector<TileChar> m_initialTileCharGrid;
+
+    /**
      * @brief Represents the tile character grid, which is mapping into an one-dimentional array in
      * row-major order.
      */
@@ -88,6 +98,16 @@ class SokobanTileGrid : public virtual sf::Drawable {
      * order.
      */
     std::vector<std::shared_ptr<sf::Sprite>> m_tileGrid;
+
+ private:
+    /**
+     * @brief Checks if a specified coordinate is valid. A valid coordiante should be able to be
+     * located in the tile char grid.
+     * @param coordinate The coordinate to check.
+     * @return A index corresponding to the coordinate.
+     * @throws InvalidCoordinateException if the coordinate is invalid.
+     */
+    [[nodiscard]] int checkCoordinate(const sf::Vector2i& coordinate) const;
 };
 
 }  // namespace SB

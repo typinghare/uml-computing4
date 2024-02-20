@@ -26,7 +26,7 @@ class InvalidCoordinateException final : public std::exception {
 
  private:
     /**
-     * @brief The exception message.
+     * @brief The exception message to display.
      */
     std::string message;
 };

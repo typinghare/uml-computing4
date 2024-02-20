@@ -16,17 +16,14 @@
 
 namespace SB {
 
+/**
+ * @brief This class is responsible for the gameplay.
+ */
 class Sokoban final : public SokobanTileGrid,
                       public SokobanPlayer,
                       public SokobanElapsedTime,
                       public SokobanScore {
  public:
-    /**
-     * @brief Returns the players' current position; (0, 0) represents the upper-left cell in the
-     * upper-left corner.
-     */
-    [[nodiscard]] sf::Vector2i playerLoc() const;
-
     /**
      * @brief Changes the player's location for one tile with the given direction.
      * @param direction The direction for the player to move.
@@ -62,23 +59,12 @@ class Sokoban final : public SokobanTileGrid,
 
  private:
     /**
-     * @brief Converts a character into the corresponding sprite.
-     */
-    [[nodiscard]] std::shared_ptr<sf::Sprite> tileCharToTile(const TileChar& tileChar) const;
-
-    /**
      * @brief Returns the next location based on the current location and the orientation.
      * @param currentLoc The current location.
      * @param orientation The orientation.
      */
     [[nodiscard]] static sf::Vector2i
     getNextLoc(const sf::Vector2i& currentLoc, const Direction& orientation);
-
-    /**
-     * @brief Returns the tile texture at the block of specified coordiante.
-     * @param coordinate The coordinate of the block.
-     */
-    [[nodiscard]] const sf::Texture* getBlockTexture(const sf::Vector2i& coordinate) const;
 
     /**
      * @brief Moves a box towards a specified direction. Note that the block at the from coordinate

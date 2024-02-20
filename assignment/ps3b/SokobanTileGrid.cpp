@@ -7,30 +7,29 @@
 namespace SB {
 
 SokobanTileGrid::SokobanTileGrid() {
-    const auto boxStorageTexture{ std::make_shared<sf::Texture>() };
     const auto groundTexture{ std::make_shared<sf::Texture>() };
     const auto groundStorageTexture{ std::make_shared<sf::Texture>() };
-    const auto crateTexture{ std::make_shared<sf::Texture>() };
+    const auto boxTexture{ std::make_shared<sf::Texture>() };
     const auto wallTexture{ std::make_shared<sf::Texture>() };
-    boxStorageTexture->loadFromFile(TILE_ENVIRONMENT_03_FILENAME);
     groundTexture->loadFromFile(TILE_GROUND_01_FILENAME);
     groundStorageTexture->loadFromFile(TILE_GROUND_04_FILENAME);
-    crateTexture->loadFromFile(TILE_CRATE_03_FILENAME);
+    boxTexture->loadFromFile(TILE_CRATE_03_FILENAME);
     wallTexture->loadFromFile(TILE_BLOCK_06_FILENAME);
 
     m_tileTextureMap[TileChar::Player] = { groundTexture };
     m_tileTextureMap[TileChar::Empty] = { groundTexture };
     m_tileTextureMap[TileChar::Wall] = { wallTexture };
-    m_tileTextureMap[TileChar::Box] = { crateTexture };
+    m_tileTextureMap[TileChar::Box] = { boxTexture };
     m_tileTextureMap[TileChar::Storage] = { groundStorageTexture };
-    m_tileTextureMap[TileChar::BoxStorage] = { boxStorageTexture };
+    m_tileTextureMap[TileChar::BoxStorage] = { boxTexture };
 }
 
 void SokobanTileGrid::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    traverseTileGrid([&](auto coordinate, auto tile) {
-        const sf::Vector2i position = { coordinate.x * TILE_WIDTH, coordinate.y * TILE_HEIGHT };
-        const sf::Vector2f positionFloat(position);
-        tile->setPosition(positionFloat);
+    traverseTileGrid([&](auto coordinate, auto tileChar) {
+        const auto tile = getTile(tileChar);
+        const sf::Vector2f position({ static_cast<float>(coordinate.x * TILE_WIDTH),
+                                      static_cast<float>(coordinate.y * TILE_HEIGHT) });
+        tile->setPosition(position);
         target.draw(*tile);
 
         return false;
@@ -41,36 +40,51 @@ int SokobanTileGrid::height() const { return m_height; }
 
 int SokobanTileGrid::width() const { return m_width; }
 
-std::shared_ptr<sf::Sprite> SokobanTileGrid::getTile(const sf::Vector2i& coordinate) const {
-    const int index = coordinate.x + coordinate.y * m_width;
-    if (index < 0 || index >= m_tileGrid.size()) {
-        throw InvalidCoordinateException(coordinate);
-    }
-
-    return m_tileGrid.at(index);
+TileChar SokobanTileGrid::getTileChar(const sf::Vector2i& coordinate) const {
+    return m_tileCharGrid.at(checkCoordinate(coordinate));
 }
 
-void SokobanTileGrid::setTile(
-    const sf::Vector2i& coordinate, const std::shared_ptr<sf::Sprite>& tile) {
-    const int index = coordinate.x + coordinate.y * m_width;
-    if (index < 0 || index >= m_tileGrid.size()) {
-        throw InvalidCoordinateException(coordinate);
-    }
+void SokobanTileGrid::setTileChar(const sf::Vector2i& coordinate, const TileChar tileChar) {
+    const auto index = checkCoordinate(coordinate);
+    const auto originalTileChar = m_tileCharGrid[index];
 
-    m_tileGrid[index] = nullptr;
-    m_tileGrid[index] = tile;
+    if (originalTileChar != tileChar) {
+        m_tileCharGrid[index] = tileChar;
+        const auto newTile{ std::make_shared<sf::Sprite>() };
+        newTile->setTexture(*m_tileTextureMap.at(tileChar));
+    }
 }
 
 void SokobanTileGrid::traverseTileGrid(
-    const std::function<bool(sf::Vector2i, std::shared_ptr<sf::Sprite>)>& callback) const {
+    const std::function<bool(sf::Vector2i, TileChar)>& callback) const {
     auto stopIteration = false;
     for (int row = 0; !stopIteration && row < m_height; ++row) {
         for (int col = 0; !stopIteration && col < m_width; ++col) {
-            if (const auto tile = getTile({ col, row })) {
-                stopIteration = callback({ col, row }, tile);
-            }
+            const auto tileChar = getTileChar({ col, row });
+            stopIteration = callback({ col, row }, tileChar);
         }
     }
+}
+
+std::shared_ptr<sf::Sprite> SokobanTileGrid::getTile(const TileChar& tileChar) const {
+    const auto it = m_tileTextureMap.find(tileChar);
+    if (it == m_tileTextureMap.end()) {
+        return nullptr;
+    }
+
+    const auto sprite{ std::make_shared<sf::Sprite>() };
+    sprite->setTexture(*it->second);
+
+    return sprite;
+}
+
+int SokobanTileGrid::checkCoordinate(const sf::Vector2i& coordinate) const {
+    const int index = coordinate.x + coordinate.y * m_width;
+    if (index < 0 || index >= m_initialTileCharGrid.size()) {
+        throw InvalidCoordinateException(coordinate);
+    }
+
+    return index;
 }
 
 }  // namespace SB

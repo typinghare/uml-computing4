@@ -45,6 +45,12 @@ class SokobanPlayer : public virtual sf::Drawable {
      * @brief Draws the player onto the target.
      */
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+    /**
+     * @brief Returns the players' current position; (0, 0) represents the upper-left cell in the
+     * upper-left corner.
+     */
+    [[nodiscard]] sf::Vector2i playerLoc() const;
 };
 
 }  // namespace SB
