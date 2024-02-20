@@ -3,6 +3,8 @@
 #ifndef SOKOBANPLAYER_HPP
 #define SOKOBANPLAYER_HPP
 
+#include <memory>
+#include <unordered_map>
 #include <SFML/Graphics.hpp>
 #include "SokobanConstants.hpp"
 
@@ -12,8 +14,12 @@ namespace SB {
  * @brief This class manages the player system in Sokoban.
  */
 class SokobanPlayer : public virtual sf::Drawable {
-
  protected:
+    /**
+     * @brief The player's default orientation.
+     */
+    inline static Direction DEFAULT_ORIENTATION = Direction::Down;
+
     /**
      * @brief Player location. Note the unit of this coordinate is tile instead of pixel.
      */
@@ -33,7 +39,7 @@ class SokobanPlayer : public virtual sf::Drawable {
     /**
      * @brief Player's current orientation. The default orientation is down.
      */
-    Direction m_playerOrientation = Direction::Down;
+    Direction m_playerOrientation = DEFAULT_ORIENTATION;
 
     /**
      * @brief Creates a SokobanPlayer instance; initalizes the player texture map and the player

@@ -1,6 +1,7 @@
 // Copyright 2024 James Chen
 
 #include "Sokoban.hpp"
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <limits>
@@ -10,7 +11,12 @@
 
 namespace SB {
 
-void Sokoban::movePlayer(const Direction direction) {
+void Sokoban::movePlayer(const Direction& direction) {
+    // If the player already won the player, it can't move any more
+    if (isWon()) {
+        return;
+    }
+
     // Change the player's orientation
     m_playerOrientation = direction;
 
@@ -61,11 +67,18 @@ void Sokoban::reset() {
             ++boxStorageCount;
         }
 
-        m_score = boxStorageCount;
-        m_maxScore = std::min(storageCount, boxCount) + boxStorageCount;
-
         return false;
     });
+
+    // Set the score and max score
+    m_score = boxStorageCount;
+    m_maxScore = std::min(storageCount, boxCount) + boxStorageCount;
+
+    // Reset the player's orientation
+    m_playerOrientation = DEFAULT_ORIENTATION;
+
+    // Reset the time
+    m_elapsedTimeInMicroseconds = 0;
 }
 
 void Sokoban::update(const int64_t& dt) {

@@ -29,7 +29,6 @@ class SokobanElapsedTime : virtual public sf::Drawable {
      */
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
- private:
     /**
      * @brief The elasped time in microseconds.
      */

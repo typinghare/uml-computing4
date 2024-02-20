@@ -3,7 +3,9 @@
 #ifndef SOKOBANTILEGRID_HPP
 #define SOKOBANTILEGRID_HPP
 
+#include <memory>
 #include <unordered_map>
+#include <vector>
 #include <SFML/Graphics.hpp>
 #include "SokobanConstants.hpp"
 

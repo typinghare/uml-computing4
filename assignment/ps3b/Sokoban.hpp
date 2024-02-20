@@ -28,7 +28,7 @@ class Sokoban final : public SokobanTileGrid,
      * @brief Changes the player's location for one tile with the given direction.
      * @param direction The direction for the player to move.
      */
-    void movePlayer(Direction direction);
+    void movePlayer(const Direction& direction);
 
     /**
      * @brief Resets the game. The game will return back to the initial form.

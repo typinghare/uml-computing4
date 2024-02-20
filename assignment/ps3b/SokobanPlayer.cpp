@@ -1,6 +1,7 @@
 // Copyright 2024 James Chen
 
 #include "SokobanPlayer.hpp"
+#include <memory>
 
 namespace SB {
 

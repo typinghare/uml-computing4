@@ -1,6 +1,7 @@
 // Copyright 2024 James Chen
 
 #include "SokobanTileGrid.hpp"
+#include <memory>
 #include <SFML/Graphics.hpp>
 #include "InvalidCoordinateException.hpp"
 
@@ -26,9 +27,9 @@ SokobanTileGrid::SokobanTileGrid() {
 
 void SokobanTileGrid::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     traverseTileGrid([&](auto coordinate, auto tileChar) {
-        const auto tile = getTile(tileChar);
         const sf::Vector2f position({ static_cast<float>(coordinate.x * TILE_WIDTH),
                                       static_cast<float>(coordinate.y * TILE_HEIGHT) });
+        const auto tile = getTile(tileChar);
         tile->setPosition(position);
         target.draw(*tile);
 
