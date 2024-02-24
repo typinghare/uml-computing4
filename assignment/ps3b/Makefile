@@ -5,7 +5,7 @@ COMPILER = g++
 CFLAGS = --std=c++20 -Wall -Werror -pedantic -g
 
 # Libraries
-LIB = -lsfml-graphics -lsfml-window -lsfml-system -lboost_unit_test_framework
+LIB = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lboost_unit_test_framework
 
 # Code source directory
 SRC = ./

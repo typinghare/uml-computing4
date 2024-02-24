@@ -67,10 +67,10 @@ add_executable(ps3b
     assignment/ps3b/SokobanPlayer.hpp
     assignment/ps3b/SokobanPlayer.cpp
 )
-target_link_libraries(ps3b sfml-graphics)
+target_link_libraries(ps3b -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lboost_unit_test_framework)
 
 # playground
-add_executable(playground-2d-array-pointer playground/size.cpp)
+add_executable(playground-any playground/any.cpp)
 add_executable(playground-size playground/size.cpp)
 add_executable(bitwise-test playground/bitwise-test.cpp)
 add_executable(rand-between playground/rand-between.cpp)

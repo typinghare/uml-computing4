@@ -51,7 +51,10 @@ inline const std::string LEVEL_DIR = ASSETS_DIR + "level/";
 // Font directory
 inline const std::string FONT_DIR = ASSETS_DIR + "font/";
 
-// Tiles filename
+// Sound directory
+inline const std::string SOUND_DIR = ASSETS_DIR + "sound/";
+
+// Tiles filenames
 inline const std::string TILE_ENVIRONMENT_03_FILENAME = TILESET_DIR + "environment_03.png";
 inline const std::string TILE_BLOCK_06_FILENAME = TILESET_DIR + "block_06.png";
 inline const std::string TILE_CRATE_03_FILENAME = TILESET_DIR + "crate_03.png";
@@ -62,8 +65,12 @@ inline const std::string TILE_PLAYER_08_FILENAME = TILESET_DIR + "player_08.png"
 inline const std::string TILE_PLAYER_17_FILENAME = TILESET_DIR + "player_17.png";
 inline const std::string TILE_PLAYER_20_FILENAME = TILESET_DIR + "player_20.png";
 
-// Fonts filename
+// Fonts filenames
 inline const std::string FONT_DIGITAL7_FILENAME = FONT_DIR + "digital-7.mono.ttf";
+
+// Sound filenames
+inline const std::string SOUND_BACKGROUND = SOUND_DIR + "background.wav";
+inline const std::string SOUND_WIN = SOUND_DIR + "win.wav";
 
 /**
  * @brief Enumerates four cardinal directions: Up, Down, Left, and Right. This enumeration follows

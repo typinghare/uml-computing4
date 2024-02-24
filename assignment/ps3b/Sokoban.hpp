@@ -5,8 +5,11 @@
 
 #include <functional>
 #include <memory>
+#include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
+#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include "SokobanConstants.hpp"
 #include "SokobanElapsedTime.hpp"
@@ -17,13 +20,18 @@
 namespace SB {
 
 /**
- * @brief This class is responsible for the gameplay.
+ * @brief This class implements all gameplay.
  */
 class Sokoban final : public SokobanTileGrid,
                       public SokobanPlayer,
                       public SokobanElapsedTime,
                       public SokobanScore {
  public:
+    /**
+     * @brief Creates a Sokoban instance; initializes sound.
+     */
+    Sokoban();
+
     /**
      * @brief Changes the player's location for one tile with the given direction.
      * @param direction The direction for the player to move.
@@ -59,6 +67,25 @@ class Sokoban final : public SokobanTileGrid,
 
  private:
     /**
+     * @brief If the player has won the game.
+     */
+    bool m_hasWon = false;
+
+    /**
+     * @brief The number of moves. Moves only count if the player changes its position.
+     */
+    unsigned m_numMove = 0;
+
+    /**
+     * @brief The game sound effects, including background music. The keys of this map are sound
+     * filenames.
+     */
+    std::unordered_map<
+        std::string,
+        std::pair<std::shared_ptr<sf::Sound>, std::shared_ptr<sf::SoundBuffer>>>
+        m_soundMap;
+
+    /**
      * @brief Returns the next location based on the current location and the orientation.
      * @param currentLoc The current location.
      * @param orientation The orientation.
@@ -74,6 +101,17 @@ class Sokoban final : public SokobanTileGrid,
      * @return true if the box can be moved; false otherwise.
      */
     bool moveBox(const sf::Vector2i& fromCoordinate, const Direction& direction);
+
+    /**
+     * @brief Loads a sound file.
+     * @param soundFilename The name of the sound file.
+     */
+    void loadSound(const std::string& soundFilename);
+
+    /**
+     * @brief Draws the victory notice onto the target.
+     */
+    void drawVictoryNotice(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
 }  // namespace SB

@@ -24,7 +24,7 @@ class FibLFSR {
      * will be used to perform XOR operations with the leftmost bit. In this
      * homework, tap indexes are 10, 12, and 13.
      */
-    static std::array<int, 3> tabIndexes;
+    constexpr static std::array<int, 3> tabIndexes = { 10, 12, 13 };
 
     /**
      * @brief Creates an instance with the given seed.

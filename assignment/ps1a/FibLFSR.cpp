@@ -5,7 +5,6 @@
 #include <string>
 
 namespace PhotoMagic {
-std::array<int, 3> FibLFSR::tabIndexes = { 10, 12, 13 };
 
 FibLFSR::FibLFSR(const std::string& seed) {
     // Check if the seed is legal

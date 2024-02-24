@@ -3,9 +3,9 @@
 #define FIBLFSR_HPP_
 
 #include <array>
+#include <bitset>
 #include <iostream>
 #include <string>
-#include <bitset>
 
 namespace PhotoMagic {
 /**
@@ -23,7 +23,7 @@ class FibLFSR {
      * will be used to perform XOR operations with the leftmost bit. In this
      * homework, tap indexes are 10, 12, and 13.
      */
-    static std::array<int, 3> tabIndexes;
+    constexpr static std::array<int, 3> tabIndexes = { 10, 12, 13 };
 
  public:
     /**
