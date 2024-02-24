@@ -20,12 +20,21 @@ Upon startup, the program reads a designated level file (`.lvl`) to initialize t
 
 ### Features
 
+1. Classic Sokoban Gameplay: 
+
+### Memory Management
+
+### Lambda Expressions
+
 ### Algorithms
+
+### Extra Credit
 
 ## Acknowledgements
 
 * Kenney Sokoban Pack (CC0): https://kenney.nl/assets/sokoban
 * Digital 7 Font: https://www.dafont.com/digital-7.font
+* Font: https://fonts.google.com/specimen/Roboto
 * Pixel Perfect (background music): https://elements.envato.com/pixel-perfect-LMWJFGY
 * Win Game Sound (game-winning sound effect): https://elements.envato.com/win-game-sound-WASB34G
 

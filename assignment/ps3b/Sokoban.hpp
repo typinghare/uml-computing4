@@ -5,6 +5,7 @@
 
 #include <functional>
 #include <memory>
+#include <stack>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -18,6 +19,16 @@
 #include "SokobanTileGrid.hpp"
 
 namespace SB {
+
+/**
+ * @brief Game state.
+ */
+struct State {
+    Direction playerOrientation;
+    sf::Vector2i playerLoc;
+    std::vector<TileChar> tileCharGrid;
+    int score;
+};
 
 /**
  * @brief This class implements all gameplay.
@@ -44,6 +55,11 @@ class Sokoban final : public SokobanTileGrid,
     void reset();
 
     /**
+     * @brief Undoes one move. If no moves are available to undo, do nothing.
+     */
+    void undo();
+
+    /**
      * @brief Updates the game in a game frame.
      * @param dt The delta time in microseconds between this frame and the previous frame.
      */
@@ -66,25 +82,6 @@ class Sokoban final : public SokobanTileGrid,
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
  private:
-    /**
-     * @brief If the player has won the game.
-     */
-    bool m_hasWon = false;
-
-    /**
-     * @brief The number of moves. Moves only count if the player changes its position.
-     */
-    unsigned m_numMove = 0;
-
-    /**
-     * @brief The game sound effects, including background music. The keys of this map are sound
-     * filenames.
-     */
-    std::unordered_map<
-        std::string,
-        std::pair<std::shared_ptr<sf::Sound>, std::shared_ptr<sf::SoundBuffer>>>
-        m_soundMap;
-
     /**
      * @brief Returns the next location based on the current location and the orientation.
      * @param currentLoc The current location.
@@ -112,6 +109,30 @@ class Sokoban final : public SokobanTileGrid,
      * @brief Draws the victory notice onto the target.
      */
     void drawVictoryNotice(sf::RenderTarget& target, sf::RenderStates states) const;
+
+    /**
+     * @brief If the player has won the game.
+     */
+    bool m_hasWon = false;
+
+    /**
+     * @brief The game sound effects, including background music. The keys of this map are sound
+     * filenames.
+     */
+    std::unordered_map<
+        std::string,
+        std::pair<std::shared_ptr<sf::Sound>, std::shared_ptr<sf::SoundBuffer>>>
+        m_soundMap;
+
+    /**
+     * @brief The font for the triumph message.
+     */
+    sf::Font m_font;
+
+    /**
+     * @brief State stack.
+     */
+    std::stack<State> m_stateStack;
 };
 
 }  // namespace SB

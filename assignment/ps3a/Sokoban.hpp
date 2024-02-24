@@ -97,7 +97,7 @@ class Sokoban final : public sf::Drawable {
     friend std::ifstream& operator>>(std::ifstream& ifstream, Sokoban& sokoban);
 
     /**
-     * @brief Outputs a sokoban game to a level file (.lvl).
+     * @brief Outputs (or saves) a sokoban game to a level file (.lvl).
      */
     friend std::ofstream& operator<<(std::ofstream& ofstream, const Sokoban& sokoban);
 

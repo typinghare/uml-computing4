@@ -16,6 +16,23 @@ namespace SB {
 class SokobanPlayer : public virtual sf::Drawable {
  protected:
     /**
+     * @brief Creates a SokobanPlayer instance; initalizes the player texture map and the player
+     * sprite map.
+     */
+    SokobanPlayer();
+
+    /**
+     * @brief Draws the player onto the target.
+     */
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+    /**
+     * @brief Returns the players' current position; (0, 0) represents the upper-left cell in the
+     * upper-left corner.
+     */
+    [[nodiscard]] sf::Vector2i playerLoc() const;
+
+    /**
      * @brief The player's default orientation.
      */
     inline static Direction DEFAULT_ORIENTATION = Direction::Down;
@@ -40,23 +57,6 @@ class SokobanPlayer : public virtual sf::Drawable {
      * @brief Player's current orientation. The default orientation is down.
      */
     Direction m_playerOrientation = DEFAULT_ORIENTATION;
-
-    /**
-     * @brief Creates a SokobanPlayer instance; initalizes the player texture map and the player
-     * sprite map.
-     */
-    SokobanPlayer();
-
-    /**
-     * @brief Draws the player onto the target.
-     */
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-
-    /**
-     * @brief Returns the players' current position; (0, 0) represents the upper-left cell in the
-     * upper-left corner.
-     */
-    [[nodiscard]] sf::Vector2i playerLoc() const;
 };
 
 }  // namespace SB

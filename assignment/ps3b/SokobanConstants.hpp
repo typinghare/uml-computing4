@@ -67,6 +67,7 @@ inline const std::string TILE_PLAYER_20_FILENAME = TILESET_DIR + "player_20.png"
 
 // Fonts filenames
 inline const std::string FONT_DIGITAL7_FILENAME = FONT_DIR + "digital-7.mono.ttf";
+inline const std::string FONT_ROBOTO_FILENAME = FONT_DIR + "roboto-regular.ttf";
 
 // Sound filenames
 inline const std::string SOUND_BACKGROUND = SOUND_DIR + "background.wav";

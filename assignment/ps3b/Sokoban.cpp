@@ -15,6 +15,8 @@ namespace SB {
 Sokoban::Sokoban() {
     loadSound(SOUND_BACKGROUND);
     loadSound(SOUND_WIN);
+
+    m_font.loadFromFile(FONT_ROBOTO_FILENAME);
 }
 
 void Sokoban::movePlayer(const Direction& direction) {
@@ -22,6 +24,8 @@ void Sokoban::movePlayer(const Direction& direction) {
     if (isWon()) {
         return;
     }
+
+    const State state = { m_playerOrientation, m_playerLoc, m_tileCharGrid, m_score };
 
     // Change the player's orientation
     m_playerOrientation = direction;
@@ -50,17 +54,19 @@ void Sokoban::movePlayer(const Direction& direction) {
         }
     }
 
+    // Save the current move
+    m_stateStack.push(state);
+
     // Update player location
     m_playerLoc = nextLoc;
-
-    // Increment the number of moves
-    ++m_numMove;
 }
 
 void Sokoban::reset() {
-    // Reset m_hasWon and m_numMove
+    // Reset m_hasWon and m_stateStack
     m_hasWon = false;
-    m_numMove = 0;
+    while (!m_stateStack.empty()) {
+        m_stateStack.pop();
+    }
 
     // Perform a shallow copy for the tile char grid
     m_tileCharGrid = m_initialTileCharGrid;
@@ -97,6 +103,32 @@ void Sokoban::reset() {
 
     // Reset the background music
     m_soundMap.at(SOUND_BACKGROUND).first->play();
+}
+
+void Sokoban::undo() {
+    if (isWon() || m_stateStack.size() == 0) {
+        return;
+    }
+
+    const auto [playerOrientation, playerLoc, tileCharGrid, score] = m_stateStack.top();
+    m_stateStack.pop();
+
+    m_playerOrientation = playerOrientation;
+    m_playerLoc = playerLoc;
+    m_tileCharGrid = tileCharGrid;
+
+    m_tileGrid.clear();
+    traverseTileGrid([&](auto coordinate, auto tileChar) {
+        m_tileGrid.push_back(getTile(tileChar));
+        if (tileChar == TileChar::Player) {
+            m_playerLoc = coordinate;
+            setTileChar(coordinate, TileChar::Empty);
+        }
+
+        return false;
+    });
+
+    m_score = score;
 }
 
 void Sokoban::update(const int64_t& dt) {
@@ -141,7 +173,26 @@ std::ifstream& operator>>(std::ifstream& ifstream, Sokoban& sokoban) {
     return ifstream;
 }
 
-std::ofstream& operator<<(std::ofstream& ofstream, const Sokoban& sokoban) { return ofstream; }
+std::ofstream& operator<<(std::ofstream& ofstream, const Sokoban& sokoban) {
+    ofstream << sokoban.height() << sokoban.width();
+
+    const auto player_loc = sokoban.m_playerLoc;
+    sokoban.traverseTileGrid([&](auto coordinate, auto tileChar) {
+        if (coordinate.x == 0) {
+            ofstream << std::endl;
+        }
+
+        if (coordinate == player_loc) {
+            ofstream << static_cast<char>(TileChar::Player);
+        } else {
+            ofstream << static_cast<char>(tileChar);
+        }
+
+        return false;
+    });
+
+    return ofstream;
+}
 
 void Sokoban::draw(sf::RenderTarget& target, const sf::RenderStates states) const {
     SokobanTileGrid::draw(target, states);
@@ -217,21 +268,23 @@ void Sokoban::drawVictoryNotice(sf::RenderTarget& target, sf::RenderStates state
     // Draw "You win!" in the center of the screen
     sf::Text winText;
     winText.setString("You win!");
-    winText.setFont(SokobanElapsedTime::m_font);
-    winText.setFillColor(sf::Color::Yellow);
+    winText.setFont(m_font);
+    winText.setFillColor(sf::Color(255, 140, 0));
     winText.setCharacterSize(15 * m_width);
-    winText.setOutlineColor(sf::Color(255, 195, 0));
+    winText.setOutlineColor(sf::Color::White);
+    winText.setOutlineThickness(2);
 
     // Compute the position of winText
     const auto winTextRect = winText.getLocalBounds();
+    const float targetWidth = static_cast<float>(target.getSize().x);
+    const float targetHeight = static_cast<float>(target.getSize().y);
     winText.setOrigin({ (static_cast<float>(winTextRect.width)) / 2.0f,
                         (static_cast<float>(winTextRect.height)) });
-    winText.setPosition({ static_cast<float>(target.getSize().x) / 2.0f,
-                          static_cast<float>(target.getSize().y) / 2.0f });
+    winText.setPosition({ targetWidth / 2.0f, targetHeight / 2.0f });
     target.draw(winText);
 
     // Final score
-    const auto moveScore = m_width * m_height - m_numMove;
+    const auto moveScore = m_width * m_height - m_stateStack.size();
     const auto timeInSeconds = static_cast<double>(m_elapsedTimeInMicroseconds) / 1000000.0;
     const auto timeScore = std::exp(-timeInSeconds / std::exp(2)) * 3;
     const auto finalScore = static_cast<int>(std::floor(moveScore * timeScore * m_score));
@@ -239,18 +292,17 @@ void Sokoban::drawVictoryNotice(sf::RenderTarget& target, sf::RenderStates state
     // Draw the score down below the "You win!"
     sf::Text scoreText;
     scoreText.setString("Score: " + std::to_string(finalScore));
-    scoreText.setFont(SokobanElapsedTime::m_font);
+    scoreText.setFont(m_font);
     scoreText.setFillColor(sf::Color::Black);
-    scoreText.setCharacterSize(5 * m_width);
+    scoreText.setCharacterSize(3 * m_width);
     scoreText.setOutlineColor(sf::Color::White);
+    winText.setOutlineThickness(2);
 
     // Compute the position of scoreText
     const auto scoreTextRect = scoreText.getLocalBounds();
-    scoreText.setOrigin(
-        { static_cast<float>(scoreTextRect.width) / 2.0f,
-          (scoreTextRect.height - static_cast<float>(winTextRect.height) * 1.5f) / 2.0f });
-    scoreText.setPosition({ static_cast<float>(target.getSize().x) / 2.0f,
-                            static_cast<float>(target.getSize().y) / 2.0f });
+    scoreText.setOrigin({ static_cast<float>(scoreTextRect.width) / 2.0f,
+                          (scoreTextRect.height - static_cast<float>(winTextRect.height)) / 2.0f });
+    scoreText.setPosition({ targetWidth / 2.0f, targetHeight / 2.0f });
     target.draw(scoreText);
 }
 

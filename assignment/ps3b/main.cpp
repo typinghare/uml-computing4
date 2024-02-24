@@ -69,6 +69,11 @@ int main(const int size, const char* arguments[]) {
                 if (event.key.code == sf::Keyboard::R) {
                     sokoban.reset();
                 }
+
+                // Undo move
+                if (event.key.code == sf::Keyboard::U) {
+                    sokoban.undo();
+                }
             }
         }
 
