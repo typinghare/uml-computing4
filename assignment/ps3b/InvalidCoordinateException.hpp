@@ -22,7 +22,7 @@ class InvalidCoordinateException final : public std::exception {
     /**
      * @brief Gets the excception message.
      */
-    const char* what() const noexcept override;
+    [[nodiscard]] const char* what() const noexcept override;
 
  private:
     /**

@@ -26,7 +26,7 @@ SokobanTileGrid::SokobanTileGrid() {
 }
 
 void SokobanTileGrid::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    traverseTileGrid([&](auto coordinate, auto tileChar) {
+    traverseTileCharGrid([&](auto coordinate, auto tileChar) {
         const sf::Vector2f position({ static_cast<float>(coordinate.x * TILE_WIDTH),
                                       static_cast<float>(coordinate.y * TILE_HEIGHT) });
         const auto tile = getTile(tileChar);
@@ -35,6 +35,10 @@ void SokobanTileGrid::draw(sf::RenderTarget& target, sf::RenderStates states) co
 
         return false;
     });
+}
+
+int SokobanTileGrid::getIndex(const sf::Vector2i& coordinate) const {
+    return coordinate.x + coordinate.y * m_width;
 }
 
 int SokobanTileGrid::height() const { return m_height; }
@@ -56,7 +60,7 @@ void SokobanTileGrid::setTileChar(const sf::Vector2i& coordinate, const TileChar
     }
 }
 
-void SokobanTileGrid::traverseTileGrid(
+void SokobanTileGrid::traverseTileCharGrid(
     const std::function<bool(sf::Vector2i, TileChar)>& callback) const {
     auto stopIteration = false;
     for (int row = 0; !stopIteration && row < m_height; ++row) {
@@ -80,8 +84,9 @@ std::shared_ptr<sf::Sprite> SokobanTileGrid::getTile(const TileChar& tileChar) c
 }
 
 int SokobanTileGrid::checkCoordinate(const sf::Vector2i& coordinate) const {
-    const int index = coordinate.x + coordinate.y * m_width;
-    if (index < 0 || index >= m_initialTileCharGrid.size()) {
+    const auto index = getIndex(coordinate);
+    const auto gridSize = static_cast<int>(m_initialTileCharGrid.size());
+    if (index < 0 || index >= gridSize) {
         throw InvalidCoordinateException(coordinate);
     }
 

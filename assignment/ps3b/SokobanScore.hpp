@@ -31,7 +31,7 @@ class SokobanScore : public virtual sf::Drawable {
 
     /**
      * @brief The player's current score. Players get one score when they successfully put a box to
-     * a storage. In the word, the score is equals to the number of "StorageBox" block in the map.
+     * a storage. In a word, the score is equals to the number of "StorageBox" block in the map.
      */
     int m_score = 0;
 

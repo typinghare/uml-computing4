@@ -40,6 +40,12 @@ class SokobanTileGrid : public virtual sf::Drawable {
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     /**
+     * @brief Returns the corresponding index of a specified coordiante.
+     * @param coordinate Coordinate to analyze.
+     */
+    [[nodiscard]] int getIndex(const sf::Vector2i& coordinate) const;
+
+    /**
      * @brief Returns the tile character at a specified coordinate.
      * @param coordinate The coordinate of the tile character to get.
      */
@@ -54,12 +60,12 @@ class SokobanTileGrid : public virtual sf::Drawable {
     void setTileChar(const sf::Vector2i& coordinate, TileChar tileChar);
 
     /**
-     * @brief Iterates over each tile in the grid and invokes the specified callback function
-     * for each tile, providing the tile's coordinate and its associated sprite. The callback
-     * function should return true to continue the traversal or false to stop it.
-     * @param callback The callback function to be invoked for each tile.
+     * @brief Iterates over each tile character in the grid and invokes the specified callback
+     * function for each tile, providing the tile's coordinate and its associated tile character.
+     * The callback function should return true to continue the traversal or false to stop it.
+     * @param callback The callback function is to be invoked for each tile.
      */
-    void traverseTileGrid(const std::function<bool(sf::Vector2i, TileChar)>& callback) const;
+    void traverseTileCharGrid(const std::function<bool(sf::Vector2i, TileChar)>& callback) const;
 
     /**
      * @brief Converts a character into the corresponding tile sprite.
@@ -85,7 +91,7 @@ class SokobanTileGrid : public virtual sf::Drawable {
     std::unordered_map<TileChar, std::shared_ptr<sf::Texture>> m_tileTextureMap;
 
     /**
-     * @brief The initial tile char grid.
+     * @brief The initial tile char grid. It is unchanged until the level changes.
      */
     std::vector<TileChar> m_initialTileCharGrid;
 

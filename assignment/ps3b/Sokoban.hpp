@@ -106,9 +106,9 @@ class Sokoban final : public SokobanTileGrid,
     void loadSound(const std::string& soundFilename);
 
     /**
-     * @brief Draws the victory notice onto the target.
+     * @brief Draws the result screen: triump message and final score.
      */
-    void drawVictoryNotice(sf::RenderTarget& target, sf::RenderStates states) const;
+    void drawResultScreen(sf::RenderTarget& target, sf::RenderStates states) const;
 
     /**
      * @brief If the player has won the game.
@@ -130,7 +130,7 @@ class Sokoban final : public SokobanTileGrid,
     sf::Font m_font;
 
     /**
-     * @brief State stack.
+     * @brief The stack of states.
      */
     std::stack<State> m_stateStack;
 };

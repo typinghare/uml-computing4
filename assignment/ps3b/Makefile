@@ -42,7 +42,9 @@ TEST_OBJECTS = $(SRC)test.o
 # The test program
 TEST_PROGRAM = test
 
-.PHONY: all test clean lint run
+.PHONY: all clean lint
+
+all: $(TEST_PROGRAM) $(PROGRAM)
 
 $(SRC)%.o: $(SRC)%.cpp $(DEPS)
 	$(COMPILER) $(CFLAGS) -c $<
@@ -52,8 +54,6 @@ $(PROGRAM): $(OBJECTS) $(STATIC_LIB)
 
 $(STATIC_LIB): $(STATIC_LIB_OBJECTS)
 	ar rcs $@ $^
-
-all: $(PROGRAM)
 
 $(TEST_PROGRAM): $(TEST_OBJECTS) $(STATIC_LIB)
 	$(COMPILER) $(CFLAGS) -o $@ $^ $(LIB)

@@ -14,6 +14,13 @@ namespace SB {
  * @brief This class manages the player system in Sokoban.
  */
 class SokobanPlayer : public virtual sf::Drawable {
+ public:
+    /**
+     * @brief Returns the players' current position; (0, 0) represents the upper-left cell in the
+     * upper-left corner.
+     */
+    [[nodiscard]] sf::Vector2i playerLoc() const;
+
  protected:
     /**
      * @brief Creates a SokobanPlayer instance; initalizes the player texture map and the player
@@ -26,11 +33,6 @@ class SokobanPlayer : public virtual sf::Drawable {
      */
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-    /**
-     * @brief Returns the players' current position; (0, 0) represents the upper-left cell in the
-     * upper-left corner.
-     */
-    [[nodiscard]] sf::Vector2i playerLoc() const;
 
     /**
      * @brief The player's default orientation.
