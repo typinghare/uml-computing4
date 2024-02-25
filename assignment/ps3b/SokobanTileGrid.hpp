@@ -28,6 +28,12 @@ class SokobanTileGrid : public virtual sf::Drawable {
      */
     [[nodiscard]] int height() const;
 
+    /**
+     * @brief Returns the tile character at a specified coordinate.
+     * @param coordinate The coordinate of the tile character to get.
+     */
+    [[nodiscard]] TileChar getTileChar(const sf::Vector2i& coordinate) const;
+
  protected:
     /**
      * @brief Creates a SokobanTileGrid instance; initalizes the tile texture map.
@@ -44,12 +50,6 @@ class SokobanTileGrid : public virtual sf::Drawable {
      * @param coordinate Coordinate to analyze.
      */
     [[nodiscard]] int getIndex(const sf::Vector2i& coordinate) const;
-
-    /**
-     * @brief Returns the tile character at a specified coordinate.
-     * @param coordinate The coordinate of the tile character to get.
-     */
-    [[nodiscard]] TileChar getTileChar(const sf::Vector2i& coordinate) const;
 
     /**
      * @brief Sets the tile character for a specified coordiante. If the tile character changes, the

@@ -92,7 +92,8 @@ class Sokoban final : public SokobanTileGrid,
 
     /**
      * @brief Moves a box towards a specified direction. Note that the block at the from coordinate
-     * must be a box.
+     * must be a box. The box that has already been stowed properly can be moved, and when it is
+     * moved out from the storage, the score decrement.
      * @param fromCoordinate The initial coordinate.
      * @param direction The direction to move the box.
      * @return true if the box can be moved; false otherwise.

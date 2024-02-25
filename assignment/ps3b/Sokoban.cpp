@@ -45,12 +45,12 @@ void Sokoban::movePlayer(const Direction& direction) {
     const auto nextBlock = getTileChar(nextLoc);
 
     // If the coordinate corresponds to a wall block or a box storage, stay on the spot
-    if (nextBlock == TileChar::Wall || nextBlock == TileChar::BoxStorage) {
+    if (nextBlock == TileChar::Wall) {
         return;
     }
 
     // If the coordinate corresponds to an box block, try to push the box to the other side
-    if (nextBlock == TileChar::Box) {
+    if (nextBlock == TileChar::Box || nextBlock == TileChar::BoxStorage) {
         const auto canMoveBox = moveBox(nextLoc, direction);
         if (!canMoveBox) {
             return;
@@ -245,24 +245,31 @@ bool Sokoban::moveBox(const sf::Vector2i& fromCoordinate, const Direction& direc
         return false;
     }
 
+    const auto currentBlock{ getTileChar(fromCoordinate) };
     const auto nextBlock{ getTileChar(toCoordinate) };
+    const auto isCurrentBlockBoxStorage = currentBlock == TileChar::BoxStorage;
 
     if (nextBlock == TileChar::Empty) {
         // Swap the blocks at the initial coordiante and the destination coordinate
-        setTileChar(fromCoordinate, TileChar::Empty);
+        setTileChar(fromCoordinate, isCurrentBlockBoxStorage ? TileChar::Storage : TileChar::Empty);
         setTileChar(toCoordinate, TileChar::Box);
+
+        if (isCurrentBlockBoxStorage)
+            --m_score;
 
         return true;
     }
 
     if (nextBlock == TileChar::Storage) {
-        // The block at the initial coordiante should become an empty block; the block at the
-        // destination coordinate should become a box-storage block
-        setTileChar(fromCoordinate, TileChar::Empty);
+        // The block at the initial coordiante should become an empty block (or a storage block if
+        // the current block is a box-storage block); the block at the destination coordinate should
+        // become a box-storage block
+        setTileChar(fromCoordinate, isCurrentBlockBoxStorage ? TileChar::Storage : TileChar::Empty);
         setTileChar(toCoordinate, TileChar::BoxStorage);
 
         // Score increments by 1
-        ++m_score;
+        if (!isCurrentBlockBoxStorage)
+            ++m_score;
 
         return true;
     }

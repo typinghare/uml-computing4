@@ -60,10 +60,10 @@ $(TEST_PROGRAM): $(TEST_OBJECTS) $(STATIC_LIB)
 
 # Run unit test
 boost: $(TEST_PROGRAM)
-	./$< && make clean
+	./$<
 
 run: $(PROGRAM)
-	./$< assets/level/level2.lvl && make clean
+	./$< assets/level/level2.lvl
 
 clean:
 	rm -f $(SRC)*.o $(PROGRAM) $(STATIC_LIB) $(TEST_PROGRAM)

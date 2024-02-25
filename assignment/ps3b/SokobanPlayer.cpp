@@ -44,6 +44,8 @@ void SokobanPlayer::draw(sf::RenderTarget& target, sf::RenderStates states) cons
     target.draw(*player);
 }
 
-sf::Vector2i SokobanPlayer::playerLoc() const { return m_playerLoc; }
+sf::Vector2u SokobanPlayer::playerLoc() const {
+    return { static_cast<unsigned>(m_playerLoc.x), static_cast<unsigned>(m_playerLoc.y) };
+}
 
 }  // namespace SB

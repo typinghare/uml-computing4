@@ -50,7 +50,7 @@ add_executable(ps3a
 )
 target_link_libraries(ps3a sfml-graphics)
 
-# ps3
+# ps3b
 add_executable(ps3b
     assignment/ps3b/main.cpp
     assignment/ps3b/Sokoban.hpp
@@ -68,6 +68,25 @@ add_executable(ps3b
     assignment/ps3b/SokobanPlayer.cpp
 )
 target_link_libraries(ps3b -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lboost_unit_test_framework)
+
+# ps3b test
+add_executable(ps3b-test
+    assignment/ps3b/test.cpp
+    assignment/ps3b/Sokoban.hpp
+    assignment/ps3b/Sokoban.cpp
+    assignment/ps3b/SokobanConstants.hpp
+    assignment/ps3b/InvalidCoordinateException.hpp
+    assignment/ps3b/InvalidCoordinateException.cpp
+    assignment/ps3b/SokobanElapsedTime.hpp
+    assignment/ps3b/SokobanElapsedTime.cpp
+    assignment/ps3b/SokobanScore.hpp
+    assignment/ps3b/SokobanScore.cpp
+    assignment/ps3b/SokobanTileGrid.hpp
+    assignment/ps3b/SokobanTileGrid.cpp
+    assignment/ps3b/SokobanPlayer.hpp
+    assignment/ps3b/SokobanPlayer.cpp
+)
+target_link_libraries(ps3b-test -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lboost_unit_test_framework)
 
 # playground
 add_executable(playground-any playground/any.cpp)

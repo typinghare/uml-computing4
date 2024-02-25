@@ -19,7 +19,7 @@ class SokobanPlayer : public virtual sf::Drawable {
      * @brief Returns the players' current position; (0, 0) represents the upper-left cell in the
      * upper-left corner.
      */
-    [[nodiscard]] sf::Vector2i playerLoc() const;
+    [[nodiscard]] sf::Vector2u playerLoc() const;
 
  protected:
     /**
