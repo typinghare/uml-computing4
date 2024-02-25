@@ -20,8 +20,17 @@ Sokoban::Sokoban() {
     m_font.loadFromFile(FONT_ROBOTO_FILENAME);
 }
 
+Sokoban::Sokoban(const std::string& filename) : Sokoban() {
+    std::ifstream ifstream{ filename };
+    if (!ifstream.is_open()) {
+        throw std::invalid_argument("File not found: " + filename);
+    }
+
+    ifstream >> *this;
+}
+
 void Sokoban::movePlayer(const Direction& direction) {
-    // If the player has won the game, it can't move any more
+    // If the player has won the game, it can't move anymore
     if (isWon()) {
         return;
     }
@@ -280,6 +289,11 @@ bool Sokoban::moveBox(const sf::Vector2i& fromCoordinate, const Direction& direc
 void Sokoban::loadSound(const std::string& soundFilename) {
     const auto soundBuffer{ std::make_shared<sf::SoundBuffer>() };
     const auto sound{ std::make_shared<sf::Sound>() };
+    // if (soundBuffer->loadFromFile(soundFilename)) {
+    //     sound->setBuffer(*soundBuffer);
+    //     m_soundMap[soundFilename] = std::make_pair(sound, soundBuffer);
+    // }
+
     if (soundBuffer->loadFromFile(soundFilename)) {
         sound->setBuffer(*soundBuffer);
         m_soundMap[soundFilename] = std::make_pair(sound, soundBuffer);

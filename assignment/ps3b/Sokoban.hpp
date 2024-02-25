@@ -44,6 +44,12 @@ class Sokoban final : public SokobanTileGrid,
     Sokoban();
 
     /**
+     * @brief A convenient constructor that initializes with a specified filename of a a level file.
+     * @param filename The filename of a level file.
+     */
+    explicit Sokoban(const std::string& filename);
+
+    /**
      * @brief Changes the player's location for one tile with the given direction.
      * @param direction The direction for the player to move.
      */

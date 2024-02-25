@@ -11,48 +11,174 @@
 #include <boost/test/unit_test.hpp>
 #include "Sokoban.hpp"
 
+/**
+ * @brief Checks if two coordinates are the same.
+ * @param first The first coordinate.
+ * @param second The second coordiante.
+ * @return True if the two components of the two coordinates are equal respectively; false
+ * otherwise.
+ */
+bool isCoordinateEqual(const sf::Vector2u& first, const sf::Vector2u& second) noexcept {
+    return first.x == second.x && first.y == second.y;
+}
+
+// Tests if `height()` and `width()` returns the height and width of a map correctly.
 BOOST_AUTO_TEST_CASE(testHeightWidth) {
-    SB::Sokoban sokoban;
-    std::ifstream ifstream{ "assets/level/level2.lvl" };
-    ifstream >> sokoban;
+    const SB::Sokoban sokoban{ "assets/level/level2.lvl" };
 
     BOOST_REQUIRE_EQUAL(sokoban.height(), 10);
     BOOST_REQUIRE_EQUAL(sokoban.width(), 12);
 }
 
-BOOST_AUTO_TEST_CASE(testPlayerPosition1) {
-    SB::Sokoban sokoban;
-    std::ifstream ifstream{ "assets/level/level2.lvl" };
-    ifstream >> sokoban;
+// Tests if `playLoc()` returns the correct player location in the beginning of the game.
+BOOST_AUTO_TEST_CASE(testPlayerPosition) {
+    const SB::Sokoban sokoban{ "assets/level/level2.lvl" };
 
-    const auto playerLoc = sokoban.playerLoc();
-    BOOST_REQUIRE_EQUAL(playerLoc.x, 8);
-    BOOST_REQUIRE_EQUAL(playerLoc.y, 5);
+    BOOST_REQUIRE(isCoordinateEqual(sokoban.playerLoc(), { 8, 5 }));
 }
 
-BOOST_AUTO_TEST_CASE(testPlayerPosition2) {
-    SB::Sokoban sokoban;
-    std::ifstream ifstream{ "assets/level/level2.lvl" };
-    ifstream >> sokoban;
+// Tests if `movePlayer(SB::Direction)` works correctly: a player should be able to push a box if
+// the box is not blocked by a wall or another box.
+BOOST_AUTO_TEST_CASE(testMovePayer) {
+    SB::Sokoban sokoban{ "assets/level/level2.lvl" };
+    sokoban.movePlayer(SB::Direction::Right);
 
-    // Move upward, since there are two boxes, the player should not move
+    BOOST_REQUIRE(isCoordinateEqual(sokoban.playerLoc(), { 9, 5 }));
+}
+
+// Tests if `movePlayer(SB::Direction)` works correctly: a player should not push a box that is
+// blocked by another box.
+BOOST_AUTO_TEST_CASE(testMovePayerBlockedByBox) {
+    SB::Sokoban sokoban{ "assets/level/level2.lvl" };
+
+    // Since there are two boxes in a row in the up direction, the player is not able to move no
+    // matter how many times they try to move upwards.
     sokoban.movePlayer(SB::Direction::Up);
-    const auto playerLoc = sokoban.playerLoc();
-    BOOST_REQUIRE_EQUAL(playerLoc.x, 8);
-    BOOST_REQUIRE_EQUAL(playerLoc.y, 5);
+    sokoban.movePlayer(SB::Direction::Up);
+
+    BOOST_REQUIRE(isCoordinateEqual(sokoban.playerLoc(), { 8, 5 }));
 }
 
-BOOST_AUTO_TEST_CASE(testPlayerPosition3) {
-    SB::Sokoban sokoban;
-    std::ifstream ifstream{ "assets/level/level2.lvl" };
-    ifstream >> sokoban;
+// Tests if `movePlayer(SB::Direction)` works correctly: a player should not push a box that is
+// blocked by a wall block.
+BOOST_AUTO_TEST_CASE(testMovePayerBlockedByWall) {
+    SB::Sokoban sokoban{ "assets/level/level2.lvl" };
 
     // Move rightward twice. For the first move, the player pushes the box rightawrds;
     // For the second move, the player saty on the pot, as the box cannot be pushed
     sokoban.movePlayer(SB::Direction::Right);
     sokoban.movePlayer(SB::Direction::Right);
-    BOOST_REQUIRE_EQUAL(sokoban.playerLoc().x, 9);
-    BOOST_REQUIRE_EQUAL(sokoban.playerLoc().y, 5);
-    // const char tileChar = static_cast<char>(sokoban.getTileChar({ 10, 5 }));
-    // BOOST_REQUIRE_EQUAL(tileChar, 'A');
+
+    BOOST_REQUIRE(isCoordinateEqual(sokoban.playerLoc(), { 9, 5 }));
+}
+
+// Tests if `movePlayer(SB::Direction)` works correctly: a player should not move out of the map
+// from the upper border.
+BOOST_AUTO_TEST_CASE(testMovePayerUpBorder) {
+    SB::Sokoban sokoban{ "assets/level/swapoff.lvl" };
+    sokoban.movePlayer(SB::Direction::Left);
+    sokoban.movePlayer(SB::Direction::Up);
+    sokoban.movePlayer(SB::Direction::Up);
+    sokoban.movePlayer(SB::Direction::Up);
+
+    BOOST_REQUIRE(isCoordinateEqual(sokoban.playerLoc(), { 1, 0 }));
+}
+
+// Tests if `movePlayer(SB::Direction)` works correctly: a player should not move out of the map
+// from the right border.
+BOOST_AUTO_TEST_CASE(testMovePayerRightBorder) {
+    SB::Sokoban sokoban{ "assets/level/swapoff.lvl" };
+    sokoban.movePlayer(SB::Direction::Right);
+    sokoban.movePlayer(SB::Direction::Right);
+    sokoban.movePlayer(SB::Direction::Right);
+
+    BOOST_REQUIRE(isCoordinateEqual(sokoban.playerLoc(), { 4, 2 }));
+}
+
+// Tests if `movePlayer(SB::Direction)` works correctly: a player should not move out of the map
+// from the down border.
+BOOST_AUTO_TEST_CASE(testMovePayerDownBorder) {
+    SB::Sokoban sokoban{ "assets/level/swapoff.lvl" };
+    sokoban.movePlayer(SB::Direction::Down);
+    sokoban.movePlayer(SB::Direction::Down);
+    sokoban.movePlayer(SB::Direction::Down);
+
+    BOOST_REQUIRE(isCoordinateEqual(sokoban.playerLoc(), { 2, 4 }));
+}
+
+// Tests if `movePlayer(SB::Direction)` works correctly: a player should not move out of the map
+// from the left border.
+BOOST_AUTO_TEST_CASE(testMovePayerLeftBorder) {
+    SB::Sokoban sokoban{ "assets/level/swapoff.lvl" };
+    sokoban.movePlayer(SB::Direction::Left);
+    sokoban.movePlayer(SB::Direction::Left);
+    sokoban.movePlayer(SB::Direction::Left);
+
+    BOOST_REQUIRE(isCoordinateEqual(sokoban.playerLoc(), { 0, 2 }));
+}
+
+// Tests if `movePlayer(SB::Direction)` works correctly: a player should not push a box out of the
+// map.
+BOOST_AUTO_TEST_CASE(testMovePayerPushBoxOffScreen) {
+    SB::Sokoban sokoban{ "assets/level/swapoff.lvl" };
+
+    // Try to push a box out of the map, the player should stay on the spot in the second move
+    sokoban.movePlayer(SB::Direction::Up);
+    sokoban.movePlayer(SB::Direction::Up);
+
+    BOOST_REQUIRE(isCoordinateEqual(sokoban.playerLoc(), { 2, 1 }));
+}
+
+// Tests if `isWon()` works correctly: If all boxes are already in the storages, it should return
+// true.
+BOOST_AUTO_TEST_CASE(testIsWon) {
+    const SB::Sokoban sokoban{ "assets/level/autowin2.lvl" };
+
+    BOOST_REQUIRE(sokoban.isWon());
+}
+
+// Tests if `isWon()` works correctly: If there are two boxes and only one storage, players win
+// as long as they push one box to the storage.
+BOOST_AUTO_TEST_CASE(testIsWonTooManyBoxes) {
+    SB::Sokoban sokoban{ "assets/level/level5.lvl" };
+    sokoban.movePlayer(SB::Direction::Up);
+    sokoban.movePlayer(SB::Direction::Up);
+    sokoban.movePlayer(SB::Direction::Up);
+    sokoban.movePlayer(SB::Direction::Up);
+    sokoban.movePlayer(SB::Direction::Right);
+    sokoban.movePlayer(SB::Direction::Right);
+    sokoban.movePlayer(SB::Direction::Right);
+    sokoban.movePlayer(SB::Direction::Right);
+    sokoban.movePlayer(SB::Direction::Down);
+    sokoban.movePlayer(SB::Direction::Right);
+    sokoban.movePlayer(SB::Direction::Up);
+
+    BOOST_REQUIRE(sokoban.isWon());
+}
+
+// Tests if `isWon()` works correctly: If there are three storages but only two boxes, players win
+// when they stow the boxes properly.
+BOOST_AUTO_TEST_CASE(testIsWonTooManyStorages) {
+    SB::Sokoban sokoban{ "assets/level/level6.lvl" };
+    sokoban.movePlayer(SB::Direction::Up);
+    sokoban.movePlayer(SB::Direction::Right);
+    sokoban.movePlayer(SB::Direction::Right);
+    sokoban.movePlayer(SB::Direction::Right);
+    sokoban.movePlayer(SB::Direction::Right);
+    sokoban.movePlayer(SB::Direction::Up);
+    sokoban.movePlayer(SB::Direction::Right);
+    sokoban.movePlayer(SB::Direction::Down);
+    sokoban.movePlayer(SB::Direction::Down);
+    sokoban.movePlayer(SB::Direction::Left);
+    sokoban.movePlayer(SB::Direction::Left);
+    sokoban.movePlayer(SB::Direction::Left);
+    sokoban.movePlayer(SB::Direction::Left);
+    sokoban.movePlayer(SB::Direction::Up);
+    sokoban.movePlayer(SB::Direction::Up);
+    sokoban.movePlayer(SB::Direction::Up);
+    sokoban.movePlayer(SB::Direction::Right);
+    sokoban.movePlayer(SB::Direction::Up);
+    sokoban.movePlayer(SB::Direction::Left);
+
+    BOOST_REQUIRE(sokoban.isWon());
 }

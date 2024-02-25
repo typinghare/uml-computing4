@@ -63,7 +63,7 @@ boost: $(TEST_PROGRAM)
 	./$<
 
 run: $(PROGRAM)
-	./$< assets/level/level2.lvl
+	./$< assets/level/level7.lvl
 
 clean:
 	rm -f $(SRC)*.o $(PROGRAM) $(STATIC_LIB) $(TEST_PROGRAM)

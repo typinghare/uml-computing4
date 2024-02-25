@@ -18,13 +18,8 @@ int main(const int size, const char* arguments[]) {
     }
 
     // Create a Sokoban game object and load the level file
-    const std::string levelFilename = arguments[1];
-    SB::Sokoban sokoban;
-    std::ifstream ifstream{ levelFilename };
-    if (!ifstream.is_open()) {
-        throw std::invalid_argument("File not found: " + levelFilename);
-    }
-    ifstream >> sokoban;
+    const std::string levelFilename{ arguments[1] };
+    SB::Sokoban sokoban{ levelFilename };
 
     // Create a window based on the Sokoban game width and height
     const auto windowWidth{ sokoban.width() * SB::TILE_WIDTH };

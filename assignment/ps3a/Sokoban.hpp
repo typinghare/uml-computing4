@@ -76,7 +76,7 @@ class Sokoban final : public sf::Drawable {
     [[nodiscard]] sf::Vector2i playerLoc() const;
 
     /**
-     * @brief Changes the player's location with the given direction.
+     * @brief Changes the player's location based on a specified direction.
      * @param direction The direction for the player to move.
      */
     void movePlayer(const Direction& direction);
