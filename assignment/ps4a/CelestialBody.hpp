@@ -4,6 +4,7 @@
 #define CELESTIALBODY_HPP
 
 #include <memory>
+#include <string>
 #include <utility>
 #include <SFML/Graphics.hpp>
 #include "Universe.hpp"
@@ -38,7 +39,6 @@ class CelestialBody final : public sf::Drawable {
      */
     Universe* getUniverse() const;
 
- protected:
     /**
      * Draws this celestial body onto the target.
      */
@@ -64,6 +64,11 @@ class CelestialBody final : public sf::Drawable {
      * @brief The mass of this celestial body.
      */
     double m_mass = 0.0;
+
+    /**
+     * @brief The filename of the image.
+     */
+    std::string m_image_filename;
 
     /**
      * @brief The image (Sprite and corresponding texture) of this celestial body.

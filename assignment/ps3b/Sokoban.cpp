@@ -289,11 +289,6 @@ bool Sokoban::moveBox(const sf::Vector2i& fromCoordinate, const Direction& direc
 void Sokoban::loadSound(const std::string& soundFilename) {
     const auto soundBuffer{ std::make_shared<sf::SoundBuffer>() };
     const auto sound{ std::make_shared<sf::Sound>() };
-    // if (soundBuffer->loadFromFile(soundFilename)) {
-    //     sound->setBuffer(*soundBuffer);
-    //     m_soundMap[soundFilename] = std::make_pair(sound, soundBuffer);
-    // }
-
     if (soundBuffer->loadFromFile(soundFilename)) {
         sound->setBuffer(*soundBuffer);
         m_soundMap[soundFilename] = std::make_pair(sound, soundBuffer);

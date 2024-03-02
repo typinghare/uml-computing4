@@ -13,14 +13,16 @@ SRC = ./
 # Hpp files (dependencies)
 DEPS = $(SRC)Universe.hpp \
        $(SRC)CelestialBody.hpp \
-       $(SRC)NBodyConstant.hpp
+       $(SRC)NBodyConstant.hpp \
+       $(SRC)Common.hpp \
 
 # Static library
 STATIC_LIB = NBody.a
 
 # The object files that the static library includes
 STATIC_LIB_OBJECTS = $(SRC)Universe.o \
-				     $(SRC)CelestialBody.o
+				     $(SRC)CelestialBody.o \
+				     $(SRC)Common.o
 
 # Program
 PROGRAM = NBody
@@ -56,3 +58,6 @@ lint:
 
 boost: $(TEST_PROGRAM)
 	./$(TEST_PROGRAM)
+
+run: $(PROGRAM)
+	./$(PROGRAM) < assets/data/3body.txt

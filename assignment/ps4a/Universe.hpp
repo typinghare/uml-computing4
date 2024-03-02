@@ -6,6 +6,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include "CelestialBody.hpp"
 
@@ -38,6 +39,11 @@ class Universe final : public sf::Drawable {
      * @brief Returns the radius of this universe.
      */
     [[nodiscard]] double getRadius() const;
+
+    /**
+     * @brief Gets the scale of the universe.
+     */
+    [[nodiscard]] double getScale() const;
 
     /**
      * Prints the number of planets and the radius of this universe.
@@ -73,9 +79,24 @@ class Universe final : public sf::Drawable {
     double m_radius = 0.0;
 
     /**
+     * @brief The ratio of the universe diameter to the width of the window.
+     */
+    double m_scale = 1.0;
+
+    /**
      * @brief A vector of celestial bodies in this universe.
      */
-    std::vector<std::shared_ptr<CelestialBody>> celestialBodyVector;
+    std::vector<std::shared_ptr<CelestialBody>> m_celestialBodyVector;
+
+    /**
+     * @brief The background image.
+     */
+    std::pair<std::shared_ptr<sf::Texture>, std::shared_ptr<sf::Sprite>> m_backgroundImage;
+
+    /**
+     * @brief The background music.
+     */
+    std::pair<std::shared_ptr<sf::SoundBuffer>, std::shared_ptr<sf::Sound>> m_backgroundMusic;
 };
 
 #endif

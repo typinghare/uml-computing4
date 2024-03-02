@@ -96,6 +96,8 @@ add_executable(ps4a
     assignment/ps4a/CelestialBody.hpp
     assignment/ps4a/CelestialBody.cpp
     assignment/ps4a/NBodyConstant.hpp
+    assignment/ps4a/Common.hpp
+    assignment/ps4a/Common.cpp
 )
 target_link_libraries(ps4a -lsfml-graphics)
 
@@ -107,8 +109,10 @@ add_executable(ps4a-test
     assignment/ps4a/CelestialBody.hpp
     assignment/ps4a/CelestialBody.cpp
     assignment/ps4a/NBodyConstant.hpp
+    assignment/ps4a/Common.hpp
+    assignment/ps4a/Common.cpp
 )
-target_link_libraries(ps4a -lsfml-graphics -lboost_unit_test_framework)
+target_link_libraries(ps4a -lsfml-graphics -lsfml-window -lsfml-system -lboost_unit_test_framework)
 
 # playground
 add_executable(playground-any playground/any.cpp)
