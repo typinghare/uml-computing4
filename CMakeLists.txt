@@ -88,6 +88,28 @@ add_executable(ps3b-test
 )
 target_link_libraries(ps3b-test -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lboost_unit_test_framework)
 
+# ps4a
+add_executable(ps4a
+    assignment/ps4a/main.cpp
+    assignment/ps4a/Universe.hpp
+    assignment/ps4a/Universe.cpp
+    assignment/ps4a/CelestialBody.hpp
+    assignment/ps4a/CelestialBody.cpp
+    assignment/ps4a/NBodyConstant.hpp
+)
+target_link_libraries(ps4a -lsfml-graphics)
+
+# ps4a test
+add_executable(ps4a-test
+    assignment/ps4a/test.cpp
+    assignment/ps4a/Universe.hpp
+    assignment/ps4a/Universe.cpp
+    assignment/ps4a/CelestialBody.hpp
+    assignment/ps4a/CelestialBody.cpp
+    assignment/ps4a/NBodyConstant.hpp
+)
+target_link_libraries(ps4a -lsfml-graphics -lboost_unit_test_framework)
+
 # playground
 add_executable(playground-any playground/any.cpp)
 add_executable(playground-size playground/size.cpp)

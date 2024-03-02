@@ -1,9 +1,18 @@
+#include <algorithm>
+#include <iostream>
+#include <vector>
 
-template <class T>
-void swap(T& var1, T& var2) noexcept {
-    T temp = var1;
-    var1 = var2;
-    var2 = temp;
+
+int main() {
+    int a = 5, b = 10;
+    auto lambda = [=, &b]() mutable {
+        a += 5;
+        b += 5;
+        return a + b;
+    };
+
+    std::cout << lambda() << std::endl;
+    std::cout << "a: " << a << ", b: " << b << std::endl;
+
+    return 0;
 }
-
-int main() { return 0; }
