@@ -60,4 +60,4 @@ boost: $(TEST_PROGRAM)
 	./$(TEST_PROGRAM)
 
 run: $(PROGRAM)
-	./$(PROGRAM) < assets/data/planets.txt
+	./$(PROGRAM) < assets/planets.txt

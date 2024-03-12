@@ -12,15 +12,6 @@ int main() {
     std::cin >> universe;
     universe.loadResources();
 
-    for (int i = 0; i < universe.numPlanets(); ++i) {
-        const auto celestialBody = universe[i];
-        std::cout << celestialBody.position().x << " ";
-        std::cout << celestialBody.position().y << " ";
-        std::cout << celestialBody.velocity().x << " ";
-        std::cout << celestialBody.velocity().y << " ";
-        std::cout << celestialBody.mass() << std::endl;
-    }
-
     const sf::VideoMode windowVideoMode{ NB::WINDOW_WIDTH, NB::WINDOW_HEIGHT };
     sf::RenderWindow window(windowVideoMode, std::string(NB::WINDOW_TITLE));
     while (window.isOpen()) {

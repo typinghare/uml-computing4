@@ -117,7 +117,8 @@ target_link_libraries(ps4a -lsfml-graphics -lsfml-window -lsfml-system -lboost_u
 # playground
 add_executable(playground-any playground/any.cpp)
 add_executable(playground-size playground/size.cpp)
-add_executable(bitwise-test playground/bitwise-test.cpp)
+add_executable(bitwise-test playground/bitwise-test.cpp
+    assignment/ps4b/NBodyConstant.hpp)
 add_executable(rand-between playground/rand-between.cpp)
 add_executable(swap playground/swap.cpp)
 add_executable(findMode playground/find-mode.cpp)

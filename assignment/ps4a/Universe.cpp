@@ -67,8 +67,13 @@ std::istream& operator>>(std::istream& istream, Universe& universe) {
     // Set the scale (1.1x larger, as some planets' trajectories are ecllipses)
     universe.m_scale = universe.m_radius * 2.0 / WINDOW_WIDTH * 1.1;
 
+    if (istream.fail()) {
+        throw std::runtime_error("Invalid input");
+    }
+
     istream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
+    // Celestial bodies
     for (int i = 0; i < universe.m_numPlanets; ++i) {
         auto celestialBody = std::make_shared<CelestialBody>(&universe);
         universe.m_celestialBodyVector.push_back(celestialBody);

@@ -46,16 +46,19 @@ void CelestialBody::draw(sf::RenderTarget& target, sf::RenderStates states) cons
 }
 
 std::istream& operator>>(std::istream& istream, CelestialBody& celestialBody) {
-    while (celestialBody.m_line.empty()) {
+    while (celestialBody.m_line.empty() && !istream.eof()) {
         getline(istream, celestialBody.m_line);
         boost::trim(celestialBody.m_line);
     }
 
     std::stringstream stringstream(celestialBody.m_line);
-
     stringstream >> celestialBody.m_position.x >> celestialBody.m_position.y >>
         celestialBody.m_velocity.x >> celestialBody.m_velocity.y >> celestialBody.m_mass >>
         celestialBody.m_image_filename;
+
+    if (stringstream.fail()) {
+        throw std::runtime_error("Invalid input: " + celestialBody.m_line);
+    }
 
     return istream;
 }
