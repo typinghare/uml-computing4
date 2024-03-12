@@ -5,24 +5,12 @@
 #include "Universe.hpp"
 
 /**
- * @brief Reads universe information from std::cin.
- */
-void readUniverse(NB::Universe& universe) {
-    std::cin >> universe;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-    for (int i = 0; i < universe.numPlanets(); ++i) {
-        std::cin >> *universe.createCelestialBody();
-    }
-}
-
-/**
  * @brief Starts the universe simulation.
  */
 int main() {
-    NB::Universe universe{ "assets/data/planets.txt" };
-
-    // readUniverse(universe);
+    NB::Universe universe;
+    std::cin >> universe;
+    universe.loadResources();
 
     for (int i = 0; i < universe.numPlanets(); ++i) {
         const auto celestialBody = universe[i];

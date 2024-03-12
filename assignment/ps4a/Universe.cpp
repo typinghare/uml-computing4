@@ -10,7 +10,20 @@
 
 namespace NB {
 
-Universe::Universe() {
+Universe::Universe() = default;
+
+Universe::Universe(const std::string& filename) : Universe() {
+    std::fstream fstream{ filename };
+
+    // Check if the file is opened successfully
+    if (!fstream.is_open()) {
+        throw std::invalid_argument("Cannot open: " + filename);
+    }
+
+    fstream >> *this;
+}
+
+void Universe::loadResources() {
     // Load the background image
     m_backgroundImage.first = { std::make_shared<sf::Texture>() };
     m_backgroundImage.second = { std::make_shared<sf::Sprite>() };
@@ -37,30 +50,6 @@ Universe::Universe() {
     }
 }
 
-Universe::Universe(const std::string& filename) : Universe() {
-    std::fstream fstream{ filename };
-
-    // Check if the file opened successfully
-    if (!fstream.is_open()) {
-        throw std::invalid_argument("Cannot open: " + filename);
-    }
-
-    // The first line is the number of planets and the radius of the universe
-    fstream >> *this;
-    fstream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
-    for (int i = 0; i < m_numPlanets; ++i) {
-        fstream >> *createCelestialBody();
-    }
-}
-
-std::shared_ptr<CelestialBody> Universe::createCelestialBody() {
-    auto celestialBody = std::make_shared<CelestialBody>(this);
-    m_celestialBodyVector.push_back(celestialBody);
-
-    return celestialBody;
-}
-
 int Universe::numPlanets() const { return m_numPlanets; }
 
 double Universe::radius() const { return m_radius; }
@@ -72,6 +61,14 @@ std::istream& operator>>(std::istream& istream, Universe& universe) {
 
     // Set the scale (1.1x larger, as some planets' trajectories are ecllipses)
     universe.m_scale = universe.m_radius * 2.0 / WINDOW_WIDTH * 1.1;
+
+    istream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    for (int i = 0; i < universe.m_numPlanets; ++i) {
+        auto celestialBody = std::make_shared<CelestialBody>(&universe);
+        universe.m_celestialBodyVector.push_back(celestialBody);
+        istream >> *celestialBody;
+    }
 
     return istream;
 }

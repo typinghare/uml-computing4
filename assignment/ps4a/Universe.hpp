@@ -29,9 +29,9 @@ class Universe final : public sf::Drawable {
     explicit Universe(const std::string& filename);
 
     /**
-     * @brief Creates and returns a celestial body.
+     * @brief Loads resources (background image and music).
      */
-    std::shared_ptr<CelestialBody> createCelestialBody();
+    void loadResources();
 
     /**
      * @brief Returns the numer of planets in this universe.
