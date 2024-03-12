@@ -48,6 +48,11 @@ void Universe::loadResources() {
 
         sound->play();
     }
+
+    // Load celestial bodies' images
+    for (auto const& celestialBody : m_celestialBodyVector) {
+        celestialBody->loadResource();
+    }
 }
 
 int Universe::numPlanets() const { return m_numPlanets; }
@@ -81,11 +86,9 @@ std::ostream& operator<<(std::ostream& ostream, const Universe& universe) {
     const auto numPlanets = static_cast<size_t>(universe.m_numPlanets);
     for (size_t i = 0; i < universe.m_celestialBodyVector.size(); ++i) {
         const auto celestialBody = universe.m_celestialBodyVector[i];
-        if (celestialBody != nullptr) {
-            ostream << *universe.m_celestialBodyVector[i];
-            if (i != numPlanets - 1) {
-                ostream << std::endl;
-            }
+        ostream << *universe.m_celestialBodyVector[i];
+        if (i != numPlanets - 1) {
+            ostream << std::endl;
         }
     }
 

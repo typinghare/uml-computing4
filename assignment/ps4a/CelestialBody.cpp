@@ -20,7 +20,15 @@ sf::Vector2f CelestialBody::velocity() const {
     return { static_cast<float>(m_velocity.x), static_cast<float>(m_velocity.y) };
 }
 
-float CelestialBody::mass() const { return m_mass; }
+float CelestialBody::mass() const { return static_cast<float>(m_mass); }
+
+void CelestialBody::loadResource() {
+    // Load the image file
+    m_image.first = std::make_shared<sf::Texture>();
+    m_image.second = std::make_shared<sf::Sprite>();
+    m_image.first->loadFromFile(ASSETS_IMAGE_DIR / m_image_filename);
+    m_image.second->setTexture(*m_image.first);
+}
 
 Universe* CelestialBody::universe() const { return m_universePtr; }
 
@@ -43,18 +51,11 @@ std::istream& operator>>(std::istream& istream, CelestialBody& celestialBody) {
         boost::trim(celestialBody.m_line);
     }
 
-
     std::stringstream stringstream(celestialBody.m_line);
 
     stringstream >> celestialBody.m_position.x >> celestialBody.m_position.y >>
-        celestialBody.m_velocity.x >> celestialBody.m_velocity.y >> celestialBody.m_mass;
-
-    // Read and load the image file
-    stringstream >> celestialBody.m_image_filename;
-    celestialBody.m_image.first = std::make_shared<sf::Texture>();
-    celestialBody.m_image.second = std::make_shared<sf::Sprite>();
-    celestialBody.m_image.first->loadFromFile(ASSETS_IMAGE_DIR / celestialBody.m_image_filename);
-    celestialBody.m_image.second->setTexture(*celestialBody.m_image.first);
+        celestialBody.m_velocity.x >> celestialBody.m_velocity.y >> celestialBody.m_mass >>
+        celestialBody.m_image_filename;
 
     return istream;
 }

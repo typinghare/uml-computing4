@@ -42,6 +42,11 @@ class CelestialBody final : public sf::Drawable {
     [[nodiscard]] float mass() const;
 
     /**
+     * @brief Loads resource (image).
+     */
+    void loadResource();
+
+    /**
      * Draws this celestial body onto the target.
      */
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
