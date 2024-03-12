@@ -16,7 +16,7 @@ constexpr unsigned WINDOW_WIDTH = 720;
 constexpr unsigned WINDOW_HEIGHT = WINDOW_WIDTH;
 
 // Use std::filesystem for path handling:
-const std::filesystem::path ASSETS_DIR = "assets";
+const std::filesystem::path ASSETS_DIR = "assets/";
 
 // Images
 const std::filesystem::path ASSETS_IMAGE_DIR = ASSETS_DIR;
@@ -24,7 +24,7 @@ const std::filesystem::path IMAGE_BACKGRROUND = ASSETS_IMAGE_DIR / "background.j
 
 // Sounds
 const std::filesystem::path ASSETS_SOUND_DIR = ASSETS_DIR;
-const std::filesystem::path SOUND_2001 = ASSETS_SOUND_DIR / "2001.wav";
+const std::filesystem::path SOUND_BACKGROUND_MUSIC = ASSETS_SOUND_DIR / "2001.wav";
 
 }  // namespace NB
 

@@ -8,7 +8,7 @@
 >
 > Section: COMP 2040 P 1 203
 >
-> Time to Complete: March 3, 2024
+> Time to Complete: March 12, 2024
 
 
 ## Description
@@ -21,7 +21,10 @@ Describe what your major decisions were and why you did things that way.
 Describe how you managed the lifetimes of your objects, including if you used smart pointers.
 
 ### Issues
-What did you have trouble with?  What did you learn?  What doesn't work?  Be honest.  You might be penalized if you claim something works and it doesn't.
+
+In this project, I learned the following things:
+
+1. 
 
 ### Extra Credit
 Anything special you did.  This is required to earn bonus points.

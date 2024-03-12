@@ -114,11 +114,26 @@ add_executable(ps4a-test
 )
 target_link_libraries(ps4a -lsfml-graphics -lsfml-window -lsfml-system -lboost_unit_test_framework)
 
+# ps4b
+add_executable(ps4b
+    assignment/ps4b/main.cpp
+    assignment/ps4b/NBodyConstant.hpp
+    assignment/ps4b/Universe.hpp
+    assignment/ps4b/Universe.cpp
+    assignment/ps4b/CelestialBody.hpp
+    assignment/ps4b/CelestialBody.cpp
+)
+target_link_libraries(ps4b -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system)
+
 # playground
 add_executable(playground-any playground/any.cpp)
 add_executable(playground-size playground/size.cpp)
 add_executable(bitwise-test playground/bitwise-test.cpp
-    assignment/ps4b/NBodyConstant.hpp)
+    assignment/ps4b/NBodyConstant.hpp
+    assignment/ps4b/Universe.cpp
+    assignment/ps4b/Universe.hpp
+    assignment/ps4b/CelestialBody.cpp
+    assignment/ps4b/CelestialBody.hpp)
 add_executable(rand-between playground/rand-between.cpp)
 add_executable(swap playground/swap.cpp)
 add_executable(findMode playground/find-mode.cpp)

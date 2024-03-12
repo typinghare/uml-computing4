@@ -41,7 +41,7 @@ void Universe::loadResources() {
     // Load and play the background music
     const auto soundBuffer{ std::make_shared<sf::SoundBuffer>() };
     const auto sound{ std::make_shared<sf::Sound>() };
-    if (soundBuffer->loadFromFile(SOUND_2001)) {
+    if (soundBuffer->loadFromFile(SOUND_BACKGROUND_MUSIC)) {
         sound->setBuffer(*soundBuffer);
         m_backgroundMusic.first = soundBuffer;
         m_backgroundMusic.second = sound;
