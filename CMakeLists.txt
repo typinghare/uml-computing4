@@ -99,7 +99,7 @@ add_executable(ps4a
     assignment/ps4a/Common.hpp
     assignment/ps4a/Common.cpp
 )
-target_link_libraries(ps4a -lsfml-graphics)
+target_link_libraries(ps4a -lsfml-graphics -lsfml-audio)
 
 # ps4a test
 add_executable(ps4a-test

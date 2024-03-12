@@ -8,6 +8,8 @@
 #include "Common.hpp"
 #include "NBodyConstant.hpp"
 
+namespace NB {
+
 Universe::Universe() {
     // Load the background image
     m_backgroundImage.first = { std::make_shared<sf::Texture>() };
@@ -33,7 +35,7 @@ Universe::Universe() {
 
         sound->play();
     }
-};
+}
 
 Universe::Universe(const std::string& filename) : Universe() {
     std::fstream fstream{ filename };
@@ -49,7 +51,6 @@ Universe::Universe(const std::string& filename) : Universe() {
 
     for (int i = 0; i < m_numPlanets; ++i) {
         fstream >> *createCelestialBody();
-        fstream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 }
 
@@ -60,17 +61,17 @@ std::shared_ptr<CelestialBody> Universe::createCelestialBody() {
     return celestialBody;
 }
 
-int Universe::getNumPlanets() const { return m_numPlanets; }
+int Universe::numPlanets() const { return m_numPlanets; }
 
-double Universe::getRadius() const { return m_radius; }
+double Universe::radius() const { return m_radius; }
 
-double Universe::getScale() const { return m_scale; }
+double Universe::scale() const { return m_scale; }
 
 std::istream& operator>>(std::istream& istream, Universe& universe) {
     istream >> universe.m_numPlanets >> universe.m_radius;
 
-    // Set the scale
-    universe.m_scale = universe.m_radius * 2.0 / WINDOW_WIDTH;
+    // Set the scale (1.1x larger, as some planets' trajectories are ecllipses)
+    universe.m_scale = universe.m_radius * 2.0 / WINDOW_WIDTH * 1.1;
 
     return istream;
 }
@@ -79,13 +80,17 @@ std::ostream& operator<<(std::ostream& ostream, const Universe& universe) {
     const auto radius = to_standard_scientific_string(universe.m_radius);
     ostream << universe.m_numPlanets << std::endl << radius << std::endl;
 
-    auto writeCelestialBody = [&](const std::shared_ptr<CelestialBody>& celestialBody) {
-        ostream << *celestialBody << std::endl;
-    };
-
-    std::for_each(
-        universe.m_celestialBodyVector.cbegin(), universe.m_celestialBodyVector.cend(),
-        writeCelestialBody);
+    // Output celestial bodies
+    const auto numPlanets = static_cast<size_t>(universe.m_numPlanets);
+    for (size_t i = 0; i < universe.m_celestialBodyVector.size(); ++i) {
+        const auto celestialBody = universe.m_celestialBodyVector[i];
+        if (celestialBody != nullptr) {
+            ostream << *universe.m_celestialBodyVector[i];
+            if (i != numPlanets - 1) {
+                ostream << std::endl;
+            }
+        }
+    }
 
     return ostream;
 }
@@ -104,3 +109,5 @@ void Universe::draw(sf::RenderTarget& target, const sf::RenderStates states) con
 
     std::for_each(m_celestialBodyVector.cbegin(), m_celestialBodyVector.cend(), drawCelestialBody);
 }
+
+}  // namespace NB

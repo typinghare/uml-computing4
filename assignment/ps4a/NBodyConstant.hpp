@@ -6,6 +6,8 @@
 #include <filesystem>
 #include <string>
 
+namespace NB {
+
 // Use string literals directly for constexpr variables:
 constexpr std::string_view WINDOW_TITLE = "N-Body Problem by James Chen";
 
@@ -24,5 +26,7 @@ const std::filesystem::path IMAGE_BACKGRROUND = ASSETS_IMAGE_DIR / "background.j
 
 // Sounds
 const std::filesystem::path SOUND_2001 = ASSETS_SOUND_DIR / "2001.wav";
+
+}  // namespace NB
 
 #endif

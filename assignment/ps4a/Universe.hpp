@@ -5,10 +5,13 @@
 
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include "CelestialBody.hpp"
+
+namespace NB {
 
 class CelestialBody;
 
@@ -33,17 +36,17 @@ class Universe final : public sf::Drawable {
     /**
      * @brief Returns the numer of planets in this universe.
      */
-    [[nodiscard]] int getNumPlanets() const;
+    [[nodiscard]] int numPlanets() const;
 
     /**
      * @brief Returns the radius of this universe.
      */
-    [[nodiscard]] double getRadius() const;
+    [[nodiscard]] double radius() const;
 
     /**
      * @brief Gets the scale of the universe.
      */
-    [[nodiscard]] double getScale() const;
+    [[nodiscard]] double scale() const;
 
     /**
      * Prints the number of planets and the radius of this universe.
@@ -98,5 +101,7 @@ class Universe final : public sf::Drawable {
      */
     std::pair<std::shared_ptr<sf::SoundBuffer>, std::shared_ptr<sf::Sound>> m_backgroundMusic;
 };
+
+}  // namespace NB
 
 #endif

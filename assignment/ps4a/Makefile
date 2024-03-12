@@ -47,7 +47,7 @@ $(PROGRAM): $(MAIN_OBJECTS) $(STATIC_LIB)
 $(STATIC_LIB): $(STATIC_LIB_OBJECTS)
 	ar rcs $@ $^
 
-$(TEST_PROGRAM): $(STATIC_LIB) $(TEST_OBJECTS)
+$(TEST_PROGRAM): $(TEST_OBJECTS) $(STATIC_LIB)
 	$(COMPILER) $(CFLAGS) -o $@ $^ $(LIB)
 
 clean:
@@ -60,4 +60,4 @@ boost: $(TEST_PROGRAM)
 	./$(TEST_PROGRAM)
 
 run: $(PROGRAM)
-	./$(PROGRAM) < assets/data/3body.txt
+	./$(PROGRAM) < assets/data/planets.txt

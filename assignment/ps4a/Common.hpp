@@ -5,6 +5,8 @@
 
 #include <string>
 
+namespace NB {
+
 /**
  * Converts a double number into a string in the scientific form.
  * @param number The number to convert.
@@ -12,5 +14,7 @@
  * ? is negative sign, and zz is the exponent.
  */
 std::string to_standard_scientific_string(const double& number);
+
+}  // namespace NB
 
 #endif

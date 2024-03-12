@@ -9,6 +9,8 @@
 #include <SFML/Graphics.hpp>
 #include "Universe.hpp"
 
+namespace NB {
+
 class Universe;
 
 class CelestialBody final : public sf::Drawable {
@@ -20,24 +22,24 @@ class CelestialBody final : public sf::Drawable {
     explicit CelestialBody(Universe* universePtr);
 
     /**
+     * @brief Returns the universe this celesitial body is in.
+     */
+    [[nodiscard]] Universe* universe() const;
+
+    /**
      * @brief Returns the position of this celestial body.
      */
-    [[nodiscard]] sf::Vector2f getPosition() const;
+    [[nodiscard]] sf::Vector2f position() const;
 
     /**
      * @brief Returns the velocity of this celestial body.
      */
-    [[nodiscard]] sf::Vector2f getVelocity() const;
+    [[nodiscard]] sf::Vector2f velocity() const;
 
     /**
      * @brief Returns the mass of this celestial body.
      */
-    [[nodiscard]] double getMass() const;
-
-    /**
-     * @brief Returns the universe this celesitial body is in.
-     */
-    Universe* getUniverse() const;
+    [[nodiscard]] float mass() const;
 
     /**
      * Draws this celestial body onto the target.
@@ -49,6 +51,11 @@ class CelestialBody final : public sf::Drawable {
      * @brief The universe this celesitial body is in.
      */
     Universe* m_universePtr;
+
+    /**
+     * @brief The raw line string.
+     */
+    std::string m_line;
 
     /**
      * @brief The center coordiante of this celestial body.
@@ -85,5 +92,7 @@ class CelestialBody final : public sf::Drawable {
      */
     friend std::ostream& operator<<(std::ostream& ostream, const CelestialBody& celestialBody);
 };
+
+}  // namespace NB
 
 #endif
