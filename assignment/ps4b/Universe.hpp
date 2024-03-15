@@ -10,12 +10,13 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include "CelestialBody.hpp"
+#include "UniverseElapsedTime.hpp"
 
 namespace NB {
 
 class CelestialBody;
 
-class Universe final : public sf::Drawable {
+class Universe final : public UniverseElapsedTime {
  public:
     /**
      * Constructs a Universe.
@@ -55,7 +56,7 @@ class Universe final : public sf::Drawable {
      * Simulates one step.
      * @param deltaTime Delta time in seconds.
      */
-    void step(double deltaTime) const;
+    void step(double deltaTime) override;
 
     /**
      * @brief Reads the number of planets and the radius of this Universe from input stream.

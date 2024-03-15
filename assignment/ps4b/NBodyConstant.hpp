@@ -22,12 +22,16 @@ constexpr unsigned WINDOW_HEIGHT = WINDOW_WIDTH;
 const std::filesystem::path ASSETS_DIR = "assets";
 const std::filesystem::path ASSETS_IMAGE_DIR = ASSETS_DIR;
 const std::filesystem::path ASSETS_SOUND_DIR = ASSETS_DIR;
+const std::filesystem::path ASSETS_FONT_DIR = ASSETS_DIR / "font";
 
 // Images
 const std::filesystem::path IMAGE_BACKGRROUND = ASSETS_IMAGE_DIR / "background.jpg";
 
 // Sounds
 const std::filesystem::path SOUND_BACKGROUND_MUSIC = ASSETS_SOUND_DIR / "2001.wav";
+
+// Fonts
+const std::filesystem::path FONT_DIGITAL7 = ASSETS_FONT_DIR / "digital-7.mono.ttf";
 
 // Double constants
 constexpr double DOUBLE_HALF = 0.5;

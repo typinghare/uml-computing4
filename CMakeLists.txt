@@ -122,6 +122,8 @@ add_executable(ps4b
     assignment/ps4b/Universe.cpp
     assignment/ps4b/CelestialBody.hpp
     assignment/ps4b/CelestialBody.cpp
+    assignment/ps4b/UniverseElapsedTime.cpp
+    assignment/ps4b/UniverseElapsedTime.hpp
 )
 target_link_libraries(ps4b -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system)
 

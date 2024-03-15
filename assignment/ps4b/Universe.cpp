@@ -58,7 +58,7 @@ double Universe::radius() const { return m_radius; }
 
 double Universe::scale() const { return m_scale; }
 
-void Universe::step(const double deltaTime) const {
+void Universe::step(const double deltaTime) {
     // Calculate the unit vector pointing from one planet to another
     // unitVector[i][j] stores the unit vector from planet i to planet j
     auto unitVectorMatrix = createMatrix();
@@ -130,6 +130,9 @@ void Universe::step(const double deltaTime) const {
         planet->setPosition(
             { position.x + velocity.x * deltaTime, position.y + velocity.y * deltaTime });
     }
+
+    // Update the elapsed time
+    UniverseElapsedTime::step(deltaTime);
 }
 
 void Universe::loadResources() {
@@ -154,6 +157,7 @@ void Universe::loadResources() {
         sound->setBuffer(*soundBuffer);
         m_backgroundMusic.first = soundBuffer;
         m_backgroundMusic.second = sound;
+        sound->setLoop(true);
         sound->play();
     }
 
@@ -171,6 +175,9 @@ void Universe::draw(sf::RenderTarget& target, const sf::RenderStates states) con
     };
 
     std::for_each(m_celestialBodyVector.cbegin(), m_celestialBodyVector.cend(), drawCelestialBody);
+
+    // Draw the elapsed time
+    UniverseElapsedTime::draw(target, states);
 }
 
 std::vector<std::vector<sf::Vector2<double>>> Universe::createMatrix() const {

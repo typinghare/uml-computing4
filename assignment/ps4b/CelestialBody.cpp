@@ -45,7 +45,7 @@ void CelestialBody::loadResources() {
     m_image.second->setTexture(*m_image.first);
 }
 
-void CelestialBody::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void CelestialBody::draw(sf::RenderTarget& target, const sf::RenderStates states) const {
     const auto universeRadius = m_universePtr->radius();
     const auto universeScale = m_universePtr->scale();
     const sf::Vector2f realPosition{
