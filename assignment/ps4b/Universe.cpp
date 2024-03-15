@@ -193,7 +193,8 @@ std::vector<std::vector<sf::Vector2<double>>> Universe::createMatrix() const {
 std::istream& operator>>(std::istream& istream, Universe& universe) {
     istream >> universe.m_numPlanets >> universe.m_radius;
 
-    // Set the scale (1.1x larger, as some planets' trajectories are ecllipses)
+    // Set the scale; scale factor enlarges the universe to accommodate all planets' trajectories
+    // while they are moving
     universe.m_scale = universe.m_radius / DOUBLE_HALF / WINDOW_WIDTH * SCALE_FACTOR;
 
     if (istream.fail()) {
