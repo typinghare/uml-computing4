@@ -46,6 +46,34 @@ class CelestialBody final : public sf::Drawable {
     [[nodiscard]] float mass() const;
 
     /**
+     * @brief Retrieves the position vector of this CelestialBody.
+     * @return Position vector as sf::Vector2<double>.
+     */
+    [[nodiscard]] sf::Vector2<double> positionDouble() const;
+
+    /**
+     * @brief Retrieves the velocity vector of this CelestialBody.
+     * @return Velocity vector as sf::Vector2<double>.
+     */
+    [[nodiscard]] sf::Vector2<double> velocityDouble() const;
+
+    /**
+     * @brief Retrieves the mass of this CelestialBody.
+     * @return Mass of the CelestialBody.
+     */
+    [[nodiscard]] double massDouble() const;
+
+    /**
+     * @brief Sets the new position for this CelestialBody.
+     */
+    void setPosition(sf::Vector2<double> newPosition);
+
+    /**
+     * @brief Sets the new velocity for this CelestialBody.
+     */
+    void setVelocity(sf::Vector2<double> newVelocity);
+
+    /**
      * @brief Loads the resource (image) associated with this CelestialBody.
      */
     void loadResources();

@@ -2,7 +2,9 @@
 
 #include "Universe.hpp"
 #include <fstream>
+#include <iostream>
 #include <limits>
+#include <numeric>
 #include <sstream>
 #include <SFML/Audio.hpp>
 #include "NBodyConstant.hpp"
@@ -18,6 +20,21 @@ std::string to_standard_scientific_string(const double& number) {
     stream << std::scientific << std::setprecision(2) << number;
 
     return stream.str();
+}
+
+template <typename T>
+T magnitude_vector2(const sf::Vector2<T>& vector2) {
+    return static_cast<T>(std::sqrt(vector2.x * vector2.x + vector2.y * vector2.y));
+}
+
+template <typename T>
+sf::Vector2<T> normalize_vector2(const sf::Vector2<T>& vector2) {
+    T magnitude = magnitude_vector2(vector2);
+    if (magnitude == 0) {
+        throw std::invalid_argument("Cannot normalize a zero vector!");
+    }
+
+    return { vector2.x / magnitude, vector2.y / magnitude };
 }
 
 namespace NB {
@@ -40,6 +57,80 @@ int Universe::numPlanets() const { return m_numPlanets; }
 double Universe::radius() const { return m_radius; }
 
 double Universe::scale() const { return m_scale; }
+
+void Universe::step(const double deltaTime) const {
+    // Calculate the unit vector pointing from one planet to another
+    // unitVector[i][j] stores the unit vector from planet i to planet j
+    auto unitVectorMatrix = createMatrix();
+    for (int i = 0; i < m_numPlanets; ++i) {
+        const auto firstPlanet = m_celestialBodyVector[i];
+        for (int j = i + 1; j < m_numPlanets; ++j) {
+            const auto secondPlanet = m_celestialBodyVector[j];
+            const auto firstToSecondUnitVector =
+                normalize_vector2((secondPlanet->positionDouble() - firstPlanet->positionDouble()));
+            unitVectorMatrix[i][j] = firstToSecondUnitVector;
+            unitVectorMatrix[j][i] = { -firstToSecondUnitVector.x, -firstToSecondUnitVector.y };
+        }
+    }
+
+    // Cacluate the net forces between celestial bodies
+    // netForceMatrix[i][j] stores the gravity from planet i to planet j
+    // summation of netForceMatrix[i] is the gravity exerted on planet i
+    auto netForceMatrix = createMatrix();
+    for (int i = 0; i < m_numPlanets; ++i) {
+        const auto firstPlanet = m_celestialBodyVector[i];
+        for (int j = i + 1; j < m_numPlanets; ++j) {
+            const auto secondPlanet = m_celestialBodyVector[j];
+            const auto distance =
+                magnitude_vector2(firstPlanet->positionDouble() - secondPlanet->positionDouble());
+            const auto gravityMagnitude = GravitationalConstant * firstPlanet->massDouble() *
+                                          secondPlanet->massDouble() / (distance * distance);
+
+            netForceMatrix[i][j] = unitVectorMatrix[i][j] * gravityMagnitude;
+            netForceMatrix[j][i] = unitVectorMatrix[j][i] * gravityMagnitude;
+        }
+    }
+
+    // Calculate the acceleration
+    // accelerationVector[i] stores the acceleration of planet i
+    std::vector<sf::Vector2<double>> accelerationVector;
+    accelerationVector.reserve(m_numPlanets);
+    for (int i = 0; i < m_numPlanets; ++i) {
+        // Find the resultant of planet i
+        const auto& netForces = netForceMatrix[i];
+        sf::Vector2 resultant{ 0.0, 0.0 };
+        for (int j = 0; j < m_numPlanets; ++j) {
+            resultant = resultant + netForces[j];
+        }
+
+        const auto planet = m_celestialBodyVector[i];
+        const auto accelerationX = resultant.x / planet->massDouble();
+        const auto accelerationY = resultant.y / planet->massDouble();
+
+        accelerationVector.emplace_back(
+            isnan(accelerationX) ? 0 : accelerationX, isnan(accelerationY) ? 0 : accelerationY);
+    }
+
+    // Calculate the new velocity of each planet
+    for (int i = 0; i < m_numPlanets; ++i) {
+        const auto planet = m_celestialBodyVector[i];
+        const auto velocity = planet->velocityDouble();
+        const auto acceleration = accelerationVector[i];
+
+        planet->setVelocity(
+            { velocity.x + acceleration.x * deltaTime, velocity.y + acceleration.y * deltaTime });
+    }
+
+    // Calculate the new position of each planet
+    for (int i = 0; i < m_numPlanets; ++i) {
+        const auto planet = m_celestialBodyVector[i];
+        const auto position = planet->positionDouble();
+        const auto velocity = planet->velocityDouble();
+
+        planet->setPosition(
+            { position.x + velocity.x * deltaTime, position.y + velocity.y * deltaTime });
+    }
+}
 
 void Universe::loadResources() {
     // Load the background image
@@ -72,7 +163,7 @@ void Universe::loadResources() {
     }
 }
 
-void Universe::draw(sf::RenderTarget& target, sf::RenderStates states) const {
+void Universe::draw(sf::RenderTarget& target, const sf::RenderStates states) const {
     target.draw(*m_backgroundImage.second, states);
 
     auto drawCelestialBody = [&](const std::shared_ptr<CelestialBody>& celestialBody) {
@@ -80,6 +171,16 @@ void Universe::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     };
 
     std::for_each(m_celestialBodyVector.cbegin(), m_celestialBodyVector.cend(), drawCelestialBody);
+}
+
+std::vector<std::vector<sf::Vector2<double>>> Universe::createMatrix() const {
+    std::vector<std::vector<sf::Vector2<double>>> matrix;
+    matrix.reserve(m_numPlanets);
+    for (int i = 0; i < m_numPlanets; ++i) {
+        matrix.push_back(std::vector<sf::Vector2<double>>(m_numPlanets, { 0.0, 0.0 }));
+    }
+
+    return matrix;
 }
 
 std::istream& operator>>(std::istream& istream, Universe& universe) {

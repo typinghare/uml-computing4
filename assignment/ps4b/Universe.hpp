@@ -7,8 +7,8 @@
 #include <string>
 #include <utility>
 #include <vector>
-#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
 #include "CelestialBody.hpp"
 
 namespace NB {
@@ -52,6 +52,12 @@ class Universe final : public sf::Drawable {
     [[nodiscard]] double scale() const;
 
     /**
+     * Simulates one step.
+     * @param deltaTime Delta time in seconds.
+     */
+    void step(double deltaTime) const;
+
+    /**
      * @brief Reads the number of planets and the radius of this Universe from input stream.
      * @param istream Input stream to read from.
      * @param universe Universe object to store the data.
@@ -83,6 +89,11 @@ class Universe final : public sf::Drawable {
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
  private:
+    /**
+     * @brief Creates a matrix, in which each element is a double vector.
+     */
+    std::vector<std::vector<sf::Vector2<double>>> createMatrix() const;
+
     /**
      * @brief Number of planets in this Universe.
      */

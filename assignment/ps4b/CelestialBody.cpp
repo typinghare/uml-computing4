@@ -27,6 +27,16 @@ sf::Vector2f CelestialBody::velocity() const {
 
 float CelestialBody::mass() const { return static_cast<float>(m_mass); }
 
+sf::Vector2<double> CelestialBody::positionDouble() const { return m_position; }
+
+sf::Vector2<double> CelestialBody::velocityDouble() const { return m_velocity; }
+
+double CelestialBody::massDouble() const { return m_mass; }
+
+void CelestialBody::setPosition(const sf::Vector2<double> newPosition) { m_position = newPosition; }
+
+void CelestialBody::setVelocity(const sf::Vector2<double> newVelocity) { m_velocity = newVelocity; }
+
 void CelestialBody::loadResources() {
     // Load the image file
     m_image.first = std::make_shared<sf::Texture>();

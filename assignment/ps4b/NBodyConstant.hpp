@@ -11,6 +11,9 @@ namespace NB {
 // Window title
 constexpr std::string_view WINDOW_TITLE = "N-Body Problem Simulation by James Chen";
 
+// Window FPS
+constexpr int WINDOW_FPS = 60;
+
 // Window has a fixed height/width; the window is a square
 constexpr unsigned WINDOW_WIDTH = 720;
 constexpr unsigned WINDOW_HEIGHT = WINDOW_WIDTH;
@@ -29,6 +32,9 @@ const std::filesystem::path SOUND_BACKGROUND_MUSIC = ASSETS_SOUND_DIR / "2001.wa
 // Double constants
 constexpr double DOUBLE_HALF = 0.5;
 constexpr double SCALE_FACTOR = 1.1;
+
+// Gravitational constant
+constexpr double GravitationalConstant = 6.67e-11;
 
 }  // namespace NB
 
