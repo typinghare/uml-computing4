@@ -109,19 +109,34 @@ BOOST_AUTO_TEST_CASE(testCelestialBodyOutput) {
 
     const std::string EXPECT_LINE =
         " 3.535534e+08  3.535534e+08  1.934345e+02 -1.934345e+02 2.00e+23 earth.gif";
+
     BOOST_REQUIRE_EQUAL(line, EXPECT_LINE);
 }
 
 // Tests if "Universe::operator>>" and "Universe::operator<<" works correctly.
-BOOST_AUTO_TEST_CASE(testUniverseOutput) {
+BOOST_AUTO_TEST_CASE(testIdentifyBrokenImplementation) {
     const NB::Universe universe{ "assets/3body.txt" };
     std::stringstream stringstream;
     stringstream << universe;
-    std::string output = stringstream.str();
 
-    const std::string EXPECT_STRING = "3\n1.25e+11\n"
-                                      "0 0 500 0 5.974e+24 earth.gif\n"
-                                      "0 4.5e+10 30000 0 1.989e+30 sun.gif\n"
-                                      "0 -4.5e+10 -30000 0 1.989e+30 sun.gif\n";
-    BOOST_REQUIRE_EQUAL(output, EXPECT_STRING);
+    const std::string EXPECT_STRING = "3\n1.25e11\n"
+                                      "0.00e00  0.00e00  0.05e04  0.00e00  5.974e24  earth.gif\n"
+                                      "0.00e00  4.50e10  3.00e04  0.00e00  1.989e30  sun.gif\n"
+                                      "0.00e00 -4.50e10 -3.00e04  0.00e00  1.989e30  sun.gif";
+
+    BOOST_REQUIRE_EQUAL(stringstream.str(), EXPECT_STRING);
+}
+
+// Tests if `Universe::step()` works correctly
+BOOST_AUTO_TEST_CASE(testUniverseStep1) {
+    NB::Universe universe{ "assets/planets.txt" };
+    universe.step(25000.0);
+
+    const auto celestialBody1 = universe[0];
+    std::cout << celestialBody1.position().x;
+    BOOST_REQUIRE_EQUAL(celestialBody1.position().x, 1.49596291e11);
+    BOOST_REQUIRE_EQUAL(celestialBody1.position().y, 0.0);
+    BOOST_REQUIRE_EQUAL(celestialBody1.position().x, 0.0);
+    BOOST_REQUIRE_EQUAL(celestialBody1.position().y, 0.0);
+    BOOST_REQUIRE_EQUAL(celestialBody1.mass(), 0.0);
 }

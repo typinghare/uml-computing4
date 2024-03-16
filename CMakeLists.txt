@@ -112,7 +112,7 @@ add_executable(ps4a-test
     assignment/ps4a/Common.hpp
     assignment/ps4a/Common.cpp
 )
-target_link_libraries(ps4a -lsfml-graphics -lsfml-window -lsfml-system -lboost_unit_test_framework)
+target_link_libraries(ps4a -lboost_unit_test_framework)
 
 # ps4b
 add_executable(ps4b
@@ -126,6 +126,19 @@ add_executable(ps4b
     assignment/ps4b/UniverseElapsedTime.hpp
 )
 target_link_libraries(ps4b -lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system)
+
+# ps4b test
+add_executable(ps4b-test
+    assignment/ps4b/test.cpp
+    assignment/ps4b/NBodyConstant.hpp
+    assignment/ps4b/Universe.hpp
+    assignment/ps4b/Universe.cpp
+    assignment/ps4b/CelestialBody.hpp
+    assignment/ps4b/CelestialBody.cpp
+    assignment/ps4b/UniverseElapsedTime.cpp
+    assignment/ps4b/UniverseElapsedTime.hpp
+)
+target_link_libraries(ps4b -lboost_unit_test_framework)
 
 # playground
 add_executable(playground-any playground/any.cpp)

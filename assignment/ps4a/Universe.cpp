@@ -88,13 +88,8 @@ std::ostream& operator<<(std::ostream& ostream, const Universe& universe) {
     ostream << universe.m_numPlanets << std::endl << radius << std::endl;
 
     // Output celestial bodies
-    const auto numPlanets = static_cast<size_t>(universe.m_numPlanets);
-    for (size_t i = 0; i < universe.m_celestialBodyVector.size(); ++i) {
-        const auto celestialBody = universe.m_celestialBodyVector[i];
-        ostream << *universe.m_celestialBodyVector[i];
-        if (i != numPlanets - 1) {
-            ostream << std::endl;
-        }
+    for (const auto& celestialBody : universe.m_celestialBodyVector) {
+        ostream << *celestialBody << std::endl;
     }
 
     return ostream;

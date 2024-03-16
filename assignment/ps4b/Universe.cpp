@@ -1,6 +1,7 @@
 // Copyright 2024 James Chen
 
 #include "Universe.hpp"
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <limits>
@@ -10,7 +11,7 @@
 #include "NBodyConstant.hpp"
 
 /**
- * Converts a double number into a string in the scientific form.
+ * @brief Converts a double number into a string in the scientific form.
  * @param number The number to convert.
  * @return a string in the form of "x.yye?zz", where x is the integer part, yy is the fraction part,
  * ? is negative sign (optional), and zz is the exponent.
@@ -18,15 +19,32 @@
 std::string to_standard_scientific_string(const double& number) {
     std::ostringstream stream;
     stream << std::scientific << std::setprecision(2) << number;
+    std::string result = stream.str();
 
-    return stream.str();
+    // Remove the '+' sign from the exponent part if present
+    const size_t pos = result.find('e');
+    if (pos != std::string::npos && result[pos + 1] == '+') {
+        result.erase(pos + 1, 1);
+    }
+
+    return result;
 }
 
+/**
+ * @brief Returns the magnitude of a 2-dimensional vector.
+ * @tparam T The type of the vector.
+ * @param vector2 The 2-dimensional vector to find the magnitude.
+ */
 template <typename T>
 T magnitude_vector2(const sf::Vector2<T>& vector2) {
     return static_cast<T>(std::sqrt(vector2.x * vector2.x + vector2.y * vector2.y));
 }
 
+/**
+ * @brief Returns the normalized form of a 2-dimensional vector.
+ * @tparam T The type of the vector.
+ * @param vector2 The 2-dimensional vector to normalize.
+ */
 template <typename T>
 sf::Vector2<T> normalize_vector2(const sf::Vector2<T>& vector2) {
     T magnitude = magnitude_vector2(vector2);
@@ -108,7 +126,8 @@ void Universe::step(const double deltaTime) {
         const auto accelerationY = resultant.y / planet->massDouble();
 
         accelerationVector.emplace_back(
-            isnan(accelerationX) ? 0 : accelerationX, isnan(accelerationY) ? 0 : accelerationY);
+            std::isnan(accelerationX) ? 0 : accelerationX,
+            std::isnan(accelerationY) ? 0 : accelerationY);
     }
 
     // Calculate the new velocity of each planet

@@ -14,6 +14,8 @@
 
 This program loads and displays a static universe. It reads input data, including the number of planets, the radius of the universe, and the data of each planet, which consists of initial position, velocity, mass, and the filename of the image. After reading all the data, the program shows a window displaying the planets with a captivating background.
 
+<img src="./screenshot.png" alt="Screenshot" style="zoom:50%;" />
+
 ### Features
 
 This project encompasses the creation and implementation of two classes: `Universe` and `CelestialBody`.

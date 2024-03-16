@@ -58,11 +58,6 @@ class CelestialBody final : public sf::Drawable {
     Universe* m_universePtr;
 
     /**
-     * @brief The raw line string.
-     */
-    std::string m_line;
-
-    /**
      * @brief The center coordiante of this celestial body.
      */
     sf::Vector2<double> m_position;
