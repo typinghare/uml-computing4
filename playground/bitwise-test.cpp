@@ -1,10 +1,19 @@
 #include <bitset>
 #include <iostream>
 
-int main() {
-    std::bitset<4> a{ "0101" };
+template <typename T>
+void printIt(T a, T b);
 
-    std::cout << a[0];
+
+int main() {
+    printIt(1, 2);
 
     return 0;
+}
+
+
+template <typename T>
+void printIt(T a, T b) {
+    T sum = a + b;
+    std::cout << a << " + " << b << " = " << sum << std::endl;
 }

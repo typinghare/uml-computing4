@@ -48,13 +48,15 @@ void CelestialBody::loadResources() {
 void CelestialBody::draw(sf::RenderTarget& target, const sf::RenderStates states) const {
     const auto universeRadius = m_universePtr->radius();
     const auto universeScale = m_universePtr->scale();
+    const auto imageSprite = m_image.second;
+
     const sf::Vector2f realPosition{
         static_cast<float>((universeRadius + this->m_position.x) / universeScale),
         static_cast<float>((universeRadius - this->m_position.y) / universeScale),
     };
-    m_image.second->setPosition(realPosition);
+    imageSprite->setPosition(realPosition);
 
-    target.draw(*m_image.second, states);
+    target.draw(*imageSprite, states);
 }
 
 std::istream& operator>>(std::istream& istream, CelestialBody& celestialBody) {

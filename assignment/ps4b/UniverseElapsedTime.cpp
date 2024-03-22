@@ -12,7 +12,20 @@ void UniverseElapsedTime::step(const double deltaTime) { m_elapsedTime += deltaT
 
 void UniverseElapsedTime::draw(sf::RenderTarget& target, const sf::RenderStates states) const {
     const auto seconds = static_cast<unsigned>(m_elapsedTime);
-    const std::string stringToPrint = std::to_string(seconds) + " seconds";
+    const auto days = (seconds / SEONCDS_IN_DAY) % 365;
+    const auto years = seconds / SEONCDS_IN_YEAR;
+    const auto secondsStr = std::to_string(seconds);
+    const auto daysStr = std::to_string(days);
+    const auto yearsStr = std::to_string(years);
+    std::string stringToPrint;
+
+    if (seconds >= SEONCDS_IN_YEAR) {
+        stringToPrint = yearsStr + " years " + daysStr + " days";
+    } else if (seconds >= SEONCDS_IN_DAY) {
+        stringToPrint = daysStr + " days";
+    } else {
+        stringToPrint = secondsStr + " seconds";
+    }
 
     sf::Text text;
     text.setFont(m_font);

@@ -143,12 +143,7 @@ target_link_libraries(ps4b -lboost_unit_test_framework)
 # playground
 add_executable(playground-any playground/any.cpp)
 add_executable(playground-size playground/size.cpp)
-add_executable(bitwise-test playground/bitwise-test.cpp
-    assignment/ps4b/NBodyConstant.hpp
-    assignment/ps4b/Universe.cpp
-    assignment/ps4b/Universe.hpp
-    assignment/ps4b/CelestialBody.cpp
-    assignment/ps4b/CelestialBody.hpp)
+add_executable(bitwise-test playground/bitwise-test.cpp)
 add_executable(rand-between playground/rand-between.cpp)
 add_executable(swap playground/swap.cpp)
 add_executable(findMode playground/find-mode.cpp)

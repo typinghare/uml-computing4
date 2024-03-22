@@ -12,7 +12,7 @@ namespace NB {
 constexpr std::string_view WINDOW_TITLE = "N-Body Problem Simulation by James Chen";
 
 // Window FPS
-constexpr int WINDOW_FPS = 60;
+constexpr int WINDOW_FPS = 30;
 
 // Window has a fixed height/width; the window is a square
 constexpr unsigned WINDOW_WIDTH = 720;
@@ -39,6 +39,10 @@ constexpr double SCALE_FACTOR = 1.1;
 
 // Gravitational constant
 constexpr double GravitationalConstant = 6.67e-11;
+
+// Seconds in day/year
+constexpr int SEONCDS_IN_DAY = 86400;
+constexpr int SEONCDS_IN_YEAR = 31536000;
 
 }  // namespace NB
 

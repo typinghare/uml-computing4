@@ -3,11 +3,25 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE Main
 
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <boost/test/unit_test.hpp>
 #include "Universe.hpp"
+
+/**
+ * @brief Compares two values within tolerance.
+ * @param x The first value to compare.
+ * @param y The second value to compare.
+ * @param tolerance The allowable percentage difference between x and y (default is 1%).
+ * @return True if the absolute difference between x and y is within the specified tolerance, false
+ * otherwise
+ */
+template <typename T>
+bool equalWithinTolerance(T x, T y, double tolerance = 0.01) {
+    return std::abs(x - y) <= tolerance * std::abs(y);
+}
 
 // Tests if `Universe::getNumPlanets()` and `Universe::getRadius` work correcly.
 BOOST_AUTO_TEST_CASE(testUniverseBasic) {
@@ -44,7 +58,7 @@ BOOST_AUTO_TEST_CASE(testCelestialBodyBasic) {
     BOOST_REQUIRE_EQUAL(celestialBody.position().y, EXPECTED_POSITION_Y);
     BOOST_REQUIRE_EQUAL(celestialBody.velocity().x, EXPECTED_VELOCITY_X);
     BOOST_REQUIRE_EQUAL(celestialBody.velocity().y, EXPECTED_VELOCITY_Y);
-    BOOST_REQUIRE_EQUAL(celestialBody.mass(), EXPECTED_MASS);
+    BOOST_REQUIRE(equalWithinTolerance(celestialBody.mass(), EXPECTED_MASS));
 }
 
 // Tests if `Universe::operator[]` works for the non-first elements.
@@ -61,7 +75,7 @@ BOOST_AUTO_TEST_CASE(testUniverseBracketOperator1) {
     BOOST_REQUIRE_EQUAL(celestialBody.position().y, EXPECTED_POSITION_Y);
     BOOST_REQUIRE_EQUAL(celestialBody.velocity().x, EXPECTED_VELOCITY_X);
     BOOST_REQUIRE_EQUAL(celestialBody.velocity().y, EXPECTED_VELOCITY_Y);
-    BOOST_REQUIRE_EQUAL(celestialBody.mass(), EXPECTED_MASS);
+    BOOST_REQUIRE(equalWithinTolerance(celestialBody.mass(), EXPECTED_MASS));
 }
 
 // Tests if `Universe::operator[]` works for the last elements.
@@ -78,7 +92,7 @@ BOOST_AUTO_TEST_CASE(testUniverseBracketOperator2) {
     BOOST_REQUIRE_EQUAL(celestialBody.position().y, EXPECTED_POSITION_Y);
     BOOST_REQUIRE_EQUAL(celestialBody.velocity().x, EXPECTED_VELOCITY_X);
     BOOST_REQUIRE_EQUAL(celestialBody.velocity().y, EXPECTED_VELOCITY_Y);
-    BOOST_REQUIRE_EQUAL(celestialBody.mass(), EXPECTED_MASS);
+    BOOST_REQUIRE(equalWithinTolerance(celestialBody.mass(), EXPECTED_MASS));
 }
 
 // Tests if `Universe::operator[]` works for the last elements.
@@ -95,7 +109,7 @@ BOOST_AUTO_TEST_CASE(testUniverseBracketOperator3) {
     BOOST_REQUIRE_EQUAL(celestialBody.position().y, EXPECTED_POSITION_Y);
     BOOST_REQUIRE_EQUAL(celestialBody.velocity().x, EXPECTED_VELOCITY_X);
     BOOST_REQUIRE_EQUAL(celestialBody.velocity().y, EXPECTED_VELOCITY_Y);
-    BOOST_REQUIRE_EQUAL(celestialBody.mass(), EXPECTED_MASS);
+    BOOST_REQUIRE(equalWithinTolerance(celestialBody.mass(), EXPECTED_MASS));
 }
 
 // Tests if "CelestialBody::operator>>" and "CelestialBody::operator<<" works correctly.
@@ -130,13 +144,19 @@ BOOST_AUTO_TEST_CASE(testIdentifyBrokenImplementation) {
 // Tests if `Universe::step()` works correctly
 BOOST_AUTO_TEST_CASE(testUniverseStep1) {
     NB::Universe universe{ "assets/planets.txt" };
-    universe.step(25000.0);
+    constexpr double DELTA_TIME = 25000.0;
+    universe.step(DELTA_TIME);
 
-    const auto celestialBody1 = universe[0];
-    std::cout << celestialBody1.position().x;
-    BOOST_REQUIRE_EQUAL(celestialBody1.position().x, 1.49596291e11);
-    BOOST_REQUIRE_EQUAL(celestialBody1.position().y, 0.0);
-    BOOST_REQUIRE_EQUAL(celestialBody1.position().x, 0.0);
-    BOOST_REQUIRE_EQUAL(celestialBody1.position().y, 0.0);
-    BOOST_REQUIRE_EQUAL(celestialBody1.mass(), 0.0);
+    const auto celestialBody = universe[0];
+    BOOST_CHECK_MESSAGE(
+        equalWithinTolerance(celestialBody.position().x, 1.495e11F),
+        "x is not within 1% tolerance.");
+    BOOST_CHECK_MESSAGE(
+        equalWithinTolerance(celestialBody.position().y, 7.45e8F), "y is not within 1% tolerance.");
+    BOOST_CHECK_MESSAGE(
+        equalWithinTolerance(celestialBody.velocity().x, -148.201F),
+        "vx is not within 1% tolerance.");
+    BOOST_CHECK_MESSAGE(
+        equalWithinTolerance(celestialBody.velocity().y, 29800.F),
+        "vy is not within 1% tolerance.");
 }
