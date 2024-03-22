@@ -47,6 +47,7 @@ void CelestialBody::draw(sf::RenderTarget& target, sf::RenderStates states) cons
 
 std::istream& operator>>(std::istream& istream, CelestialBody& celestialBody) {
     std::string line;
+
     // Skip blank lines
     while (line.empty() && !istream.eof()) {
         getline(istream, line);

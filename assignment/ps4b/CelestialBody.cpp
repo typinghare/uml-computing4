@@ -9,6 +9,8 @@
 
 namespace NB {
 
+CelestialBody::CelestialBody() : m_universePtr(nullptr) {}
+
 CelestialBody::CelestialBody(Universe* universePtr) : m_universePtr(universePtr) {}
 
 sf::Vector2f CelestialBody::position() const {
@@ -33,9 +35,9 @@ sf::Vector2<double> CelestialBody::velocityDouble() const { return m_velocity; }
 
 double CelestialBody::massDouble() const { return m_mass; }
 
-void CelestialBody::setPosition(const sf::Vector2<double> newPosition) { m_position = newPosition; }
+void CelestialBody::position(const sf::Vector2<double> newPosition) { m_position = newPosition; }
 
-void CelestialBody::setVelocity(const sf::Vector2<double> newVelocity) { m_velocity = newVelocity; }
+void CelestialBody::velocity(const sf::Vector2<double> newVelocity) { m_velocity = newVelocity; }
 
 void CelestialBody::loadResources() {
     // Load the image file
@@ -46,6 +48,10 @@ void CelestialBody::loadResources() {
 }
 
 void CelestialBody::draw(sf::RenderTarget& target, const sf::RenderStates states) const {
+    if (m_universePtr == nullptr) {
+        return;
+    }
+
     const auto universeRadius = m_universePtr->radius();
     const auto universeScale = m_universePtr->scale();
     const auto imageSprite = m_image.second;
@@ -60,28 +66,27 @@ void CelestialBody::draw(sf::RenderTarget& target, const sf::RenderStates states
 }
 
 std::istream& operator>>(std::istream& istream, CelestialBody& celestialBody) {
+    std::string line;
+
     // Skip the empty lines
-    while (celestialBody.m_line.empty() && !istream.eof()) {
-        getline(istream, celestialBody.m_line);
+    while (line.empty() && !istream.eof()) {
+        getline(istream, line);
     }
 
-    // Read data
-    std::stringstream stringstream(celestialBody.m_line);
+    // Read data from the line string
+    std::stringstream stringstream(line);
     stringstream >> celestialBody.m_position.x >> celestialBody.m_position.y >>
         celestialBody.m_velocity.x >> celestialBody.m_velocity.y >> celestialBody.m_mass >>
         celestialBody.m_image_filename;
-
-    // Throw an rumtime error if failing to read data
-    if (stringstream.fail()) {
-        throw std::runtime_error("Invalid input: " + celestialBody.m_line);
-    }
 
     return istream;
 }
 
 std::ostream& operator<<(std::ostream& ostream, const CelestialBody& celestialBody) {
-    // Directly output the raw line
-    ostream << celestialBody.m_line;
+    const auto position = celestialBody.position();
+    const auto velocity = celestialBody.velocityDouble();
+    ostream << position.x << " " << position.y << " " << velocity.x << " " << velocity.y << " "
+            << celestialBody.mass() << " " << celestialBody.m_image_filename;
 
     return ostream;
 }

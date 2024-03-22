@@ -16,6 +16,11 @@ class Universe;
 class CelestialBody final : public sf::Drawable {
  public:
     /**
+     * @brief Constructs a CelestialBody instance.
+     */
+    CelestialBody();
+
+    /**
      * @brief Constructs a CelestialBody instance within a specified Universe.
      * @param universePtr Pointer to the Universe this CelestialBody belongs to.
      */
@@ -66,12 +71,12 @@ class CelestialBody final : public sf::Drawable {
     /**
      * @brief Sets the new position for this CelestialBody.
      */
-    void setPosition(sf::Vector2<double> newPosition);
+    void position(sf::Vector2<double> newPosition);
 
     /**
      * @brief Sets the new velocity for this CelestialBody.
      */
-    void setVelocity(sf::Vector2<double> newVelocity);
+    void velocity(sf::Vector2<double> newVelocity);
 
     /**
      * @brief Loads the resource (image) associated with this CelestialBody.
@@ -91,11 +96,6 @@ class CelestialBody final : public sf::Drawable {
      * @brief Pointer to the Universe this CelestialBody belongs to.
      */
     Universe* m_universePtr;
-
-    /**
-     * @brief Raw line string data.
-     */
-    std::string m_line;
 
     /**
      * @brief The center coordinate of this CelestialBody.

@@ -61,5 +61,5 @@ boost: $(TEST_PROGRAM)
 
 run: $(PROGRAM)
 	# ./$(PROGRAM) 1000.0 1.0 < assets/3body-zero-gravity.txt
-	# ./$(PROGRAM) 157788000.0 25000.0 < assets/planets.txt
-	./$(PROGRAM) 157788000.0 25000.0 < assets/planetsparty.txt
+	./$(PROGRAM) 157788000.0 25000.0 < assets/planets.txt
+	#./$(PROGRAM) 157788000.0 25000.0 < assets/planetsparty.txt

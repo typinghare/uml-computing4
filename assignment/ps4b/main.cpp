@@ -32,6 +32,7 @@ int main(const int argc, const char* argv[]) {
     sf::RenderWindow window(windowVideoMode, std::string(NB::WINDOW_TITLE));
     window.setFramerateLimit(NB::WINDOW_FPS);
 
+    bool hasPrintedFinalState = false;
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
@@ -45,6 +46,9 @@ int main(const int argc, const char* argv[]) {
             // The simulation stops when T >= t
             if (elapsedTime < totalTime) {
                 universe.step(deltaTime);
+            } else if (!hasPrintedFinalState) {
+                std::cout << universe;
+                hasPrintedFinalState = true;
             }
 
             window.clear(sf::Color::White);

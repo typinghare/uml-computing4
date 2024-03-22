@@ -10,18 +10,8 @@
 #include <boost/test/unit_test.hpp>
 #include "Universe.hpp"
 
-/**
- * @brief Compares two values within tolerance.
- * @param x The first value to compare.
- * @param y The second value to compare.
- * @param tolerance The allowable percentage difference between x and y (default is 1%).
- * @return True if the absolute difference between x and y is within the specified tolerance, false
- * otherwise
- */
-template <typename T>
-bool equalWithinTolerance(T x, T y, double tolerance = 0.01) {
-    return std::abs(x - y) <= tolerance * std::abs(y);
-}
+constexpr float MASS_MAX_TOLERANCE = 0.1;
+constexpr float STEP_TOLERANCE = 0.1;
 
 // Tests if `Universe::getNumPlanets()` and `Universe::getRadius` work correcly.
 BOOST_AUTO_TEST_CASE(testUniverseBasic) {
@@ -58,7 +48,7 @@ BOOST_AUTO_TEST_CASE(testCelestialBodyBasic) {
     BOOST_REQUIRE_EQUAL(celestialBody.position().y, EXPECTED_POSITION_Y);
     BOOST_REQUIRE_EQUAL(celestialBody.velocity().x, EXPECTED_VELOCITY_X);
     BOOST_REQUIRE_EQUAL(celestialBody.velocity().y, EXPECTED_VELOCITY_Y);
-    BOOST_REQUIRE(equalWithinTolerance(celestialBody.mass(), EXPECTED_MASS));
+    BOOST_REQUIRE_CLOSE(celestialBody.mass(), EXPECTED_MASS, MASS_MAX_TOLERANCE);
 }
 
 // Tests if `Universe::operator[]` works for the non-first elements.
@@ -75,7 +65,7 @@ BOOST_AUTO_TEST_CASE(testUniverseBracketOperator1) {
     BOOST_REQUIRE_EQUAL(celestialBody.position().y, EXPECTED_POSITION_Y);
     BOOST_REQUIRE_EQUAL(celestialBody.velocity().x, EXPECTED_VELOCITY_X);
     BOOST_REQUIRE_EQUAL(celestialBody.velocity().y, EXPECTED_VELOCITY_Y);
-    BOOST_REQUIRE(equalWithinTolerance(celestialBody.mass(), EXPECTED_MASS));
+    BOOST_REQUIRE_CLOSE(celestialBody.mass(), EXPECTED_MASS, MASS_MAX_TOLERANCE);
 }
 
 // Tests if `Universe::operator[]` works for the last elements.
@@ -92,7 +82,7 @@ BOOST_AUTO_TEST_CASE(testUniverseBracketOperator2) {
     BOOST_REQUIRE_EQUAL(celestialBody.position().y, EXPECTED_POSITION_Y);
     BOOST_REQUIRE_EQUAL(celestialBody.velocity().x, EXPECTED_VELOCITY_X);
     BOOST_REQUIRE_EQUAL(celestialBody.velocity().y, EXPECTED_VELOCITY_Y);
-    BOOST_REQUIRE(equalWithinTolerance(celestialBody.mass(), EXPECTED_MASS));
+    BOOST_REQUIRE_CLOSE(celestialBody.mass(), EXPECTED_MASS, MASS_MAX_TOLERANCE);
 }
 
 // Tests if `Universe::operator[]` works for the last elements.
@@ -109,7 +99,7 @@ BOOST_AUTO_TEST_CASE(testUniverseBracketOperator3) {
     BOOST_REQUIRE_EQUAL(celestialBody.position().y, EXPECTED_POSITION_Y);
     BOOST_REQUIRE_EQUAL(celestialBody.velocity().x, EXPECTED_VELOCITY_X);
     BOOST_REQUIRE_EQUAL(celestialBody.velocity().y, EXPECTED_VELOCITY_Y);
-    BOOST_REQUIRE(equalWithinTolerance(celestialBody.mass(), EXPECTED_MASS));
+    BOOST_REQUIRE_CLOSE(celestialBody.mass(), EXPECTED_MASS, MASS_MAX_TOLERANCE);
 }
 
 // Tests if "CelestialBody::operator>>" and "CelestialBody::operator<<" works correctly.
@@ -120,43 +110,64 @@ BOOST_AUTO_TEST_CASE(testCelestialBodyOutput) {
     getline(fileStream, line);
     getline(fileStream, line);
     getline(fileStream, line);
+    std::istringstream istringstream{ line };
+    NB::CelestialBody celestialBody;
+    istringstream >> celestialBody;
 
-    const std::string EXPECT_LINE =
-        " 3.535534e+08  3.535534e+08  1.934345e+02 -1.934345e+02 2.00e+23 earth.gif";
+    std::ostringstream ostringstream;
+    ostringstream << celestialBody;
 
-    BOOST_REQUIRE_EQUAL(line, EXPECT_LINE);
+    // original line:
+    // 3.535534e+08  3.535534e+08  1.934345e+02 -1.934345e+02 2.00e+23 earth.gif
+    const std::string EXPECT_LINE = "3.53553e+08 3.53553e+08 193.435 -193.435 2e+23 earth.gif";
+    BOOST_REQUIRE_EQUAL(ostringstream.str(), EXPECT_LINE);
 }
 
 // Tests if "Universe::operator>>" and "Universe::operator<<" works correctly.
-BOOST_AUTO_TEST_CASE(testIdentifyBrokenImplementation) {
+BOOST_AUTO_TEST_CASE(testUniverseOutput) {
     const NB::Universe universe{ "assets/3body.txt" };
     std::stringstream stringstream;
     stringstream << universe;
+    std::string output = stringstream.str();
 
-    const std::string EXPECT_STRING = "3\n1.25e11\n"
-                                      "0.00e00  0.00e00  0.05e04  0.00e00  5.974e24  earth.gif\n"
-                                      "0.00e00  4.50e10  3.00e04  0.00e00  1.989e30  sun.gif\n"
-                                      "0.00e00 -4.50e10 -3.00e04  0.00e00  1.989e30  sun.gif";
-
-    BOOST_REQUIRE_EQUAL(stringstream.str(), EXPECT_STRING);
+    const std::string EXPECT_STRING = "3\n1.25e+11\n"
+                                      "0 0 500 0 5.974e+24 earth.gif\n"
+                                      "0 4.5e+10 30000 0 1.989e+30 sun.gif\n"
+                                      "0 -4.5e+10 -30000 0 1.989e+30 sun.gif\n";
+    BOOST_REQUIRE_EQUAL(output, EXPECT_STRING);
 }
 
-// Tests if `Universe::step()` works correctly
+// Tests if `Universe::step()` works correctly by performing one step.
 BOOST_AUTO_TEST_CASE(testUniverseStep1) {
     NB::Universe universe{ "assets/planets.txt" };
     constexpr double DELTA_TIME = 25000.0;
     universe.step(DELTA_TIME);
 
+    constexpr float EXPECTED_POSITION_X = 1.495e11F;
+    constexpr float EXPECTED_POSITION_Y = 7.45e8F;
+    constexpr float EXPECTED_VELOCITY_X = -148.201F;
+    constexpr float EXPECTED_VELOCITY_Y = 29800.F;
     const auto celestialBody = universe[0];
-    BOOST_CHECK_MESSAGE(
-        equalWithinTolerance(celestialBody.position().x, 1.495e11F),
-        "x is not within 1% tolerance.");
-    BOOST_CHECK_MESSAGE(
-        equalWithinTolerance(celestialBody.position().y, 7.45e8F), "y is not within 1% tolerance.");
-    BOOST_CHECK_MESSAGE(
-        equalWithinTolerance(celestialBody.velocity().x, -148.201F),
-        "vx is not within 1% tolerance.");
-    BOOST_CHECK_MESSAGE(
-        equalWithinTolerance(celestialBody.velocity().y, 29800.F),
-        "vy is not within 1% tolerance.");
+    BOOST_REQUIRE_CLOSE(celestialBody.position().x, EXPECTED_POSITION_X, STEP_TOLERANCE);
+    BOOST_REQUIRE_CLOSE(celestialBody.position().y, EXPECTED_POSITION_Y, STEP_TOLERANCE);
+    BOOST_REQUIRE_CLOSE(celestialBody.velocity().x, EXPECTED_VELOCITY_X, STEP_TOLERANCE);
+    BOOST_REQUIRE_CLOSE(celestialBody.velocity().y, EXPECTED_VELOCITY_Y, STEP_TOLERANCE);
+}
+
+// Tests if `Universe::step()` works correctly by performing two steps.
+BOOST_AUTO_TEST_CASE(testUniverseStep2) {
+    NB::Universe universe{ "assets/planets.txt" };
+    constexpr double DELTA_TIME = 25000.0;
+    universe.step(DELTA_TIME);
+    universe.step(DELTA_TIME);
+
+    constexpr float EXPECTED_POSITION_X = 1.495e11F;
+    constexpr float EXPECTED_POSITION_Y = 1.489e+09;
+    constexpr float EXPECTED_VELOCITY_X = -296.403F;
+    constexpr float EXPECTED_VELOCITY_Y = 29800.F;
+    const auto celestialBody = universe[0];
+    BOOST_REQUIRE_CLOSE(celestialBody.position().x, EXPECTED_POSITION_X, STEP_TOLERANCE);
+    BOOST_REQUIRE_CLOSE(celestialBody.position().y, EXPECTED_POSITION_Y, STEP_TOLERANCE);
+    BOOST_REQUIRE_CLOSE(celestialBody.velocity().x, EXPECTED_VELOCITY_X, STEP_TOLERANCE);
+    BOOST_REQUIRE_CLOSE(celestialBody.velocity().y, EXPECTED_VELOCITY_Y, STEP_TOLERANCE);
 }

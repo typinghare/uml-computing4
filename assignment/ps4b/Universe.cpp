@@ -136,7 +136,7 @@ void Universe::step(const double deltaTime) {
         const auto velocity = planet->velocityDouble();
         const auto acceleration = accelerationVector[i];
 
-        planet->setVelocity(
+        planet->velocity(
             { velocity.x + acceleration.x * deltaTime, velocity.y + acceleration.y * deltaTime });
     }
 
@@ -146,7 +146,7 @@ void Universe::step(const double deltaTime) {
         const auto position = planet->positionDouble();
         const auto velocity = planet->velocityDouble();
 
-        planet->setPosition(
+        planet->position(
             { position.x + velocity.x * deltaTime, position.y + velocity.y * deltaTime });
     }
 
@@ -216,10 +216,6 @@ std::istream& operator>>(std::istream& istream, Universe& universe) {
     // while they are moving
     universe.m_scale = universe.m_radius / DOUBLE_HALF / WINDOW_WIDTH * SCALE_FACTOR;
 
-    if (istream.fail()) {
-        throw std::runtime_error("Invalid input");
-    }
-
     istream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     // Celestial bodies
@@ -233,17 +229,12 @@ std::istream& operator>>(std::istream& istream, Universe& universe) {
 }
 
 std::ostream& operator<<(std::ostream& ostream, const Universe& universe) {
-    const auto radius = to_standard_scientific_string(universe.m_radius);
-    ostream << universe.m_numPlanets << std::endl << radius << std::endl;
+    ostream << universe.m_numPlanets << std::endl << universe.m_radius << std::endl;
 
     // Output celestial bodies
-    const auto numPlanets = static_cast<size_t>(universe.m_numPlanets);
     for (size_t i = 0; i < universe.m_celestialBodyVector.size(); ++i) {
         const auto celestialBody = universe.m_celestialBodyVector[i];
-        ostream << *universe.m_celestialBodyVector[i];
-        if (i != numPlanets - 1) {
-            ostream << std::endl;
-        }
+        ostream << *universe.m_celestialBodyVector[i] << std::endl;
     }
 
     return ostream;

@@ -67,10 +67,6 @@ std::istream& operator>>(std::istream& istream, Universe& universe) {
     // Set the scale (1.1x larger, as some planets' trajectories are ecllipses)
     universe.m_scale = universe.m_radius * 2.0 / WINDOW_WIDTH * 1.1;
 
-    if (istream.fail()) {
-        throw std::runtime_error("Invalid input");
-    }
-
     istream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     // Celestial bodies
@@ -84,8 +80,7 @@ std::istream& operator>>(std::istream& istream, Universe& universe) {
 }
 
 std::ostream& operator<<(std::ostream& ostream, const Universe& universe) {
-    const auto radius = to_standard_scientific_string(universe.m_radius);
-    ostream << universe.m_numPlanets << std::endl << radius << std::endl;
+    ostream << universe.m_numPlanets << std::endl << universe.m_radius << std::endl;
 
     // Output celestial bodies
     for (const auto& celestialBody : universe.m_celestialBodyVector) {
