@@ -143,10 +143,10 @@ BOOST_AUTO_TEST_CASE(testUniverseStep1) {
     constexpr double DELTA_TIME = 25000.0;
     universe.step(DELTA_TIME);
 
-    constexpr float EXPECTED_POSITION_X = 1.495e11F;
-    constexpr float EXPECTED_POSITION_Y = 7.45e8F;
-    constexpr float EXPECTED_VELOCITY_X = -148.201F;
-    constexpr float EXPECTED_VELOCITY_Y = 29800.F;
+    constexpr float EXPECTED_POSITION_X = 1.4960e+11F;
+    constexpr float EXPECTED_POSITION_Y = 7.4500e+08F;
+    constexpr float EXPECTED_VELOCITY_X = -1.4820e+02F;
+    constexpr float EXPECTED_VELOCITY_Y = 2.9800e+04F;
     const auto celestialBody = universe[0];
     BOOST_REQUIRE_CLOSE(celestialBody.position().x, EXPECTED_POSITION_X, STEP_TOLERANCE);
     BOOST_REQUIRE_CLOSE(celestialBody.position().y, EXPECTED_POSITION_Y, STEP_TOLERANCE);
@@ -161,10 +161,10 @@ BOOST_AUTO_TEST_CASE(testUniverseStep2) {
     universe.step(DELTA_TIME);
     universe.step(DELTA_TIME);
 
-    constexpr float EXPECTED_POSITION_X = 2.2789e11F;
-    constexpr float EXPECTED_POSITION_Y = 1.2049e09F;
-    constexpr float EXPECTED_VELOCITY_X = -127.719F;
-    constexpr float EXPECTED_VELOCITY_Y = 24099.F;
+    constexpr float EXPECTED_POSITION_X = 2.2790e+11F;
+    constexpr float EXPECTED_POSITION_Y = 1.2050e+09F;
+    constexpr float EXPECTED_VELOCITY_X = -1.2772e+02F;
+    constexpr float EXPECTED_VELOCITY_Y = 2.4100e+04F;
     const auto celestialBody = universe[1];
     BOOST_REQUIRE_CLOSE(celestialBody.position().x, EXPECTED_POSITION_X, STEP_TOLERANCE);
     BOOST_REQUIRE_CLOSE(celestialBody.position().y, EXPECTED_POSITION_Y, STEP_TOLERANCE);
@@ -180,11 +180,34 @@ BOOST_AUTO_TEST_CASE(testUniverseStep3) {
     universe.step(DELTA_TIME);
     universe.step(DELTA_TIME);
 
-    constexpr float EXPECTED_POSITION_X = 2.2789e11F;
-    constexpr float EXPECTED_POSITION_Y = 1.8074e09F;
-    constexpr float EXPECTED_VELOCITY_X = -191.579F;
-    constexpr float EXPECTED_VELOCITY_Y = 24099.F;
+    constexpr float EXPECTED_POSITION_X = 2.2789e+11F;
+    constexpr float EXPECTED_POSITION_Y = 1.8075e+09F;
+    constexpr float EXPECTED_VELOCITY_X = -1.9158e+02F;
+    constexpr float EXPECTED_VELOCITY_Y = 2.4099e+04F;
     const auto celestialBody = universe[1];
+    BOOST_REQUIRE_CLOSE(celestialBody.position().x, EXPECTED_POSITION_X, STEP_TOLERANCE);
+    BOOST_REQUIRE_CLOSE(celestialBody.position().y, EXPECTED_POSITION_Y, STEP_TOLERANCE);
+    BOOST_REQUIRE_CLOSE(celestialBody.velocity().x, EXPECTED_VELOCITY_X, STEP_TOLERANCE);
+    BOOST_REQUIRE_CLOSE(celestialBody.velocity().y, EXPECTED_VELOCITY_Y, STEP_TOLERANCE);
+}
+
+// Tests if `Universe::step()` works correctly by performing multiple steps until the time reach one
+// year.
+BOOST_AUTO_TEST_CASE(testUniverseStepOneYear) {
+    NB::Universe universe{ "assets/planets.txt" };
+    constexpr double TOTAL_TIME = 31557600.0;
+    double accumulatedTime = 0.0;
+    while (accumulatedTime < TOTAL_TIME) {
+        constexpr double DELTA_TIME = 25000.0;
+        universe.step(DELTA_TIME);
+        accumulatedTime += DELTA_TIME;
+    }
+
+    constexpr float EXPECTED_POSITION_X = -7.3731e+10F;
+    constexpr float EXPECTED_POSITION_Y = -7.9391e+10F;
+    constexpr float EXPECTED_VELOCITY_X = 2.5433e+04F;
+    constexpr float EXPECTED_VELOCITY_Y = -2.3973e+04F;
+    const auto celestialBody = universe[4];
     BOOST_REQUIRE_CLOSE(celestialBody.position().x, EXPECTED_POSITION_X, STEP_TOLERANCE);
     BOOST_REQUIRE_CLOSE(celestialBody.position().y, EXPECTED_POSITION_Y, STEP_TOLERANCE);
     BOOST_REQUIRE_CLOSE(celestialBody.velocity().x, EXPECTED_VELOCITY_X, STEP_TOLERANCE);
@@ -221,10 +244,6 @@ BOOST_AUTO_TEST_CASE(testUniverseStepDifferentDeltaTime) {
     constexpr float EXPECTED_VELOCITY_X = -178.808F;
     constexpr float EXPECTED_VELOCITY_Y = 24099.7F;
     const auto celestialBody = universe[1];
-    // std::cout << celestialBody.position().x << std::endl;
-    // std::cout << celestialBody.position().y << std::endl;
-    // std::cout << celestialBody.velocity().x << std::endl;
-    // std::cout << celestialBody.velocity().y << std::endl;
     BOOST_REQUIRE_CLOSE(celestialBody.position().x, EXPECTED_POSITION_X, STEP_TOLERANCE);
     BOOST_REQUIRE_CLOSE(celestialBody.position().y, EXPECTED_POSITION_Y, STEP_TOLERANCE);
     BOOST_REQUIRE_CLOSE(celestialBody.velocity().x, EXPECTED_VELOCITY_X, STEP_TOLERANCE);

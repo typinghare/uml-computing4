@@ -1,27 +1,75 @@
 # PS4: N-Body Simulation
 
 ## Contact
-Name:
-Section:
-Time to Complete:
 
+> Name: Zhuojian Chen (James)
+>
+> Student ID: 02151380
+>
+> Section: COMP 2040 P 1 203
+>
+> Time to Complete: March 12, 2024
 
 ## Description
-Explain what the project does.
+
+This program is designed to load, visualize, and simulate the motion of celestial bodies within a universe. It operates by taking two crucial arguments: the total simulation time `T` and the time step `△t`. Upon execution, it ingests input data, which includes information such as the number of planets, the universe's radius, and specific details for each celestial body like initial position, velocity, mass, and the corresponding image filename. Once all data is gathered, the program presents a visually engaging window displaying the celestial bodies against a captivating backdrop. Subsequently, it executes a simulation of the celestial bodies' movements over the time span `T`, employing the *leapfrog finite difference approximation scheme* with the given time step `△t`. Upon the accumulated step time is over total time `T`, the simulation stops and the final state of the universe will be printed on the console.
+
+<img src="./screenshot.png" alt="screenshot" style="zoom:50%;" />
 
 ### Features
-Describe what your major decisions were and why you did things that way.
+
+This project encompasses the creation and implementation of two classes: `Universe` and `CelestialBody`.
+
+`Universe` encapsulates a vector of celestial bodies, alongside attributes such as radius and scale. The scale represents the ratio of the universe's diameter to the width of the displayed window. Additionally, it features a `step` function, accepting a time delta in seconds as a parameter, responsible for advancing the state of celestial bodies to the subsequent one in their trajectory.
+
+On the other hand, `CelestialBody` comprises attributes such as position, velocity, mass, and more. Notably, `CelestialBody` features a distinctive constructor that accepts a `Universe` object as a parameter, facilitating its instantiation within the universe context.
 
 ### Memory
-Describe how you managed the lifetimes of your objects, including if you used smart pointers.
+
+No raw pointers are used in this program. Texture, sprite, and sound (including sound buffer) resources are stored using `std::shared_ptr`. For instance, the image of each `CelestialBody` is stored in a pair with two shared pointers:
+
+~~~c++
+/**
+ * @brief Pair containing shared pointers to the texture and sprite of this CelestialBody.
+ */
+std::pair<std::shared_ptr<sf::Texture>, std::shared_ptr<sf::Sprite>> m_image;
+~~~
+
+This can be found in `CelestialBody.hpp`, line 118.
+
+The storage of `CelestialBody` in the class `Universe` also leverages smart pointers:
+
+```c++
+ /**
+  * @brief Vector of CelestialBodies in this Universe.
+  */
+std::vector<std::shared_ptr<CelestialBody>> m_celestialBodyVector;
+```
+
+This can be found in `Universe.hpp`, line 116.
+
+### Algorithm
+
+In `Universe.cpp`, `std::for_each` is used to draw celestial bodies onto the target:
+
+```c++
+auto drawCelestialBody = [&](const std::shared_ptr<CelestialBody>& celestialBody) {
+    celestialBody->draw(target, states);
+};
+
+std::for_each(m_celestialBodyVector.cbegin(), m_celestialBodyVector.cend(), drawCelestialBody);
+```
+
+The usage of lambda expression enhances the readbility and robustness of the program.
 
 ### Issues
-What did you have trouble with?  What did you learn?  What doesn't work?  Be honest.  You might be penalized if you claim something works and it doesn't.
+
+No specific issues were found during the process of `ps4b`.
 
 ### Extra Credit
-Anything special you did.  This is required to earn bonus points.
-If you created your own universe file.  Describe it here and explain why it is interesting.
 
-## Acknowledgements
-List all sources of help including the instructor or TAs, classmates, and web pages.
-If you used images or other resources than the ones provided, list them here.
+1. The elapsed time, displayed in the top-left corner of the screen, dynamically adjusts its units based on the duration. When the elapsed time is less than one day, it's represented in seconds. If it exceeds one day but is less than a year, it switches to days. Beyond a year, it shows the duration in years and days for comprehensive tracking.
+
+## Acknowledgments
+
+Background image: [Stars](https://elements.envato.com/stars-ZFJ7AAD) from https://elements.envato.com.

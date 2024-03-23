@@ -63,7 +63,7 @@ There is still one thing that I still unable to figure out: my program does not 
 ### Extra Credit
 
 1. I have incorporated a background image into the program. For the reference of the background image utilized, please refer to the **Acknowledgments** section.
-2. I have incorporated the `2001.wav` background music, which is in the provided resource package, into the program. 
+2. I have incorporated the `2001.wav` background music, which is in the provided resource package, into the program.
 
 ## Acknowledgments
 
