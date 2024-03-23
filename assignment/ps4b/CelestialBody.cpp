@@ -4,7 +4,6 @@
 #include <iostream>
 #include <sstream>
 #include <boost/algorithm/string.hpp>
-
 #include "NBodyConstant.hpp"
 
 namespace NB {

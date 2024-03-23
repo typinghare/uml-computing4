@@ -161,11 +161,70 @@ BOOST_AUTO_TEST_CASE(testUniverseStep2) {
     universe.step(DELTA_TIME);
     universe.step(DELTA_TIME);
 
-    constexpr float EXPECTED_POSITION_X = 1.495e11F;
-    constexpr float EXPECTED_POSITION_Y = 1.489e+09;
-    constexpr float EXPECTED_VELOCITY_X = -296.403F;
-    constexpr float EXPECTED_VELOCITY_Y = 29800.F;
-    const auto celestialBody = universe[0];
+    constexpr float EXPECTED_POSITION_X = 2.2789e11F;
+    constexpr float EXPECTED_POSITION_Y = 1.2049e09F;
+    constexpr float EXPECTED_VELOCITY_X = -127.719F;
+    constexpr float EXPECTED_VELOCITY_Y = 24099.F;
+    const auto celestialBody = universe[1];
+    BOOST_REQUIRE_CLOSE(celestialBody.position().x, EXPECTED_POSITION_X, STEP_TOLERANCE);
+    BOOST_REQUIRE_CLOSE(celestialBody.position().y, EXPECTED_POSITION_Y, STEP_TOLERANCE);
+    BOOST_REQUIRE_CLOSE(celestialBody.velocity().x, EXPECTED_VELOCITY_X, STEP_TOLERANCE);
+    BOOST_REQUIRE_CLOSE(celestialBody.velocity().y, EXPECTED_VELOCITY_Y, STEP_TOLERANCE);
+}
+
+// Tests if `Universe::step()` works correctly by performing three steps.
+BOOST_AUTO_TEST_CASE(testUniverseStep3) {
+    NB::Universe universe{ "assets/planets.txt" };
+    constexpr double DELTA_TIME = 25000.0;
+    universe.step(DELTA_TIME);
+    universe.step(DELTA_TIME);
+    universe.step(DELTA_TIME);
+
+    constexpr float EXPECTED_POSITION_X = 2.2789e11F;
+    constexpr float EXPECTED_POSITION_Y = 1.8074e09F;
+    constexpr float EXPECTED_VELOCITY_X = -191.579F;
+    constexpr float EXPECTED_VELOCITY_Y = 24099.F;
+    const auto celestialBody = universe[1];
+    BOOST_REQUIRE_CLOSE(celestialBody.position().x, EXPECTED_POSITION_X, STEP_TOLERANCE);
+    BOOST_REQUIRE_CLOSE(celestialBody.position().y, EXPECTED_POSITION_Y, STEP_TOLERANCE);
+    BOOST_REQUIRE_CLOSE(celestialBody.velocity().x, EXPECTED_VELOCITY_X, STEP_TOLERANCE);
+    BOOST_REQUIRE_CLOSE(celestialBody.velocity().y, EXPECTED_VELOCITY_Y, STEP_TOLERANCE);
+}
+
+// Tests if `Universe::step()` works correctly for negative delta time.
+BOOST_AUTO_TEST_CASE(testUniverseStepNegativeDeltaTime) {
+    NB::Universe universe{ "assets/planets.txt" };
+    constexpr double DELTA_TIME = -25000.0;
+    universe.step(DELTA_TIME);
+
+    constexpr float EXPECTED_POSITION_X = 2.2789e11F;
+    constexpr float EXPECTED_POSITION_Y = -602499968.F;
+    constexpr float EXPECTED_VELOCITY_X = 63.8597F;
+    constexpr float EXPECTED_VELOCITY_Y = 24100.F;
+    const auto celestialBody = universe[1];
+    BOOST_REQUIRE_CLOSE(celestialBody.position().x, EXPECTED_POSITION_X, STEP_TOLERANCE);
+    BOOST_REQUIRE_CLOSE(celestialBody.position().y, EXPECTED_POSITION_Y, STEP_TOLERANCE);
+    BOOST_REQUIRE_CLOSE(celestialBody.velocity().x, EXPECTED_VELOCITY_X, STEP_TOLERANCE);
+    BOOST_REQUIRE_CLOSE(celestialBody.velocity().y, EXPECTED_VELOCITY_Y, STEP_TOLERANCE);
+}
+
+// Tests if `Universe::step()` works correctly by passing to different delta time consequently.
+BOOST_AUTO_TEST_CASE(testUniverseStepDifferentDeltaTime) {
+    NB::Universe universe{ "assets/planets.txt" };
+    constexpr double DELTA_TIME_1 = 25000.0;
+    constexpr double DELTA_TIME_2 = 45000.0;
+    universe.step(DELTA_TIME_1);
+    universe.step(DELTA_TIME_2);
+
+    constexpr float EXPECTED_POSITION_X = 2.2789e11F;
+    constexpr float EXPECTED_POSITION_Y = 1.68699e09F;
+    constexpr float EXPECTED_VELOCITY_X = -178.808F;
+    constexpr float EXPECTED_VELOCITY_Y = 24099.7F;
+    const auto celestialBody = universe[1];
+    // std::cout << celestialBody.position().x << std::endl;
+    // std::cout << celestialBody.position().y << std::endl;
+    // std::cout << celestialBody.velocity().x << std::endl;
+    // std::cout << celestialBody.velocity().y << std::endl;
     BOOST_REQUIRE_CLOSE(celestialBody.position().x, EXPECTED_POSITION_X, STEP_TOLERANCE);
     BOOST_REQUIRE_CLOSE(celestialBody.position().y, EXPECTED_POSITION_Y, STEP_TOLERANCE);
     BOOST_REQUIRE_CLOSE(celestialBody.velocity().x, EXPECTED_VELOCITY_X, STEP_TOLERANCE);
