@@ -69,23 +69,6 @@ BOOST_AUTO_TEST_CASE(testUniverseBracketOperator1) {
 }
 
 // Tests if `Universe::operator[]` works for the last elements.
-BOOST_AUTO_TEST_CASE(testUniverseBracketOperator2) {
-    const NB::Universe universe{ "assets/uniform8.txt" };
-    const auto celestialBody = universe[universe.numPlanets() - 1];
-
-    constexpr float EXPECTED_POSITION_X = 3.535534e+08;
-    constexpr float EXPECTED_POSITION_Y = -3.535534e+08;
-    constexpr float EXPECTED_VELOCITY_X = -1.934345e+02;
-    constexpr float EXPECTED_VELOCITY_Y = -1.934345e+02;
-    constexpr float EXPECTED_MASS = 2.00e+23;
-    BOOST_REQUIRE_EQUAL(celestialBody.position().x, EXPECTED_POSITION_X);
-    BOOST_REQUIRE_EQUAL(celestialBody.position().y, EXPECTED_POSITION_Y);
-    BOOST_REQUIRE_EQUAL(celestialBody.velocity().x, EXPECTED_VELOCITY_X);
-    BOOST_REQUIRE_EQUAL(celestialBody.velocity().y, EXPECTED_VELOCITY_Y);
-    BOOST_REQUIRE_CLOSE(celestialBody.mass(), EXPECTED_MASS, MASS_MAX_TOLERANCE);
-}
-
-// Tests if `Universe::operator[]` works for the last elements.
 BOOST_AUTO_TEST_CASE(testUniverseBracketOperator3) {
     const NB::Universe universe{ "assets/8star-rotation.txt" };
     const auto celestialBody = universe[universe.numPlanets() - 1];

@@ -1,0 +1,27 @@
+// Copyright 2024 James Chen
+
+#include <iostream>
+#include <SFML/System.hpp>
+#include "EDistance.hpp"
+
+/**
+ * @brief Finds the edit distance of two genes.
+ */
+int main() {
+    const sf::Clock clock;
+
+    // Read the two genes and find the edit distance
+    std::string geneX;
+    std::string geneY;
+    std::cin >> geneX >> geneY;
+    const EDistance eDistance{ geneX, geneY };
+
+    // Print the alignment data
+    std::cout << eDistance.alignment();
+
+    // Print the elapsed time in seconds
+    const auto elapsedTime = clock.getElapsedTime();
+    std::cout << "Execution time is: " << elapsedTime.asSeconds() << " seconds" << std::endl;
+
+    return 0;
+}

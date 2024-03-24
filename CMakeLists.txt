@@ -140,6 +140,24 @@ add_executable(ps4b-test
 )
 target_link_libraries(ps4b -lboost_unit_test_framework)
 
+# ps5
+add_executable(ps5
+    assignment/ps5/main.cpp
+    assignment/ps5/EDistance.hpp
+    assignment/ps5/EDistance.cpp
+    assignment/ps5/Constant.hpp
+)
+target_link_libraries(ps4b -lsfml-system)
+
+# ps5 test
+add_executable(ps5-test
+    assignment/ps5/test.cpp
+    assignment/ps5/EDistance.hpp
+    assignment/ps5/EDistance.cpp
+    assignment/ps5/Constant.hpp
+)
+target_link_libraries(ps4b -lboost_unit_test_framework)
+
 # playground
 add_executable(playground-any playground/any.cpp)
 add_executable(playground-size playground/size.cpp)

@@ -1,31 +1,27 @@
 # C++ Compiler
 COMPILER = g++
 
-# C++ Flags
+# C++ Flags (C++ version: 20)
 CFLAGS = --std=c++20 -Wall -Werror -pedantic -g
 
 # Libraries
-LIB = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -lboost_unit_test_framework
+LIB = -lsfml-system -lboost_unit_test_framework
 
 # Code source directory
 SRC = ./
 
 # Hpp files (dependencies)
-DEPS = $(SRC)Universe.hpp \
-       $(SRC)CelestialBody.hpp \
-       $(SRC)NBodyConstant.hpp \
-       $(SRC)UniverseElapsedTime.hpp
+DEPS = $(SRC)EDistance.hpp \
+	   $(SRC)Constant.hpp
 
 # Static library
-STATIC_LIB = NBody.a
+STATIC_LIB = EDistance.a
 
 # The object files that the static library includes
-STATIC_LIB_OBJECTS = $(SRC)Universe.o \
-				     $(SRC)CelestialBody.o \
-				     $(SRC)UniverseElapsedTime.o
+STATIC_LIB_OBJECTS = $(SRC)EDistance.o
 
 # Program
-PROGRAM = NBody
+PROGRAM = EDistance
 
 # Program object files
 MAIN_OBJECTS = $(SRC)main.o
@@ -60,6 +56,4 @@ boost: $(TEST_PROGRAM)
 	./$(TEST_PROGRAM)
 
 run: $(PROGRAM)
-	# ./$(PROGRAM) 1000.0 1.0 < assets/3body-zero-gravity.txt
-	# ./$(PROGRAM) 157788000.0 25000.0 < assets/planets.txt
-	./$(PROGRAM) 157788000.0 25000.0 < assets/planetsparty.txt
+	./$(PROGRAM)
