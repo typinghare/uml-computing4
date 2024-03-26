@@ -20,10 +20,23 @@ int main() {
     // const int&& c4 = a1 + 1;   // it works, a1 + 1 is a rvalue
     // // const int&& c5 = c2;    // does not work, c2 is lvalue
 
-    int* a = new int;
-    delete a;
-    delete a;
-    std::cout << a;
+    // int* a = new int;
+    // delete a;
+    // delete a;
+    // std::cout << a;
+
+    constexpr double x = 4.8420e+11;
+    constexpr double y = -1.5420e+11;
+
+    constexpr double G = 6.67e-11;
+    constexpr double SunMass = 1.9890e+30;
+    const double Radius = std::sqrt(std::pow(x, 2) + std::pow(y, 2));
+
+    const double vy = 1.2397e+04;
+
+    const double velocity = std::sqrt(G * SunMass / Radius);
+    std::cout << velocity << std::endl;
+    std::cout << "vx: " << std::sqrt(std::pow(velocity, 2) - std::pow(vy, 2)) << std::endl;
 
     return 0;
 }

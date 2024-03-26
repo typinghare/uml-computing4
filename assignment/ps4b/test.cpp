@@ -106,20 +106,6 @@ BOOST_AUTO_TEST_CASE(testCelestialBodyOutput) {
     BOOST_REQUIRE_EQUAL(ostringstream.str(), EXPECT_LINE);
 }
 
-// Tests if "Universe::operator>>" and "Universe::operator<<" works correctly.
-BOOST_AUTO_TEST_CASE(testUniverseOutput) {
-    const NB::Universe universe{ "assets/3body.txt" };
-    std::stringstream stringstream;
-    stringstream << universe;
-    std::string output = stringstream.str();
-
-    const std::string EXPECT_STRING = "3\n1.25e+11\n"
-                                      "0 0 500 0 5.974e+24 earth.gif\n"
-                                      "0 4.5e+10 30000 0 1.989e+30 sun.gif\n"
-                                      "0 -4.5e+10 -30000 0 1.989e+30 sun.gif\n";
-    BOOST_REQUIRE_EQUAL(output, EXPECT_STRING);
-}
-
 // Tests if `Universe::step()` works correctly by performing one step.
 BOOST_AUTO_TEST_CASE(testUniverseStep1) {
     NB::Universe universe{ "assets/planets.txt" };

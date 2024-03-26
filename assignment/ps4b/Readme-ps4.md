@@ -70,6 +70,15 @@ No specific issues were found during the process of `ps4b`.
 
 1. The elapsed time, displayed in the top-left corner of the screen, dynamically adjusts its units based on the duration. When the elapsed time is less than one day, it's represented in seconds. If it exceeds one day but is less than a year, it switches to days. Beyond a year, it shows the duration in years and days for comprehensive tracking.
 
+2. I created a new universe file ([assets/gravity-assist.txt](assets/gravity-assist.txt)) and wrote a full explanation of it in the file. The following are copy-and-pasted:
+
+   > **Gravity Assist**
+   >
+   > In the blockbuster film "The Wandering Earth," humanity faces an unprecedented crisis as the impending explosion of the sun threatens all life on Earth. In a desperate bid for survival, scientists devise an audacious plan: to physically relocate the entire planet out of harm's way. Harnessing the immense gravitational pull of Jupiter, they plot a daring trajectory that utilizes the gas giant's gravitational force as a slingshot, propelling Earth on a monumental journey through the cosmos. This ambitious strategy not only conserves precious energy but also imparts the
+   > necessary kinetic boost to alter Earth's trajectory, steering it away from the sun's catastrophic fate. As mankind's fate hangs in the balance, the stage is set for an epic interstellar adventure unlike any other.
+   >
+   > In this simulation, Jupiter stands as the fixed anchor at the center of the universe, while Earth sets its course towards the gas giant. As Earth draws near to Jupiter, it undergoes a dynamic sequence of events: initially accelerating under the gravitational influence, then curving its trajectory as it bends towards the colossal presence of Jupiter, before gradually decelerating as it ventures away from its gravitational grasp. This intricate dance of forces illustrates the profound interplay between celestial bodies, shaping the paths they traverse through the vast expanse of space.
+
 ## Acknowledgments
 
 Background image: [Stars](https://elements.envato.com/stars-ZFJ7AAD) from https://elements.envato.com.

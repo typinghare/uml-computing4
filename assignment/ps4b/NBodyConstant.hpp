@@ -12,7 +12,7 @@ namespace NB {
 constexpr std::string_view WINDOW_TITLE = "N-Body Problem Simulation by James Chen";
 
 // Window FPS
-constexpr int WINDOW_FPS = 30;
+constexpr int WINDOW_FPS = 120;
 
 // Window has a fixed height/width; the window is a square
 constexpr unsigned WINDOW_WIDTH = 720;
