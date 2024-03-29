@@ -11,8 +11,7 @@ LIB = -lsfml-system -lboost_unit_test_framework
 SRC = ./
 
 # Hpp files (dependencies)
-DEPS = $(SRC)EDistance.hpp \
-	   $(SRC)Constant.hpp
+DEPS = $(SRC)EDistance.hpp
 
 # Static library
 STATIC_LIB = EDistance.a
@@ -56,4 +55,4 @@ boost: $(TEST_PROGRAM)
 	./$(TEST_PROGRAM)
 
 run: $(PROGRAM)
-	./$(PROGRAM)
+	./$(PROGRAM) < sequence/example.txt

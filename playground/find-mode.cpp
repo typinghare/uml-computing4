@@ -1,5 +1,7 @@
 
 #include <iostream>
+#include <unordered_map>
+#include <vector>
 
 std::vector<int>* find_mode(const int* array, const int length) {
     std::unordered_map<int, int> frequencyMap;
@@ -14,18 +16,20 @@ std::vector<int>* find_mode(const int* array, const int length) {
     }
 
     // Find the minium and maximum frequency
-    int minFrequency = length, maxFrequency = 0;
+    int minFrequency = length;
+    int maxFrequency = 0;
     for (const auto& [num, frequency] : frequencyMap) {
         minFrequency = std::min(frequency, minFrequency);
         maxFrequency = std::max(frequency, maxFrequency);
     }
 
     // Return nullptr if mode does not exist
-    if (minFrequency == maxFrequency)
+    if (minFrequency == maxFrequency) {
         return nullptr;
+    }
 
     // Extract modes
-    const auto modes = new std::vector<int>;
+    auto* const modes = new std::vector<int>;
     for (const auto& [num, frequency] : frequencyMap) {
         if (frequency == maxFrequency) {
             modes->push_back(num);
@@ -39,10 +43,10 @@ int main() {
     constexpr int SIZE = 6;
     const int array[SIZE] = { 1, 2, 3, 3, 4, 4 };
 
-    const auto modes = find_mode(array, SIZE);
+    const auto* const modes = find_mode(array, SIZE);
     if (modes != nullptr) {
-        for (auto it = modes->begin(); it != modes->end(); ++it) {
-            std::cout << *it << " " << std::endl;
+        for (const int& mode : *modes) {
+            std::cout << mode << " " << std::endl;
         }
     }
 

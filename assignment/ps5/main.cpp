@@ -14,10 +14,12 @@ int main() {
     std::string geneX;
     std::string geneY;
     std::cin >> geneX >> geneY;
-    const EDistance eDistance{ geneX, geneY };
+    EDistance eDistance{ geneX, geneY };
+    const auto editDistance = eDistance.optDistance();
 
-    // Print the alignment data
-    std::cout << eDistance.alignment();
+    // Print the edit distance and alignment data
+    std::cout << "Edit distance: " << editDistance << std::endl;
+    std::cout << eDistance.alignment() << std::endl;
 
     // Print the elapsed time in seconds
     const auto elapsedTime = clock.getElapsedTime();

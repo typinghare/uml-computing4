@@ -25,18 +25,24 @@ int main() {
     // delete a;
     // std::cout << a;
 
-    constexpr double x = 4.8420e+11;
-    constexpr double y = -1.5420e+11;
+    // constexpr double x = 4.8420e+11;
+    // constexpr double y = -1.5420e+11;
+    //
+    // constexpr double G = 6.67e-11;
+    // constexpr double SunMass = 1.9890e+30;
+    // const double Radius = std::sqrt(std::pow(x, 2) + std::pow(y, 2));
+    //
+    // const double vy = 1.2397e+04;
+    //
+    // const double velocity = std::sqrt(G * SunMass / Radius);
+    // std::cout << velocity << std::endl;
+    // std::cout << "vx: " << std::sqrt(std::pow(velocity, 2) - std::pow(vy, 2)) << std::endl;
 
-    constexpr double G = 6.67e-11;
-    constexpr double SunMass = 1.9890e+30;
-    const double Radius = std::sqrt(std::pow(x, 2) + std::pow(y, 2));
+    // constexpr auto Flag = not true;
+    // std::cout << Flag << std::endl;
 
-    const double vy = 1.2397e+04;
-
-    const double velocity = std::sqrt(G * SunMass / Radius);
-    std::cout << velocity << std::endl;
-    std::cout << "vx: " << std::sqrt(std::pow(velocity, 2) - std::pow(vy, 2)) << std::endl;
+    const std::string foo(10, '9');
+    std::cout << foo;
 
     return 0;
 }

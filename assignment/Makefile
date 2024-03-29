@@ -11,3 +11,9 @@ zip-ps4a: clean
 
 zip-ps4b: clean
 	zip -ur $(ZIP_FILENAME) ps4b
+
+zip-ps5: clean
+	zip -ur $(ZIP_FILENAME) ps5
+
+zip-ps6: clean
+	zip -ur $(ZIP_FILENAME) ps6

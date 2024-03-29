@@ -1,33 +1,20 @@
 #include <iostream>
 
-// 4 bytes
-class Base {
- public:
-    int iMem = 0;
-    char charArray[];
+using namespace std;
 
-    Base() : charArray("What") {}
-
-    void foo() {
-    }
+template <int n>
+struct funStruct {
+    static const int val = 2 * funStruct<n - 1>::val;
 };
 
-// class ABase : virtual public Base {};
-//
-// class BBase : virtual public Base {
-//     int iMem = 0;
-// };
-//
-// class CBase : public ABase, public BBase {
-//     int iMem = 0;
-// };
+template <>
+struct funStruct<0> {
+    static constexpr int val = 1;
+};
 
 int main() {
-    std::cout << sizeof(Base) << std::endl;
-    // std::cout << sizeof(ABase) << std::endl;
-    // std::cout << sizeof(BBase) << std::endl;
-    // std::cout << sizeof(CBase) << std::endl;
+    constexpr auto M = 10;
+    cout << funStruct<M>::val << endl;  // 1024
 
-    const Base base;
-    std::cout << base.charArray << std::endl;
+    return 0;
 }
