@@ -145,6 +145,10 @@ add_executable(ps5
     assignment/ps5/main.cpp
     assignment/ps5/EDistance.hpp
     assignment/ps5/EDistance.cpp
+    assignment/ps5/AbstractEDistance.cpp
+    assignment/ps5/AbstractEDistance.hpp
+    assignment/ps5/NeedlemanWunschEDistance.cpp
+    assignment/ps5/NeedlemanWunschEDistance.hpp
 )
 target_link_libraries(ps5 -lsfml-system)
 

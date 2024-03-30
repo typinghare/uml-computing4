@@ -4,14 +4,12 @@
 #define EDISTANCE_HPP
 
 #include <string>
+#include "AbstractEDistance.hpp"
 
 /**
- * @brief Represents the Edit Distance algorithm.
- * Edit Distance measures the similarity between two strings by calculating the minimum number
- * of operations required to transform one string into the other, where the operations can be
- * insertion, deletion, or substitution of a single character.
+ * @brief An implementation of AbstractEDistance using Hirschberg’s Algorithm.
  */
-class EDistance {
+class EDistance final : AbstractEDistance {
  public:
     /**
      * @brief Calculates the penalty for aligning characters 'a' and 'b'.
@@ -35,7 +33,7 @@ class EDistance {
      * @param geneX The first gene string.
      * @param geneY The second gene string.
      */
-    EDistance(std::string geneX, std::string geneY);
+    EDistance(const std::string& geneX, const std::string& geneY);
 
     /**
      * @brief Calculates the optimal edit distance between the two gene strings. Populates the
@@ -43,62 +41,14 @@ class EDistance {
      * done).
      * @return The optimal edit distance between the two gene strings.
      */
-    int optDistance();
+    int optDistance() override;
 
     /**
      * @brief Traces the populated matrix and returns a string representing the optimal
      * alignment of the two gene strings.
      * @return A string representing the optimal alignment.
      */
-    [[nodiscard]] std::string alignment() const;
-
- private:
-    /**
-     * @brief Calculates the optimal edit distance between the two gene strings using the
-     * Needleman-Wunsch method.
-     * @return The optimal edit distance between the two gene strings.
-     */
-    int poplulateMatrixNeedlemanWunsch();
-
-    /**
-     * @brief Calculates the optimal edit distance between the two gene strings using the
-     * Hirschberg's algorithm.
-     * @return The optimal edit distance between the two gene strings.
-     */
-    int populateMatrixHischbergAlgorithm();
-
-    /**
-     * @brief Traces the populated matrix and returns a string representing the optimal
-     * alignment of the two gene strings. This function is used when Needleman-Wunsch method is used
-     * to populate the matrix.
-     * @return A string representing the optimal alignment.
-     */
-    [[nodiscard]] std::string alignmentNeedlemanWunsch() const;
-
-    /**
-     * @brief Prints the matrix. This function is used for debugging.
-     */
-    void printMatrix() const;
-
-    /**
-     * @brief The first gene string.
-     */
-    const std::string m_geneX;
-
-    /**
-     * @brief The second gene string.
-     */
-    const std::string m_geneY;
-
-    /**
-     * @brief The matrix used to trace the edit distances (Needleman-Wunsch method).
-     */
-    int** m_matrix;
-
-    /**
-     * @brief (Hirschberg's algorithm).
-     */
-    int* opt;
+    [[nodiscard]] std::string alignment() const override;
 };
 
 #endif
