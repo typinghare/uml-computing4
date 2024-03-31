@@ -12,14 +12,18 @@ SRC = ./
 
 # Hpp files (dependencies)
 DEPS = $(SRC)EDistance.hpp \
-	   $(SRC)AbstractEDistance.hpp
+	   $(SRC)AbstractEDistance.hpp \
+	   $(SRC)NeedlemanWunschEDistance.hpp \
+	   $(SRC)OptimizedEDistance.hpp
 
 # Static library
 STATIC_LIB = EDistance.a
 
 # The object files that the static library includes
 STATIC_LIB_OBJECTS = $(SRC)EDistance.o \
-					 $(SRC)AbstractEDistance.o
+					 $(SRC)AbstractEDistance.o \
+					 $(SRC)NeedlemanWunschEDistance.o \
+					 $(SRC)OptimizedEDistance.o
 
 # Program
 PROGRAM = EDistance
@@ -57,4 +61,4 @@ boost: $(TEST_PROGRAM)
 	./$(TEST_PROGRAM)
 
 run: $(PROGRAM)
-	./$(PROGRAM) < ecoli2500.txt
+	./$(PROGRAM) < sequence/ecoli2500.txt

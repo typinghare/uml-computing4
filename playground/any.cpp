@@ -41,8 +41,10 @@ int main() {
     // constexpr auto Flag = not true;
     // std::cout << Flag << std::endl;
 
-    const std::string foo(10, '9');
-    std::cout << foo;
+    const auto a = true;
+    const auto c = false;
+    std::cout << static_cast<int>(a) << std::endl;
+    std::cout << static_cast<int>(c) << std::endl;
 
     return 0;
 }

@@ -4,6 +4,8 @@
 #define EDISTANCE_HPP
 
 #include <string>
+#include <utility>
+#include <vector>
 #include "AbstractEDistance.hpp"
 
 /**
@@ -49,6 +51,23 @@ class EDistance final : AbstractEDistance {
      * @return A string representing the optimal alignment.
      */
     [[nodiscard]] std::string alignment() const override;
+
+ private:
+    void align(
+        const std::string& geneX,
+        const std::string& geneY,
+        const std::pair<size_t, size_t>& offset);
+
+    /**
+     * Inserts a coordiante into the arrow path.
+     * @param coordinate The coordinate to insert.
+     */
+    void insertArrowPathCoordinate(const std::pair<size_t, size_t>& coordinate);
+
+    /**
+     * @brief Arrow path.
+     */
+    std::vector<std::pair<size_t, size_t>> arrowPath;
 };
 
 #endif

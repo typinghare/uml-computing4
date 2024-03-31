@@ -3,6 +3,8 @@
 #include <iostream>
 #include <SFML/System.hpp>
 #include "EDistance.hpp"
+#include "NeedlemanWunschEDistance.hpp"
+#include "OptimizedEDistance.hpp"
 
 /**
  * @brief Finds the edit distance of two genes.

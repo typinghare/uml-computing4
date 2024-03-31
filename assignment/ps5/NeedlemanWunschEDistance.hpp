@@ -19,6 +19,11 @@ class NeedlemanWunschEDistance final : AbstractEDistance {
     NeedlemanWunschEDistance(const std::string& geneX, const std::string& geneY);
 
     /**
+     * @brief Release the matrix.
+     */
+    ~NeedlemanWunschEDistance() override;
+
+    /**
      * @brief Calculates the optimal edit distance between the two gene strings. Populates the
      * internal matrix and returns the optimal distance (from the [0][0] cell of the matrix when
      * done).
@@ -33,6 +38,11 @@ class NeedlemanWunschEDistance final : AbstractEDistance {
      */
     [[nodiscard]] std::string alignment() const override;
 
+    /**
+     * @brief Return the matrix used to trace the edit distances.
+     */
+    [[nodiscard]] int** getMatrix() const;
+
  private:
     /**
      * @brief Prints the matrix. This function is used for debugging.
@@ -40,7 +50,7 @@ class NeedlemanWunschEDistance final : AbstractEDistance {
     void printMatrix() const;
 
     /**
-     * @brief The matrix used to trace the edit distances (Needleman-Wunsch method).
+     * @brief The matrix used to trace the edit distances.
      */
     int** m_matrix;
 };

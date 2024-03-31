@@ -80,6 +80,18 @@ std::string NeedlemanWunschEDistance::alignment() const {
     return stringstream.str();
 }
 
+NeedlemanWunschEDistance::~NeedlemanWunschEDistance() {
+    if (m_matrix != nullptr) {
+        for (int i = 0; i <= m_geneX.length(); ++i) {
+            delete m_matrix[i];
+        }
+
+        delete m_matrix;
+    }
+}
+
+int** NeedlemanWunschEDistance::getMatrix() const { return m_matrix; }
+
 void NeedlemanWunschEDistance::printMatrix() const {
     for (size_t row = 0; row < m_geneX.length() + 1; ++row) {
         for (size_t col = 0; col < m_geneY.length() + 1; ++col) {
