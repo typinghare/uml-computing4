@@ -19,7 +19,7 @@ class NeedlemanWunschEDistance final : AbstractEDistance {
     NeedlemanWunschEDistance(const std::string& geneX, const std::string& geneY);
 
     /**
-     * @brief Release the matrix.
+     * @brief Destructor for AbstractEDistance.
      */
     ~NeedlemanWunschEDistance() override;
 
@@ -41,7 +41,7 @@ class NeedlemanWunschEDistance final : AbstractEDistance {
     /**
      * @brief Return the matrix used to trace the edit distances.
      */
-    [[nodiscard]] int** getMatrix() const;
+    [[nodiscard]] int** matrix() const;
 
  private:
     /**

@@ -151,6 +151,8 @@ add_executable(ps5
         assignment/ps5/NeedlemanWunschEDistance.hpp
         assignment/ps5/OptimizedEDistance.cpp
         assignment/ps5/OptimizedEDistance.hpp
+        assignment/ps5/HirshbergEDistance.cpp
+        assignment/ps5/HirshbergEDistance.hpp
 )
 target_link_libraries(ps5 -lsfml-system)
 

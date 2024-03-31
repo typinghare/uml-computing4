@@ -49,7 +49,7 @@ std::string NeedlemanWunschEDistance::alignment() const {
     static constexpr auto CHAR_GAP = '-';
     static constexpr auto CHAR_SPACE = ' ';
 
-    std::stringstream stringstream;
+    std::ostringstream ostringstream;
     const size_t maxRowIndex = m_geneX.length();
     const size_t maxColIndex = m_geneY.length();
     const size_t maxIndexSum = maxRowIndex + maxColIndex;
@@ -62,22 +62,22 @@ std::string NeedlemanWunschEDistance::alignment() const {
         const auto yChar = j < maxColIndex ? m_geneY.at(j) : CHAR_GAP;
         if (i < maxRowIndex && val - 2 == m_matrix[i + 1][j]) {
             // From bottom
-            stringstream << xChar << CHAR_SPACE << CHAR_GAP << CHAR_SPACE << 2;
+            ostringstream << xChar << CHAR_SPACE << CHAR_GAP << CHAR_SPACE << 2;
             i++;
         } else if (j < maxColIndex && val - 2 == m_matrix[i][j + 1]) {
             // From right
-            stringstream << CHAR_GAP << CHAR_SPACE << yChar << CHAR_SPACE << 2;
+            ostringstream << CHAR_GAP << CHAR_SPACE << yChar << CHAR_SPACE << 2;
             j++;
         } else {
             // From diagonal (bottom-right)
-            stringstream << xChar << CHAR_SPACE << yChar << CHAR_SPACE << penalty(xChar, yChar);
+            ostringstream << xChar << CHAR_SPACE << yChar << CHAR_SPACE << penalty(xChar, yChar);
             i++;
             j++;
         }
-        stringstream << std::endl;
+        ostringstream << std::endl;
     }
 
-    return stringstream.str();
+    return ostringstream.str();
 }
 
 NeedlemanWunschEDistance::~NeedlemanWunschEDistance() {
@@ -90,7 +90,7 @@ NeedlemanWunschEDistance::~NeedlemanWunschEDistance() {
     }
 }
 
-int** NeedlemanWunschEDistance::getMatrix() const { return m_matrix; }
+int** NeedlemanWunschEDistance::matrix() const { return m_matrix; }
 
 void NeedlemanWunschEDistance::printMatrix() const {
     for (size_t row = 0; row < m_geneX.length() + 1; ++row) {

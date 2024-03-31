@@ -2,21 +2,21 @@
 
 #include "OptimizedEDistance.hpp"
 
-#include <iostream>
-
 OptimizedEDistance::OptimizedEDistance(const std::string& geneX, const std::string& geneY) :
-    AbstractEDistance(geneX, geneY), m_column(nullptr) {}
-
-OptimizedEDistance::~OptimizedEDistance() { delete m_column; }
+    AbstractEDistance(geneX, geneY) {
+    m_column.resize(geneX.length() + 1, 0);
+    m_row.resize(geneY.length() + 1, 0);
+}
 
 int OptimizedEDistance::optDistance() {
     // Initialize column
     const size_t rowCount = m_geneX.length() + 1;
     const size_t colCount = m_geneY.length() + 1;
-    m_column = new int[rowCount];
     for (size_t i = rowCount - 1; i < rowCount; --i) {
         m_column[i] = static_cast<int>((rowCount - 1 - i)) << 1;
     }
+
+    m_row[colCount - 1] = m_column[0];
 
     // Update the column as if populating the matrix in Needlman-Wusch method
     for (size_t i = colCount - 2; i < colCount; --i) {
@@ -31,9 +31,16 @@ int OptimizedEDistance::optDistance() {
             reservedDiagnoal = m_column[j];
             m_column[j] = min3(fromRight, fromDown, fromDiagonal);
         }
+
+        // Record the last row element
+        m_row[i] = m_column[0];
     }
 
     return m_column[0];
 }
 
 std::string OptimizedEDistance::alignment() const { throw std::exception(); }
+
+std::vector<int> OptimizedEDistance::column() const { return m_column; }
+
+std::vector<int> OptimizedEDistance::row() const { return m_row; }

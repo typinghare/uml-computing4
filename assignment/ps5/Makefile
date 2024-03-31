@@ -14,7 +14,8 @@ SRC = ./
 DEPS = $(SRC)EDistance.hpp \
 	   $(SRC)AbstractEDistance.hpp \
 	   $(SRC)NeedlemanWunschEDistance.hpp \
-	   $(SRC)OptimizedEDistance.hpp
+	   $(SRC)OptimizedEDistance.hpp \
+	   $(SRC)HirshbergEDistance.hpp
 
 # Static library
 STATIC_LIB = EDistance.a
@@ -23,7 +24,8 @@ STATIC_LIB = EDistance.a
 STATIC_LIB_OBJECTS = $(SRC)EDistance.o \
 					 $(SRC)AbstractEDistance.o \
 					 $(SRC)NeedlemanWunschEDistance.o \
-					 $(SRC)OptimizedEDistance.o
+					 $(SRC)OptimizedEDistance.o \
+					 $(SRC)HirshbergEDistance.o
 
 # Program
 PROGRAM = EDistance
@@ -61,4 +63,4 @@ boost: $(TEST_PROGRAM)
 	./$(TEST_PROGRAM)
 
 run: $(PROGRAM)
-	./$(PROGRAM) < sequence/ecoli2500.txt
+	./$(PROGRAM) < sequence/bothgaps20.txt

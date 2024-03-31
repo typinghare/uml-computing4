@@ -4,6 +4,7 @@
 #define OPTIMIZEDEDISTANCE_H
 
 #include <string>
+#include <vector>
 #include "AbstractEDistance.hpp"
 
 /**
@@ -20,11 +21,6 @@ class OptimizedEDistance final : AbstractEDistance {
     OptimizedEDistance(const std::string& geneX, const std::string& geneY);
 
     /**
-     * @brief Destructor to release allocated memory.
-     */
-    ~OptimizedEDistance() override;
-
-    /**
      * @brief Calculates the optimal edit distance between the two gene strings.
      * @return The optimal edit distance between the two gene strings.
      */
@@ -37,11 +33,26 @@ class OptimizedEDistance final : AbstractEDistance {
      */
     [[nodiscard]] std::string alignment() const override;
 
+    /**
+     * @brief Returns the column array used for populating the virtual matrix.
+     */
+    [[nodiscard]] std::vector<int> column() const;
+
+    /**
+     * @brief Returns the row array containing the first row's elements during the populating.
+     */
+    [[nodiscard]] std::vector<int> row() const;
+
  private:
     /**
      * @brief The column array used for populating the virtual matrix.
      */
-    int* m_column;
+    std::vector<int> m_column;
+
+    /**
+     * @brief The row array containing the first row's elements during the populating.
+     */
+    std::vector<int> m_row;
 };
 
 #endif

@@ -4,14 +4,12 @@
 #define EDISTANCE_HPP
 
 #include <string>
-#include <utility>
-#include <vector>
-#include "AbstractEDistance.hpp"
+#include "HirshbergEDistance.hpp"
 
 /**
  * @brief An implementation of AbstractEDistance using Hirschberg’s Algorithm.
  */
-class EDistance final : AbstractEDistance {
+class EDistance final : public HirshbergEDistance {
  public:
     /**
      * @brief Calculates the penalty for aligning characters 'a' and 'b'.
@@ -36,38 +34,6 @@ class EDistance final : AbstractEDistance {
      * @param geneY The second gene string.
      */
     EDistance(const std::string& geneX, const std::string& geneY);
-
-    /**
-     * @brief Calculates the optimal edit distance between the two gene strings. Populates the
-     * internal matrix and returns the optimal distance (from the [0][0] cell of the matrix when
-     * done).
-     * @return The optimal edit distance between the two gene strings.
-     */
-    int optDistance() override;
-
-    /**
-     * @brief Traces the populated matrix and returns a string representing the optimal
-     * alignment of the two gene strings.
-     * @return A string representing the optimal alignment.
-     */
-    [[nodiscard]] std::string alignment() const override;
-
- private:
-    void align(
-        const std::string& geneX,
-        const std::string& geneY,
-        const std::pair<size_t, size_t>& offset);
-
-    /**
-     * Inserts a coordiante into the arrow path.
-     * @param coordinate The coordinate to insert.
-     */
-    void insertArrowPathCoordinate(const std::pair<size_t, size_t>& coordinate);
-
-    /**
-     * @brief Arrow path.
-     */
-    std::vector<std::pair<size_t, size_t>> arrowPath;
 };
 
 #endif
