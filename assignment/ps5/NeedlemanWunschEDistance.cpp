@@ -82,7 +82,7 @@ std::string NeedlemanWunschEDistance::alignment() const {
 
 NeedlemanWunschEDistance::~NeedlemanWunschEDistance() {
     if (m_matrix != nullptr) {
-        for (int i = 0; i <= m_geneX.length(); ++i) {
+        for (size_t i = 0; i <= m_geneX.length(); ++i) {
             delete m_matrix[i];
         }
 

@@ -34,23 +34,18 @@ class OptimizedEDistance final : AbstractEDistance {
     [[nodiscard]] std::string alignment() const override;
 
     /**
-     * @brief Returns the column array used for populating the virtual matrix.
-     */
-    [[nodiscard]] std::vector<int> column() const;
-
-    /**
      * @brief Returns the row array containing the first row's elements during the populating.
      */
     [[nodiscard]] std::vector<int> row() const;
 
  private:
     /**
-     * @brief The column array used for populating the virtual matrix.
+     * @brief The column vector used for populating the virtual matrix.
      */
     std::vector<int> m_column;
 
     /**
-     * @brief The row array containing the first row's elements during the populating.
+     * @brief The row vector containing the first row's elements during the populating.
      */
     std::vector<int> m_row;
 };

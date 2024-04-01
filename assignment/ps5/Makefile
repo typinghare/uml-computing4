@@ -2,7 +2,7 @@
 COMPILER = g++
 
 # C++ Flags (C++ version: 20)
-CFLAGS = --std=c++20 -Wall -Werror -pedantic -g
+CFLAGS = --std=c++20 -Wall -Werror -pedantic -g -O3
 
 # Libraries
 LIB = -lsfml-system -lboost_unit_test_framework
@@ -63,4 +63,5 @@ boost: $(TEST_PROGRAM)
 	./$(TEST_PROGRAM)
 
 run: $(PROGRAM)
-	./$(PROGRAM) < sequence/bothgaps20.txt
+	./$(PROGRAM) < sequence/ecoli100000.txt
+

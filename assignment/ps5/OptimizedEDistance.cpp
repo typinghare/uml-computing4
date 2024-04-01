@@ -41,6 +41,4 @@ int OptimizedEDistance::optDistance() {
 
 std::string OptimizedEDistance::alignment() const { throw std::exception(); }
 
-std::vector<int> OptimizedEDistance::column() const { return m_column; }
-
 std::vector<int> OptimizedEDistance::row() const { return m_row; }
