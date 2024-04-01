@@ -63,5 +63,4 @@ boost: $(TEST_PROGRAM)
 	./$(TEST_PROGRAM)
 
 run: $(PROGRAM)
-	./$(PROGRAM) < sequence/ecoli100000.txt
-
+	./$(PROGRAM) < sequence/ecoli20000.txt

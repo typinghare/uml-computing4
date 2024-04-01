@@ -58,23 +58,26 @@ std::string NeedlemanWunschEDistance::alignment() const {
     size_t j = 0;
     while (i + j < maxIndexSum) {
         const auto val = m_matrix[i][j];
-        const auto xChar = i < maxRowIndex ? m_geneX.at(i) : CHAR_GAP;
-        const auto yChar = j < maxColIndex ? m_geneY.at(j) : CHAR_GAP;
-        if (i < maxRowIndex && val - 2 == m_matrix[i + 1][j]) {
-            // From bottom
-            ostringstream << xChar << CHAR_SPACE << CHAR_GAP << CHAR_SPACE << 2;
-            i++;
-        } else if (j < maxColIndex && val - 2 == m_matrix[i][j + 1]) {
-            // From right
-            ostringstream << CHAR_GAP << CHAR_SPACE << yChar << CHAR_SPACE << 2;
-            j++;
+        const auto isFromBottom = i < maxRowIndex && m_matrix[i + 1][j] == val - 2;
+        const auto isFromRight = j < maxColIndex && m_matrix[i][j + 1] == val - 2;
+        auto xChar = i < maxRowIndex ? m_geneX.at(i) : CHAR_GAP;
+        auto yChar = j < maxColIndex ? m_geneY.at(j) : CHAR_GAP;
+        const auto cost = isFromBottom || isFromRight ? 2 : penalty(xChar, yChar);
+
+        if (isFromBottom) {
+            ++i;
+            yChar = CHAR_GAP;
+        } else if (isFromRight) {
+            ++j;
+            xChar = CHAR_GAP;
+
         } else {
-            // From diagonal (bottom-right)
-            ostringstream << xChar << CHAR_SPACE << yChar << CHAR_SPACE << penalty(xChar, yChar);
-            i++;
-            j++;
+            ++i;
+            ++j;
         }
-        ostringstream << std::endl;
+
+        // Output: "<xChar> <yChar> <cost>\n"
+        ostringstream << xChar << CHAR_SPACE << yChar << CHAR_SPACE << cost << std::endl;
     }
 
     return ostringstream.str();

@@ -56,29 +56,22 @@ std::string HirshbergEDistance::alignment() const {
     const auto xLength = m_geneX.length();
     const auto yLength = m_geneY.length();
     std::ostringstream ostringstream;
-    const auto length = m_geneX.length() + m_geneY.length();
-    for (size_t i = 0; i < length; ++i) {
+    for (size_t i = 0; i < m_geneX.length() + m_geneY.length(); ++i) {
         if (arrowPath[i] == ZERO_PAIR && i != 0) {
             continue;
         }
 
         const auto [xIndex, yIndex] = arrowPath[i];
-        const auto charX = xIndex < xLength ? m_geneX[xIndex] : CHAR_GAP;
-        const auto charY = yIndex < yLength ? m_geneY[yIndex] : CHAR_GAP;
-        if (arrowPath[i + 1] != ZERO_PAIR) {
-            // Either from right or from bottom
-            if (arrowPath[i].first == arrowPath[i + 1].first) {
-                // From right
-                ostringstream << CHAR_GAP << CHAR_SPACE << charY << CHAR_SPACE << 2;
-            } else {
-                // From bottom
-                ostringstream << charX << CHAR_SPACE << CHAR_GAP << CHAR_SPACE << 2;
-            }
-        } else {
-            // From diagonal
-            ostringstream << charX << CHAR_SPACE << charY << CHAR_SPACE << penalty(charX, charY);
-        }
-        ostringstream << std::endl;
+        const auto isFromRightOrBottom = arrowPath[i + 1] != ZERO_PAIR;
+        const auto isFromRight =
+            isFromRightOrBottom && arrowPath[i].first == arrowPath[i + 1].first;
+        const auto isFromBottom = isFromRightOrBottom && !isFromRight;
+        const auto xChar = xIndex < xLength && !isFromRight ? m_geneX.at(xIndex) : CHAR_GAP;
+        const auto yChar = yIndex < yLength && !isFromBottom ? m_geneY.at(yIndex) : CHAR_GAP;
+        const auto cost = isFromRightOrBottom ? 2 : penalty(xChar, yChar);
+
+        // Output: "<xChar> <yChar> <cost>\n"
+        ostringstream << xChar << CHAR_SPACE << yChar << CHAR_SPACE << cost << std::endl;
     }
 
     return ostringstream.str();

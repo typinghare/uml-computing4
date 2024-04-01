@@ -152,7 +152,7 @@ Matrix:
 36   34   32   30   28   26   24   22   20   18   16   14   12   10    8    6    4    2    0 
 ```
 
-My program run it correctly.
+My program ran this correctly.
 
 ### Specs
 
@@ -172,6 +172,7 @@ My program run it correctly.
 | ecoli20000.txt  | 3135     | 4.5 MB      | 9.034          | 4.410                    |
 | ecoli50000.txt  | 19523    | 7.0 MB      | 57.079         | 26.294                   |
 | ecoli100000.txt | 24189    | 11.1 MB     | 230.722        | 101.811                  |
+| ecoli500000.txt | -        | 37.7MB      | -              | 2598.540                 |
 
 ### Time
 
@@ -197,11 +198,11 @@ Assume the two strings are the same length (M = N). Look at your code and determ
 >
 > I also used an alternative tool called **Instruments** on macOS to detect the memory leaks, and no warnings were detected.
 >
-> Oh come on, give me a break, I've been spending 7 hours implementing the Hirshberg's algorithm.
+> Oh come on, give me a break, I've been spending 7 hours implementing Hirshberg's algorithm.
 
 ## Extra Credit
 
-1. The difference between `min3` and `std::min`: 
+1. The distinction between `min3` and `std::min` lies in their functionalities. While `std::min` utilizes templates, enabling it to handle various variable types, `min3` is limited to operating solely on three integers.
 
 2. The program is implemented using **Hirschberg's algorithm**.
 
@@ -220,3 +221,5 @@ Assume the two strings are the same length (M = N). Look at your code and determ
 [Space-Efficient Alignment: Hirschberg’s Algorithm](https://www.cs.cmu.edu/~ckingsf/class/02-714/Lec07-linspace.pdf)
 
 [Compiler Optimizations: Boosting code performance without doing much!](https://medium.com/nerd-for-tech/compiler-optimizations-boosting-code-performance-without-doing-much-95f1182a5757)
+
+[std::min](https://en.cppreference.com/w/cpp/algorithm/min)

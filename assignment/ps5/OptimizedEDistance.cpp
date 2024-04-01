@@ -18,7 +18,7 @@ int OptimizedEDistance::optDistance() {
 
     m_row[colCount - 1] = m_column[0];
 
-    // Update the column as if populating the matrix in Needlman-Wusch method
+    // Update the column as if populating the matrix using Needlman-Wusch method
     for (size_t i = colCount - 2; i < colCount; --i) {
         const char xChar = m_geneY.at(i);
         int reservedDiagnoal = m_column[rowCount - 1];
