@@ -60,21 +60,30 @@ std::string NeedlemanWunschEDistance::alignment() const {
         const auto val = m_matrix[i][j];
         const auto isFromBottom = i < maxRowIndex && m_matrix[i + 1][j] == val - 2;
         const auto isFromRight = j < maxColIndex && m_matrix[i][j + 1] == val - 2;
-        auto xChar = i < maxRowIndex ? m_geneX.at(i) : CHAR_GAP;
-        auto yChar = j < maxColIndex ? m_geneY.at(j) : CHAR_GAP;
-        const auto cost = isFromBottom || isFromRight ? 2 : penalty(xChar, yChar);
 
-        if (isFromBottom) {
-            ++i;
-            yChar = CHAR_GAP;
-        } else if (isFromRight) {
-            ++j;
-            xChar = CHAR_GAP;
+        // ===================================
+        // | isFromBottom | isFromRight | i++ | j++ | update xChar | update yChar |
+        // |            0 |           0 |   1 |   1 |            0 |            0 |
+        // |            0 |           1 |   0 |   1 |            1 |            0 |
+        // |            1 |           0 |   1 |   0 |            0 |            1 |
+        // |            1 |           1 |   1 |   0 |            0 |            1 |
+        // ===================================
+        //
+        // i++ = p || !(p || q)
+        // j++ = !p
+        // update xChar = !isFromBottom && isFromRight
+        // update yChar = isFromBottom
+        // !(update xChar) = isFromBottom || !isFromRight
+        // !(update yChar) = !isFromBottom
 
-        } else {
-            ++i;
-            ++j;
-        }
+        const auto xChar =
+            i < maxRowIndex && (isFromBottom || !isFromRight) ? m_geneX.at(i) : CHAR_GAP;
+        const auto yChar = j < maxColIndex && !isFromBottom ? m_geneY.at(j) : CHAR_GAP;
+        const auto cost = !isFromBottom && !isFromRight ? penalty(xChar, yChar) : 2;
+
+        // Increment
+        i += static_cast<int>(isFromBottom || !(isFromRight || isFromBottom));
+        j += static_cast<int>(!isFromBottom);
 
         // Output: "<xChar> <yChar> <cost>\n"
         ostringstream << xChar << CHAR_SPACE << yChar << CHAR_SPACE << cost << std::endl;

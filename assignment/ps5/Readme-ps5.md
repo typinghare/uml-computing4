@@ -175,14 +175,14 @@ My program ran this correctly.
 ### Runs
 
 | Data File       | Distance | Memory (MB) | Time (seconds) | Time (seconds, with -O3) |
-|-----------------|----------|-------------|----------------|--------------------------|
+| --------------- | -------- | ----------- | -------------- | ------------------------ |
 | ecoli2500.txt   | 118      | 1.3 MB      | 0.164          | 0.089                    |
 | ecoli5000.txt   | 160      | 1.7 MB      | 0.576          | 0.337                    |
 | ecoli10000.txt  | 223      | 2.5 MB      | 2.197          | 1.130                    |
 | ecoli20000.txt  | 3135     | 4.5 MB      | 9.034          | 4.410                    |
 | ecoli50000.txt  | 19523    | 7.0 MB      | 57.079         | 26.294                   |
 | ecoli100000.txt | 24189    | 11.1 MB     | 230.722        | 101.811                  |
-| ecoli500000.txt | -        | 37.7MB      | -              | 2598.540                 |
+| ecoli500000.txt | 187916   | 33.2 MB     | -              | 2542.79                  |
 
 ### Time
 
@@ -217,7 +217,7 @@ Assume the two strings are the same length (M = N). Look at your code and determ
 
 1. The distinction between `min3` and `std::min` lies in their functionalities. While `std::min` utilizes templates, enabling it to handle various variable types, `min3` is limited to operating solely on three integers.
 
-2. The program is implemented using **Hirschberg's algorithm**.
+2. The program is implemented using **Hirschberg's algorithm**, so the program can handle large data set.
 
 3. The difference between **optimization levels** are as follows:
 

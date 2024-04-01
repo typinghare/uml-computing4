@@ -39,9 +39,9 @@ int HirshbergEDistance::optDistance() {
             totalCost += 2;
             // From diagonal
         } else {
-            const auto charX = m_geneX.at(arrowPath[i].first);
-            const auto charY = m_geneY.at(arrowPath[i].second);
-            totalCost += penalty(charX, charY);
+            const auto xChar = m_geneX.at(arrowPath[i].first);
+            const auto yChar = m_geneY.at(arrowPath[i].second);
+            totalCost += penalty(xChar, yChar);
         }
     }
 
