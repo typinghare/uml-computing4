@@ -11,7 +11,7 @@ $$
 \begin{split}
 
 V_{ll} =& V_l + S_l \cdot (-\sin\beta, -\cos\beta)
-\\ 
+\\
 V_{lr} =& V_l + S_l \cdot (\cos\beta -\sin\beta, -\sin\beta - \cos\beta)
 \\
 V_{rl} =& V_r + S_r \cdot (\cos\beta -\sin\beta, -\sin\beta - \cos\beta)

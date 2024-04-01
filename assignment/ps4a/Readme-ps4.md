@@ -58,11 +58,14 @@ In this project, I fixed some issues and learned the following things:
 1. While getters look like `getProperty()` in Java style, it is simply `property()` in C++ style.
 2. When we create an object and push it to a `vector`, the vector makes a copy of the object.
 
-There is still one thing that I still unable to figure out: my program does not pass the *"1.1) Your Tests vs: Formatting (0/1)"* test case in Gradescope. Doctor Daly pointed out that my program permitted a flawed implementation to succeed. Despite my efforts to identify and rectify issues, I remain uncertain about the specifics of the flawed implementation. I've attempted various approaches, including implementing exception handling for incorrect input formats, but none seem to resolve the underlying problem.
+There is still one thing that I still unable to figure out: my program does not pass the *"1.1) Your
+Tests vs: Formatting (
+0/1)"* test case in Gradescope. Doctor Daly pointed out that my program permitted a flawed implementation to succeed. Despite my efforts to identify and rectify issues, I remain uncertain about the specifics of the flawed implementation. I've attempted various approaches, including implementing exception handling for incorrect input formats, but none seem to resolve the underlying problem.
 
 ### Extra Credit
 
-1. I have incorporated a background image into the program. For the reference of the background image utilized, please refer to the **Acknowledgments** section.
+1. I have incorporated a background image into the program. For the reference of the background image utilized, please refer to the
+   **Acknowledgments** section.
 2. I have incorporated the `2001.wav` background music, which is in the provided resource package, into the program.
 
 ## Acknowledgments

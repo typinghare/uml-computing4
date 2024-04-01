@@ -18,12 +18,18 @@ Upon startup, the program reads a designated level file (`.lvl`) to initialize t
 
 ### Features
 
-1. **Classic Sokoban Gameplay**: Players can navigate the game grid using either the "WASD" keys or the arrow keys. Players cannot move through walls obstructing their path. They can push boxes onto designated targeted locations, encountering limitations such as being unable to move if facing a wall block, unable to push a box if it abuts a wall or another box blocks its path from behind.
-2. **Elapsed Time**: In the upper-left corner of the game screen, players will find a stopwatch recording the elapsed time. Strategically, the less time a player utilizes to complete a level, the higher their final score will soar upon victory.
-3. **Box and Storage Numbers**: In the upper-right corner of the game screen, players will notice a pair of numbers separated by a slash. The first number denotes the count of boxes successfully placed in storage units. In contrast, the second number indicates the maximum capacity of the storage units, calculated using the formula `min(numberOfBoxes, numberOfStorages)`. As the game progresses, aligning these numbers signals the player's path to victory: when the counts are equal, indicating all boxes are securely stowed, the player achieves victory.
-4. **Undo and Restart**: Players can undo their moves during gameplay without halting the progress of the elapsed time. Additionally, they can restart the entire game, reverting the map to its initial state and resetting the elapsed time in the process.
-5. **Result Screen**: After achieving victory, players encounter a result screen centered with the message 'You win!' prominently displayed. Below, a final score awaits, determined by the player's efficiency in time and moves: the quicker and fewer moves taken, the higher the score attained. The player cannot move after winning, but they can restart the game and start a new attempt.
-6. **Music and Sound Effect**: At the beginning of the game, background music sets the tone, persisting until the player secures victory. Upon winning, players are greeted with a celebratory sound effect, marking their triumphant accomplishment.
+1. **Classic Sokoban Gameplay
+   **: Players can navigate the game grid using either the "WASD" keys or the arrow keys. Players cannot move through walls obstructing their path. They can push boxes onto designated targeted locations, encountering limitations such as being unable to move if facing a wall block, unable to push a box if it abuts a wall or another box blocks its path from behind.
+2. **Elapsed Time
+   **: In the upper-left corner of the game screen, players will find a stopwatch recording the elapsed time. Strategically, the less time a player utilizes to complete a level, the higher their final score will soar upon victory.
+3. **Box and Storage Numbers
+   **: In the upper-right corner of the game screen, players will notice a pair of numbers separated by a slash. The first number denotes the count of boxes successfully placed in storage units. In contrast, the second number indicates the maximum capacity of the storage units, calculated using the formula `min(numberOfBoxes, numberOfStorages)`. As the game progresses, aligning these numbers signals the player's path to victory: when the counts are equal, indicating all boxes are securely stowed, the player achieves victory.
+4. **Undo and Restart
+   **: Players can undo their moves during gameplay without halting the progress of the elapsed time. Additionally, they can restart the entire game, reverting the map to its initial state and resetting the elapsed time in the process.
+5. **Result Screen
+   **: After achieving victory, players encounter a result screen centered with the message 'You win!' prominently displayed. Below, a final score awaits, determined by the player's efficiency in time and moves: the quicker and fewer moves taken, the higher the score attained. The player cannot move after winning, but they can restart the game and start a new attempt.
+6. **Music and Sound Effect
+   **: At the beginning of the game, background music sets the tone, persisting until the player secures victory. Upon winning, players are greeted with a celebratory sound effect, marking their triumphant accomplishment.
 
 ### Key Map
 
@@ -78,8 +84,6 @@ The source code files in this project are as follows:
 * `main`: Contains the main function.
 * `test`: Contains unit tests leveraging `Boost`.
 
-
-
 Four parent classes that `Sokoban` derives from inherits `sf::Drawable` and rewrites the `draw` method. Each `draw` method is responsible for the different part of the screen. In `Sokoban::draw` method:
 
 ~~~c++
@@ -96,9 +100,9 @@ void Sokoban::draw(sf::RenderTarget& target, const sf::RenderStates states) cons
 }
 ~~~
 
-It sequentially calls the `draw` method in each based class. The `SokobanTileGrid::draw()` draws the tile sprites one after one; the `SokobanPlayer::draw()` draws the player on the specified location; the `SokobanElapsedTime::draw()` draws the time in the format of *H:MM:SS* in the upper-left corner; and the `SokobanScore::draw(target, states)` draws the current score and max score in the upper-right corner.
-
-
+It sequentially calls the `draw` method in each based class. The `SokobanTileGrid::draw()` draws the tile sprites one after one; the `SokobanPlayer::draw()` draws the player on the specified location; the `SokobanElapsedTime::draw()` draws the time in the format of
+*H:MM:
+SS* in the upper-left corner; and the `SokobanScore::draw(target, states)` draws the current score and max score in the upper-right corner.
 
 The `Sokoban::movePlayer()` method is one of the significant functions in the whole project. It changes the player's location based on a specified direction. It also changes the location of the box that is pushed upon the player's movement. The method is fully commented on in `Sokoban.cpp`:
 
@@ -234,11 +238,15 @@ All unit tests for this project are placed in `test.cpp`. Unit tests from top to
 
 ### Extra Credit
 
-* **Player changes direction while moving**: In the `movePlayer` method, the player's direction is changed as long as the game is not over.
+* **Player changes direction while moving
+  **: In the `movePlayer` method, the player's direction is changed as long as the game is not over.
 * **Plays victory sound**: I added a victory sound effect that is played upon victory.
-* **Can undo moves**: Players can undo their moves by pressing the `U` key. And they can undo as much as they want.
-* **(New) Final score**: A final score will be displayed in the center of the window below the triumph message. See [Algorithms](#Algorithms) to see how to final score is computed.
-* **(New) Extra level**: I added a level file `level7.lvl` to `assets/level`. It is more complicated to solve than the provided levels. I got a 280 final score personal best!
+* **Can undo moves
+  **: Players can undo their moves by pressing the `U` key. And they can undo as much as they want.
+* **(New) Final score
+  **: A final score will be displayed in the center of the window below the triumph message. See [Algorithms](#Algorithms) to see how to final score is computed.
+* **(New) Extra level
+  **: I added a level file `level7.lvl` to `assets/level`. It is more complicated to solve than the provided levels. I got a 280 final score personal best!
 
 ## Acknowledgments
 

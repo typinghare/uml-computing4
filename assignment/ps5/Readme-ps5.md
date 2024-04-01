@@ -41,13 +41,18 @@ for (size_t i = colCount - 2; i < colCount; --i) {
 
 The `OptimizedEDistance` class optimizes memory usage by retaining only one column during matrix population, updating it iteratively within each loop. Although it sacrifices the ability to generate a string representing the optimal alignment, this limitation is addressed by the `HirshbergEDistance` class.
 
-In `HirshbergEDistance`, the **arrow path** serves as a critical component representing the path drawn from `matrix[0][0]` through `matrix[n][m]`. Once the arrow path is determined, both the calculation of edit distance and the generation of the alignment string become efficient. This is facilitated by the `align` method, which employs a divide and conquer technique to recursively align two strings. The `align` method accomplishes the following:
+In `HirshbergEDistance`, the **arrow path
+** serves as a critical component representing the path drawn from `matrix[0][0]` through `matrix[n][m]`. Once the arrow path is determined, both the calculation of edit distance and the generation of the alignment string become efficient. This is facilitated by the `align` method, which employs a divide and conquer technique to recursively align two strings. The `align` method accomplishes the following:
 
-1. **Base Case Handling**: If the lengths of the strings `X` or `Y` are less than 2, the standard alignment approach (`NeedlemanWunschEDistance`) is utilized. Subsequently, the arrow path is recorded, and the method returns. This serves as the base case of the recursion.
-2. **String Division**: The string `X` is divided into two parts: `X1` and `X2`. Prefix costs are computed for `X1` and `Y`, while suffix costs are computed for `X2` and `Y`.
-3. **Cost Calculation**: Iterate over `q` from 0 to `m` to determine the minimal cost sum of `yPrefix[q] + ySuffix[q]`, identifying the corresponding `bestQ` value in this context.
+1. **Base Case Handling
+   **: If the lengths of the strings `X` or `Y` are less than 2, the standard alignment approach (`NeedlemanWunschEDistance`) is utilized. Subsequently, the arrow path is recorded, and the method returns. This serves as the base case of the recursion.
+2. **String Division
+   **: The string `X` is divided into two parts: `X1` and `X2`. Prefix costs are computed for `X1` and `Y`, while suffix costs are computed for `X2` and `Y`.
+3. **Cost Calculation
+   **: Iterate over `q` from 0 to `m` to determine the minimal cost sum of `yPrefix[q] + ySuffix[q]`, identifying the corresponding `bestQ` value in this context.
 4. **Arrow Path Expansion**: Incorporate the coordinate `(n // 2, bestQ)` into the arrow path.
-5. **Recursive Exploration**: Recursively explore and determine the coordinates of the remaining segments of the arrow path.
+5. **Recursive Exploration
+   **: Recursively explore and determine the coordinates of the remaining segments of the arrow path.
 
 The arrow path in `HirshbergEDistance` is represented by the data structure `std::vector<std::pair<size_t, size_t>>`. In this structure, the index corresponds to the summation of the pair, where each pair represents a coordinate on the dynamic programming matrix. Notably, the summations of coordinates along the path are distinct.
 
@@ -109,11 +114,16 @@ void HirshbergEDistance::align(
 
 * **testPenalty**: Verifies the correctness of the `EDistance::penalty` function.
 * **testMin3**: Ensures the proper functionality of the `EDistance::min3` function.
-* **testOptDistance1**: Validates the accuracy of `EDistance::optDistance` using a specific example as outlined in the instructions.
-* **testOptDistance2**: Validates the correctness of `EDistance::optDistance` using the 'endgaps7.txt' dataset.
-* **testAlignmentCostSum1**: Compares the return value of `EDistance::optDistance` with the summation of costs obtained from `EDistance::alignment`, utilizing a specific example from the instructions.
-* **testAlignmentCostSum2**: Compares the output of `EDistance::optDistance` with the summation of costs from `EDistance::alignment`, utilizing the 'endgaps7.txt' dataset.
-* **testAlignmentColumns**: Validates the correctness of the two aligned columns. The first column should represent the first string, while the second column should represent the second string.
+* **testOptDistance1
+  **: Validates the accuracy of `EDistance::optDistance` using a specific example as outlined in the instructions.
+* **testOptDistance2
+  **: Validates the correctness of `EDistance::optDistance` using the 'endgaps7.txt' dataset.
+* **testAlignmentCostSum1
+  **: Compares the return value of `EDistance::optDistance` with the summation of costs obtained from `EDistance::alignment`, utilizing a specific example from the instructions.
+* **testAlignmentCostSum2
+  **: Compares the output of `EDistance::optDistance` with the summation of costs from `EDistance::alignment`, utilizing the 'endgaps7.txt' dataset.
+* **testAlignmentColumns
+  **: Validates the correctness of the two aligned columns. The first column should represent the first string, while the second column should represent the second string.
 
 ## Analysis
 
@@ -165,7 +175,7 @@ My program ran this correctly.
 ### Runs
 
 | Data File       | Distance | Memory (MB) | Time (seconds) | Time (seconds, with -O3) |
-| --------------- | -------- | ----------- | -------------- | ------------------------ |
+|-----------------|----------|-------------|----------------|--------------------------|
 | ecoli2500.txt   | 118      | 1.3 MB      | 0.164          | 0.089                    |
 | ecoli5000.txt   | 160      | 1.7 MB      | 0.576          | 0.337                    |
 | ecoli10000.txt  | 223      | 2.5 MB      | 2.197          | 1.130                    |
@@ -194,9 +204,12 @@ Assume the two strings are the same length (M = N). Look at your code and determ
 
 ### Valgrind
 
-> I am using a MacBook with an M1 chip. It does not support Valgrind, and Virtual Box crashes for no reason. I utilized **Activity Monitor** on macOS to monitor the memory used by the program, and the memory used is within expectation.
+> I am using a MacBook with an M1 chip. It does not support Valgrind, and Virtual Box crashes for no reason. I utilized
+**Activity Monitor
+** on macOS to monitor the memory used by the program, and the memory used is within expectation.
 >
-> I also used an alternative tool called **Instruments** on macOS to detect the memory leaks, and no warnings were detected.
+> I also used an alternative tool called **Instruments
+** on macOS to detect the memory leaks, and no warnings were detected.
 >
 > Oh come on, give me a break, I've been spending 7 hours implementing Hirshberg's algorithm.
 
@@ -209,12 +222,11 @@ Assume the two strings are the same length (M = N). Look at your code and determ
 3. The difference between **optimization levels** are as follows:
 
    | Flag | Compilation Time | Running Time | Comment                                                      |
-   | ---- | ---------------- | ------------ | ------------------------------------------------------------ |
+      | ---- | ---------------- | ------------ | ------------------------------------------------------------ |
    | -O0  | .                | .            | No optimization                                              |
    | -O1  | +                | +            | Optimize for speed while avoiding code size increase.        |
    | -O2  | ++               | +            | Enables vectorization; Allows inlining of intrinsics and intra-file interprocedural optimization. |
    | -O3  | +++              | +            | Enables more aggressive loop transformations (Fusion, Block-Unroll-and-Jam); Optimizations may only consistently outperform -O2 if loop and memory access transformations occur. It can even slow down the code. |
-
 
 ## Acknowledgments
 

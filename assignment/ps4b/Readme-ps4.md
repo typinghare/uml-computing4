@@ -12,7 +12,9 @@
 
 ## Description
 
-This program is designed to load, visualize, and simulate the motion of celestial bodies within a universe. It operates by taking two crucial arguments: the total simulation time `T` and the time step `△t`. Upon execution, it ingests input data, which includes information such as the number of planets, the universe's radius, and specific details for each celestial body like initial position, velocity, mass, and the corresponding image filename. Once all data is gathered, the program presents a visually engaging window displaying the celestial bodies against a captivating backdrop. Subsequently, it executes a simulation of the celestial bodies' movements over the time span `T`, employing the *leapfrog finite difference approximation scheme* with the given time step `△t`. Upon the accumulated step time is over total time `T`, the simulation stops and the final state of the universe will be printed on the console.
+This program is designed to load, visualize, and simulate the motion of celestial bodies within a universe. It operates by taking two crucial arguments: the total simulation time `T` and the time step `△t`. Upon execution, it ingests input data, which includes information such as the number of planets, the universe's radius, and specific details for each celestial body like initial position, velocity, mass, and the corresponding image filename. Once all data is gathered, the program presents a visually engaging window displaying the celestial bodies against a captivating backdrop. Subsequently, it executes a simulation of the celestial bodies' movements over the time span `T`, employing the
+*leapfrog finite difference approximation
+scheme* with the given time step `△t`. Upon the accumulated step time is over total time `T`, the simulation stops and the final state of the universe will be printed on the console.
 
 <img src="./screenshot.png" alt="screenshot" style="zoom:50%;" />
 

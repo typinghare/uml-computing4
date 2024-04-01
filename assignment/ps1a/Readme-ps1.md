@@ -40,7 +40,8 @@ I mistakenly put the main function in the `PhotoMagic.cpp`. Just took it out and
 
 A discussion of what's being tested in your two additional Boost unit tests.
 
-> According to **_What to turn in_** section in the PDF file, it says "two additional Boost unit tests", so I just wrote two tests.
+> According to **_What to turn in_
+** section in the PDF file, it says "two additional Boost unit tests", so I just wrote two tests.
 
 ### 1
 
