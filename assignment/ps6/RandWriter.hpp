@@ -37,7 +37,7 @@ class RandWriter {
      * @throw std::invalid_argument If the length of kgram is not equal to the order of the Markov
      * model.
      */
-    [[nodiscard]] int freq(const std::string& kgram) const;
+    int freq(const std::string& kgram) const;
 
     /**
      * @brief Returns the number of times a character follows a specific k-gram
@@ -48,7 +48,7 @@ class RandWriter {
      * @throw std::invalid_argument If the length of kgram is not equal to the order of the Markov
      * model.
      */
-    [[nodiscard]] int freq(const std::string& kgram, char c) const;
+    int freq(const std::string& kgram, char c) const;
 
     /**
      * @brief Generates a string of specified length using the Markov chain. Generates a string of
@@ -61,7 +61,15 @@ class RandWriter {
      * @throw std::invalid_argument If the length of kgram is not equal to the order of the Markov
      * model.
      */
-    [[nodiscard]] std::string generate(const std::string& kgram, size_t L) const;
+    std::string generate(const std::string& kgram, size_t L);
+
+    /**
+     * @brief Returns a random character followed by a specified k-gram .
+     * @param kgram The k-gram.
+     * @return a random character followed by a specified k-gram.
+     */
+    // ReSharper disable once CppFunctionIsNotImplemented
+    char kRand(const std::string& kgram);
 
  private:
     /**
@@ -69,13 +77,6 @@ class RandWriter {
      * @param kgram The k-gram to check.
      */
     void checkKgram(const std::string& kgram) const;
-
-    /**
-     * @brief Returns a random character followed by a specified k-gram .
-     * @param kgram The k-gram.
-     * @return a random character followed by a specified k-gram.
-     */
-    [[nodiscard]] char kRand(const std::string& kgram) const;
 
     /**
      * Returns a random number between 1 (included) and the given total frequency (excluded).

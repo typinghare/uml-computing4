@@ -32,7 +32,7 @@ int main(const int argc, const char* argv[]) {
     const std::string text = textStream.str();
 
     // Create a RandWriter instance and generate a text
-    const RandWriter randWriter{ text, static_cast<size_t>(orderK) };
+    RandWriter randWriter{ text, static_cast<size_t>(orderK) };
     const auto generatedText = randWriter.generate(text.substr(0, orderK), generatedTextLength);
     std::cout << generatedText;
 

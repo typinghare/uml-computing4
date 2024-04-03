@@ -6,6 +6,11 @@
 #include <stdexcept>
 
 RandWriter::RandWriter(const std::string& text, const size_t k) : m_orderK(k) {
+    // Test order k
+    if (k > text.size()) {
+        throw std::invalid_argument("The order k should be less then the size of the text!");
+    }
+
     // Initialize charMap
     for (const auto& c : text) {
         const auto it = m_charMap.find(c);
@@ -21,7 +26,7 @@ RandWriter::RandWriter(const std::string& text, const size_t k) : m_orderK(k) {
         const auto symbolEntry = m_symbolTable.find(kgram);
         if (symbolEntry == m_symbolTable.end()) {
             // Create new frequency
-            const FrequencyStore frequencyStore{ m_charMap };
+            const FrequencyStore frequencyStore(m_charMap);
             m_symbolTable[kgram] = frequencyStore;
         }
         auto& frequencyStore = m_symbolTable[kgram];
@@ -45,7 +50,7 @@ int RandWriter::freq(const std::string& kgram, const char c) const {
     return it == m_symbolTable.end() ? 0 : it->second.frequencyOf(c);
 }
 
-std::string RandWriter::generate(const std::string& kgram, const size_t L) const {
+std::string RandWriter::generate(const std::string& kgram, const size_t L) {
     checkKgram(kgram);
 
     std::string generatedText = kgram;
@@ -58,13 +63,7 @@ std::string RandWriter::generate(const std::string& kgram, const size_t L) const
     return generatedText;
 }
 
-void RandWriter::checkKgram(const std::string& kgram) const {
-    if (kgram.length() != m_orderK) {
-        throw std::invalid_argument("Invliad k-gram: " + kgram);
-    }
-}
-
-char RandWriter::kRand(const std::string& kgram) const {
+char RandWriter::kRand(const std::string& kgram) {
     const auto& frequencyStore = m_symbolTable.at(kgram);
     const auto totalFreq = frequencyStore.totalFrequency();
     const auto randomIndex = getRandomNumber(totalFreq);
@@ -78,6 +77,12 @@ char RandWriter::kRand(const std::string& kgram) const {
     }
 
     return '\0';
+}
+
+void RandWriter::checkKgram(const std::string& kgram) const {
+    if (kgram.length() != m_orderK) {
+        throw std::invalid_argument("Invliad k-gram: " + kgram);
+    }
 }
 
 int RandWriter::getRandomNumber(const int totalFreq) {

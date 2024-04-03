@@ -15,7 +15,7 @@ DEPS = $(SRC)RandWriter.hpp \
 	   $(SRC)FrequencyStore.hpp
 
 # Static library
-STATIC_LIB = RandWritten.a
+STATIC_LIB = TextWriter.a
 
 # The object files that the static library includes
 STATIC_LIB_OBJECTS = $(SRC)RandWriter.o \
@@ -60,7 +60,7 @@ run-input17: $(PROGRAM)
 	./$(PROGRAM) 2 11 < assets/input17.txt
 
 run-romeo: $(PROGRAM)
-	./$(PROGRAM) 4 100 < assets/romeo.txt
+	./$(PROGRAM) 1 100 < assets/romeo.txt
 
 run-tomsawyer: $(PROGRAM)
-	./$(PROGRAM) 7 400 < assets/tomsawyer.txt
+	./$(PROGRAM) 3 400 < assets/tomsawyer.txt
