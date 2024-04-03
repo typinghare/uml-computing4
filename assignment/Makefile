@@ -17,3 +17,6 @@ zip-ps5: clean
 
 zip-ps6: clean
 	zip -ur $(ZIP_FILENAME) ps6
+
+zip-ps7: clean
+	zip -ur $(ZIP_FILENAME) ps7

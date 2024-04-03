@@ -165,10 +165,12 @@ add_executable(ps5-test
 target_link_libraries(ps5 -lboost_unit_test_framework)
 
 add_executable(ps6
-        assignment/ps6/main.cpp
-        assignment/ps6/RandWritten.cpp
-        assignment/ps6/RandWritten.hpp
+        assignment/ps6/TextWriter.cpp
+        assignment/ps6/RandWriter.cpp
+        assignment/ps6/RandWriter.hpp
         assignment/ps6/test.cpp
+        assignment/ps6/FrequencyStore.cpp
+        assignment/ps6/FrequencyStore.hpp
 )
 target_link_libraries(ps6 -lsfml-system)
 

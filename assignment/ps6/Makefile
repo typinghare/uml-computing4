@@ -5,25 +5,27 @@ COMPILER = g++
 CFLAGS = --std=c++20 -Wall -Werror -pedantic -g
 
 # Libraries
-LIB = -lsfml-system -lboost_unit_test_framework
+LIB = -lboost_unit_test_framework
 
 # Code source directory
 SRC = ./
 
 # Hpp files (dependencies)
-DEPS = $(SRC)EDistance.hpp
+DEPS = $(SRC)RandWriter.hpp \
+	   $(SRC)FrequencyStore.hpp
 
 # Static library
-STATIC_LIB = EDistance.a
+STATIC_LIB = RandWritten.a
 
 # The object files that the static library includes
-STATIC_LIB_OBJECTS = $(SRC)EDistance.o
+STATIC_LIB_OBJECTS = $(SRC)RandWriter.o \
+				     $(SRC)FrequencyStore.o
 
 # Program
-PROGRAM = EDistance
+PROGRAM = TextWriter
 
 # Program object files
-MAIN_OBJECTS = $(SRC)main.o
+MAIN_OBJECTS = $(SRC)TextWriter.o
 
 # Test program
 TEST_PROGRAM = test
@@ -54,5 +56,11 @@ lint:
 boost: $(TEST_PROGRAM)
 	./$(TEST_PROGRAM)
 
-run: $(PROGRAM)
-	./$(PROGRAM) < sequence/endgaps7.txt
+run-input17: $(PROGRAM)
+	./$(PROGRAM) 2 11 < assets/input17.txt
+
+run-romeo: $(PROGRAM)
+	./$(PROGRAM) 4 100 < assets/romeo.txt
+
+run-tomsawyer: $(PROGRAM)
+	./$(PROGRAM) 7 400 < assets/tomsawyer.txt

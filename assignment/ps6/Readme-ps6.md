@@ -2,9 +2,13 @@
 
 ## Contact
 
-Name:
-Section:
-Time to Complete:
+> Name: Zhuojian Chen (James)
+>
+> Student ID: 02151380
+>
+> Section: COMP 2040 P 1 203
+>
+> Time to Complete: Apr 3, 2024
 
 ## Description
 
