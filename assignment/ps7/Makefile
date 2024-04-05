@@ -5,27 +5,22 @@ COMPILER = g++
 CFLAGS = --std=c++20 -Wall -Werror -pedantic -g
 
 # Libraries
-LIB = -lboost_unit_test_framework
+LIB = -lboost_unit_test_framework -lboost_date_time
 
 # Code source directory
 SRC = ./
 
 # Hpp files (dependencies)
-DEPS = $(SRC)RandWriter.hpp \
-	   $(SRC)FrequencyStore.hpp
-
-# Static library
-STATIC_LIB = TextWriter.a
+DEPS =
 
 # The object files that the static library includes
-STATIC_LIB_OBJECTS = $(SRC)RandWriter.o \
-				     $(SRC)FrequencyStore.o
+STATIC_LIB_OBJECTS = $(SRC)ps7.cpp
 
 # Program
-PROGRAM = TextWriter
+PROGRAM = ps7
 
 # Program object files
-MAIN_OBJECTS = $(SRC)TextWriter.o
+MAIN_OBJECTS = $(SRC)ps7.o
 
 # Test program
 TEST_PROGRAM = test
@@ -57,4 +52,4 @@ boost: $(TEST_PROGRAM)
 	./$(TEST_PROGRAM)
 
 run: $(PROGRAM)
-	./$(PROGRAM)
+	./$(PROGRAM) logs/device5_intouch.log

@@ -181,8 +181,9 @@ target_link_libraries(ps6 -lboost_unit_test_framework)
 add_executable(ps7
         assignment/ps7/datetime.cpp
         assignment/ps7/stdin_boost.cpp
+        assignment/ps7/ps7.cpp
 )
-target_link_libraries(ps6 -lboost_date_time)
+target_link_libraries(ps7 -lboost_date_time)
 
 # playground
 add_executable(playground-any playground/any.cpp)
