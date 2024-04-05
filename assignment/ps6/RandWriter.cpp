@@ -1,61 +1,42 @@
 // Copyright 2024 James Chen
 
 #include "RandWriter.hpp"
-#include <array>
+#include <iostream>
 #include <random>
-#include <stdexcept>
 
-RandWriter::RandWriter(const std::string& text, const size_t k) : m_orderK(k) {
-    // Test order k
+RandWriter::RandWriter(const std::string& text, const size_t k) : order_k_(k) {
+    // Check if order k is greater than the length of the given text
     if (k > text.size()) {
         throw std::invalid_argument("The order k should be less then the size of the text!");
     }
 
-    // Initialize charMap
-    for (const auto& c : text) {
-        const auto it = m_charMap.find(c);
-        if (it == m_charMap.end()) {
-            m_charMap[c] = static_cast<int>(m_charMap.size());
-        }
-    }
-
+    // Use slide window technique to scan all k-grams in the given text
     const auto circularText = text + text.substr(0, k);
     for (size_t i = 0; i < circularText.length() - k; ++i) {
         const auto kgram = circularText.substr(i, k);
         const auto nextChar = circularText.at(i + k);
-        const auto symbolEntry = m_symbolTable.find(kgram);
-        if (symbolEntry == m_symbolTable.end()) {
-            // Create new frequency
-            const FrequencyStore frequencyStore(m_charMap);
-            m_symbolTable[kgram] = frequencyStore;
-        }
-        auto& frequencyStore = m_symbolTable[kgram];
-        frequencyStore.incrementFrequency(nextChar);
+        symbol_table_.increment(kgram, nextChar);
     }
 }
 
-size_t RandWriter::orderK() const { return m_orderK; }
+size_t RandWriter::orderK() const { return order_k_; }
 
 int RandWriter::freq(const std::string& kgram) const {
     checkKgram(kgram);
-
-    const auto it = m_symbolTable.find(kgram);
-    return it == m_symbolTable.end() ? 0 : it->second.totalFrequency();
+    return symbol_table_.frequencyOf(kgram);
 }
 
 int RandWriter::freq(const std::string& kgram, const char c) const {
     checkKgram(kgram);
-
-    const auto it = m_symbolTable.find(kgram);
-    return it == m_symbolTable.end() ? 0 : it->second.frequencyOf(c);
+    return symbol_table_.frequencyOf(kgram, c);
 }
 
 std::string RandWriter::generate(const std::string& kgram, const size_t L) {
     checkKgram(kgram);
 
     std::string generatedText = kgram;
-    for (size_t i = 0; i < L - m_orderK; ++i) {
-        const auto& lastKgram = generatedText.substr(i, m_orderK);
+    for (size_t i = 0; i < L - order_k_; ++i) {
+        const auto& lastKgram = generatedText.substr(i, order_k_);
         const auto nextChar = kRand(lastKgram);
         generatedText.push_back(nextChar);
     }
@@ -63,15 +44,16 @@ std::string RandWriter::generate(const std::string& kgram, const size_t L) {
     return generatedText;
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
 char RandWriter::kRand(const std::string& kgram) {
-    const auto& frequencyStore = m_symbolTable.at(kgram);
-    const auto totalFreq = frequencyStore.totalFrequency();
-    const auto randomIndex = getRandomNumber(totalFreq);
+    const auto totalFrequency = symbol_table_.frequencyOf(kgram);
+    const auto randomIndex = getRandomNumber(totalFrequency);
+    const auto frequencyTable = symbol_table_.frequencyMapOf(kgram);
 
-    int cumulativeFreq = 0;
-    for (const auto& [c, index] : m_charMap) {
-        cumulativeFreq += frequencyStore.frequencyAt(index);
-        if (cumulativeFreq >= randomIndex) {
+    int cumulative_frequency = 0;
+    for (const auto& [c, frequency] : frequencyTable) {
+        cumulative_frequency += frequency;
+        if (cumulative_frequency >= randomIndex) {
             return c;
         }
     }
@@ -79,8 +61,23 @@ char RandWriter::kRand(const std::string& kgram) {
     return '\0';
 }
 
+std::ostream& operator<<(std::ostream& os, const RandWriter& randWriter) {
+    static const std::string INDENT = "--- ";
+
+    const auto frequency_map = randWriter.symbol_table_.frequencyMap();
+    for (auto const& [kgram, frequency] : frequency_map) {
+        os << kgram << ": " << frequency << std::endl;
+        const auto kgram_frequency_map = randWriter.symbol_table_.frequencyMapOf(kgram);
+        for (auto const& [c, freq] : kgram_frequency_map) {
+            os << INDENT << c << ": " << freq << std::endl;
+        }
+    }
+
+    return os;
+}
+
 void RandWriter::checkKgram(const std::string& kgram) const {
-    if (kgram.length() != m_orderK) {
+    if (kgram.length() != order_k_) {
         throw std::invalid_argument("Invliad k-gram: " + kgram);
     }
 }

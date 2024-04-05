@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include "RandWriter.hpp"
+#include "SymbolTable.hpp"
 
 /**
  * @brief Starts the universe simulation.

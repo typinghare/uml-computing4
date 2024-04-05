@@ -1,22 +1,22 @@
 ZIP_FILENAME = JamesChen.zip
 
 clean:
-	rm -rf $(ZIP_FILENAME)
+	rm -f $(ZIP_FILENAME)
 
-zip-ps3b: clean
+ps3b: clean
 	zip -ur $(ZIP_FILENAME) ps3b
 
-zip-ps4a: clean
+ps4a: clean
 	zip -ur $(ZIP_FILENAME) ps4a
 
-zip-ps4b: clean
+ps4b: clean
 	zip -ur $(ZIP_FILENAME) ps4b
 
-zip-ps5: clean
+ps5: clean
 	zip -ur $(ZIP_FILENAME) ps5
 
-zip-ps6: clean
-	zip -ur $(ZIP_FILENAME) ps6
+ps6: clean
+	find $@ -type f ! -name "*.txt" | zip -ur $(ZIP_FILENAME) $@
 
-zip-ps7: clean
-	zip -ur $(ZIP_FILENAME) ps7
+ps7: clean
+	find $@ -type f ! -name "*.txt" | zip -ur $(ZIP_FILENAME) $@

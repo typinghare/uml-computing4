@@ -6,7 +6,7 @@
 #include <array>
 #include <string>
 #include <unordered_map>
-#include "FrequencyStore.hpp"
+#include "SymbolTable.hpp"
 
 /**
  * @brief A class for generating text using a Markov model. This class provides functionalities to
@@ -71,6 +71,12 @@ class RandWriter {
     // ReSharper disable once CppFunctionIsNotImplemented
     char kRand(const std::string& kgram);
 
+    /**
+     * @brief Overloading of "<<" for this class. Outputs the symbol table, including kgrams, k+1
+     * grams and their frequencies.
+     */
+    friend std::ostream& operator<<(std::ostream& os, const RandWriter& randWriter);
+
  private:
     /**
      * @brief Checks if a k-gram is of length k, which is the order of the Markov model.
@@ -88,17 +94,12 @@ class RandWriter {
     /**
      * @brief The order of the Markov model.
      */
-    size_t m_orderK;
+    size_t order_k_;
 
     /**
-     * @brief Mapping from character to the index in the symbol table.
+     * @brief The symbol table used to store kgrams and the frequencies of next characters.
      */
-    std::unordered_map<char, int> m_charMap;
-
-    /**
-     * @brief Mapping from k-grams to frequency store.
-     */
-    std::unordered_map<std::string, FrequencyStore> m_symbolTable;
+    SymbolTable<std::string, char> symbol_table_;
 };
 
 #endif

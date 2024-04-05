@@ -71,14 +71,17 @@ BOOST_AUTO_TEST_CASE(testFreq4) {
 }
 
 // Checks if `RandWriter::freq(const std::string&)` throws an exception when the provided k-gram
+// does not appear in the original text.
 BOOST_AUTO_TEST_CASE(testWrongKgram1) {
     const RandWriter randWriter{ "gagggagaggcgagaaa", 2 };
     BOOST_REQUIRE_THROW(std::cout << randWriter.freq("gag"), std::invalid_argument);
 }
 
+// Checks if `RandWriter::freq(const std::string&, char)` throws an exception when the provided
+// k-gram does not appear in the original text.
 BOOST_AUTO_TEST_CASE(testWrongKgram2) {
     const RandWriter randWriter{ "gagggagaggcgagaaa", 2 };
-    BOOST_REQUIRE_THROW(std::cout << randWriter.freq("gag"), std::invalid_argument);
+    BOOST_REQUIRE_THROW(std::cout << randWriter.freq("gag", 'g'), std::invalid_argument);
 }
 
 BOOST_AUTO_TEST_CASE(testOrderKFail) {
@@ -106,7 +109,7 @@ BOOST_AUTO_TEST_CASE(testGenerate1) {
     constexpr int ORDER_K = 1;
     constexpr size_t LENGTH = 100;
 
-    const std::string content = readFileContent("assets/romeo.txt");
+    const std::string content = readFileContent("romeo.txt");
     RandWriter randWriter{ content, ORDER_K };
     const auto firstKGram = content.substr(0, ORDER_K);
     const auto generatedText = randWriter.generate(firstKGram, LENGTH);
@@ -120,7 +123,7 @@ BOOST_AUTO_TEST_CASE(testGenerate2) {
     constexpr int ORDER_K = 3;
     constexpr size_t LENGTH = 300;
 
-    const std::string content = readFileContent("assets/tomsawyer.txt");
+    const std::string content = readFileContent("tomsawyer.txt");
     RandWriter randWriter{ content, ORDER_K };
     const auto firstKGram = content.substr(0, ORDER_K);
     const auto generatedText = randWriter.generate(firstKGram, LENGTH);
@@ -130,7 +133,7 @@ BOOST_AUTO_TEST_CASE(testGenerate2) {
 
 // Checks if `RandWriter::kRand()` follows a correct distribution.
 BOOST_AUTO_TEST_CASE(testKRandDistribution) {
-    constexpr int NUMBER_OF_TIMES = 1000;
+    constexpr int NUMBER_OF_TIMES = 10000;
     constexpr double PROBABILITY_OF_G = 0.8;
     constexpr float TOLERANCE = 10.F;
 

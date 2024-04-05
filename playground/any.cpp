@@ -3,6 +3,15 @@
 #include <iostream>
 #include <vector>
 
+long decode2(long x, long y, const long z) {
+    y -= z;
+    x *= y;
+
+    std::cout << ((y << 63) >> 63) << std::endl;
+    std::cout << x << std::endl;
+    return 0;
+}
+
 
 int main() {
     // int a1 = 1;
@@ -41,10 +50,7 @@ int main() {
     // constexpr auto Flag = not true;
     // std::cout << Flag << std::endl;
 
-    const auto a = true;
-    const auto c = false;
-    std::cout << static_cast<int>(a) << std::endl;
-    std::cout << static_cast<int>(c) << std::endl;
+    std::cout << decode2(3, 7, 0) << std::endl;
 
     return 0;
 }

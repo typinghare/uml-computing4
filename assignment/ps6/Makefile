@@ -12,14 +12,13 @@ SRC = ./
 
 # Hpp files (dependencies)
 DEPS = $(SRC)RandWriter.hpp \
-	   $(SRC)FrequencyStore.hpp
+	   $(SRC)SymbolTable.hpp
 
 # Static library
 STATIC_LIB = TextWriter.a
 
 # The object files that the static library includes
-STATIC_LIB_OBJECTS = $(SRC)RandWriter.o \
-				     $(SRC)FrequencyStore.o
+STATIC_LIB_OBJECTS = $(SRC)RandWriter.o
 
 # Program
 PROGRAM = TextWriter
@@ -32,6 +31,12 @@ TEST_PROGRAM = test
 
 # Test object files
 TEST_OBJECTS = $(SRC)test.o
+
+# WordWriter program
+WORD_WRITER_PROGRAM = WordWriter
+
+# WordWriter object files
+WORD_WRITER_PROGRAM_OBJECTS = $(SRC)WordWriter.o $(SRC)AdvancedTextWriter.o
 
 all: $(PROGRAM) $(TEST_PROGRAM)
 
@@ -47,8 +52,11 @@ $(STATIC_LIB): $(STATIC_LIB_OBJECTS)
 $(TEST_PROGRAM): $(TEST_OBJECTS) $(STATIC_LIB)
 	$(COMPILER) $(CFLAGS) -o $@ $^ $(LIB)
 
+$(WORD_WRITER_PROGRAM): $(WORD_WRITER_PROGRAM_OBJECTS)
+	$(COMPILER) $(CFLAGS) -o $@ $^ $(LIB)
+
 clean:
-	rm -f $(SRC)*.o $(PROGRAM) $(STATIC_LIB) $(TEST_PROGRAM)
+	rm -f $(SRC)*.o $(PROGRAM) $(STATIC_LIB) $(TEST_PROGRAM) $(WORD_WRITER_PROGRAM)
 
 lint:
 	cpplint *.hpp *.cpp
@@ -57,10 +65,16 @@ boost: $(TEST_PROGRAM)
 	./$(TEST_PROGRAM)
 
 run-input17: $(PROGRAM)
-	./$(PROGRAM) 2 11 < assets/input17.txt
+	./$(PROGRAM) 2 11 < input17.txt
 
 run-romeo: $(PROGRAM)
-	./$(PROGRAM) 1 100 < assets/romeo.txt
+	./$(PROGRAM) 3 100 < romeo.txt
 
 run-tomsawyer: $(PROGRAM)
-	./$(PROGRAM) 3 400 < assets/tomsawyer.txt
+	./$(PROGRAM) 8 400 < tomsawyer.txt
+
+run-word-romeo: $(WORD_WRITER_PROGRAM)
+	./$(WORD_WRITER_PROGRAM) 2 50  < romeo.txt
+
+run-word-tomsawyer: $(WORD_WRITER_PROGRAM)
+	./$(WORD_WRITER_PROGRAM) 2 150  < tomsawyer.txt
