@@ -15,7 +15,7 @@ This program serves as a random text generator utilizing the Markov model. It op
 
 ### Features
 
-First of all, I've significantly revamped this project through an aggressive refactor. The key enhancement lies in the creation of the `SymbolTable`, a template class designed to accommodate two distinct generics. This essential component functions as a repository for k-grams along with their associated subsequent characters and frequencies. By implementing the class as a template, I've ensured its versatility, enabling it to be utilized seamlessly by both `RandWriter` and `WordWriter`.
+First of all, I've significantly revamped this project through an aggressive refactor. The key enhancement lies in the creation of the `SymbolTable`, a template class designed to accommodate two distinct generics. This essential component functions as a repository for k-grams (also refers to as "symbol") along with their associated subsequent characters (also refers to as "token") and frequencies. By implementing the class as a template, I've ensured its versatility, enabling it to be utilized seamlessly by both `RandWriter` and `WordWriter`.
 
 ```c++
 // In RandWriter
@@ -79,6 +79,57 @@ There weren't interesting things happen during the development. I spent a lot of
 
 ### Lambda
 
+In `SymbolTable` defines a `traverse` function:
+
+```c++
+/**
+ * Traverses through the symbol table, invoking provided callbacks for symbol and token
+ * information.
+ * @param symbolCallback A callback function accepting a symbol and its total frequency;
+ * @param tokenCallback A callback function accepting a token and its frequency;
+ */
+void traverse(
+    std::function<void(S, int)> symbolCallback,
+    std::function<void(T, int)> tokenCallback
+) const;
+```
+
+This function is extremely useful when printing the whole symbol table:
+
+```c++
+// This can be found in `RandWriter.cpp`, line 64
+std::ostream& operator<<(std::ostream& os, const RandWriter& randWriter) {
+    static const std::string INDENT = "--- ";
+
+    randWriter.symbol_table_.traverse(
+        [&](auto kgram, auto totalFreq) { os << kgram << ": " << totalFreq << std::endl; },
+        [&](auto c, auto freq) { os << INDENT << c << ": " << freq << std::endl; });
+
+    return os;
+}
+```
+
+The output of an example symbol table is as follows:
+
+```bash
+aa: 2
+--- a: 1
+--- g: 1
+gg: 3
+--- g: 1
+--- a: 1
+--- c: 1
+cg: 1
+--- a: 1
+gc: 1
+--- g: 1
+ag: 5
+--- g: 2
+--- a: 3
+ga: 5
+--- g: 4
+--- a: 1
+```
 
 ### Extra Credit
 1. I implemented `WordWriter` based on `SymbolTable`. You can run the following command to test it:

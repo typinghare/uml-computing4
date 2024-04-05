@@ -64,14 +64,9 @@ char RandWriter::kRand(const std::string& kgram) {
 std::ostream& operator<<(std::ostream& os, const RandWriter& randWriter) {
     static const std::string INDENT = "--- ";
 
-    const auto frequency_map = randWriter.symbol_table_.frequencyMap();
-    for (auto const& [kgram, frequency] : frequency_map) {
-        os << kgram << ": " << frequency << std::endl;
-        const auto kgram_frequency_map = randWriter.symbol_table_.frequencyMapOf(kgram);
-        for (auto const& [c, freq] : kgram_frequency_map) {
-            os << INDENT << c << ": " << freq << std::endl;
-        }
-    }
+    randWriter.symbol_table_.traverse(
+        [&](auto kgram, auto totalFreq) { os << kgram << ": " << totalFreq << std::endl; },
+        [&](auto c, auto freq) { os << INDENT << c << ": " << freq << std::endl; });
 
     return os;
 }

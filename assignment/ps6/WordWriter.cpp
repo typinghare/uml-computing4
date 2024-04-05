@@ -59,10 +59,6 @@ std::string WordWriter::generate(const std::vector<std::string>& kgram, const si
         generatedTextVector.push_back(nextToken);
     }
 
-    // for (int i = 0; i < generatedTextVector.size(); ++i) {
-    //     std::cout << generatedTextVector.at(i) << std::endl;
-    // }
-
     std::ostringstream generatedTextStream;
     for (const auto& token : generatedTextVector) {
         generatedTextStream << token << ' ';
@@ -103,14 +99,9 @@ int WordWriter::getRandomNumber(const int totalFreq) {
 std::ostream& operator<<(std::ostream& os, const WordWriter& wordWriter) {
     static const std::string INDENT = "--- ";
 
-    const auto frequency_map = wordWriter.symbol_table_.frequencyMap();
-    for (auto const& [kgram, frequency] : frequency_map) {
-        os << kgram << ": " << frequency << std::endl;
-        const auto kgram_frequency_map = wordWriter.symbol_table_.frequencyMapOf(kgram);
-        for (auto const& [c, freq] : kgram_frequency_map) {
-            os << INDENT << c << ": " << freq << std::endl;
-        }
-    }
+    wordWriter.symbol_table_.traverse(
+        [&](auto kgram, auto totalFreq) { os << kgram << ": " << totalFreq << std::endl; },
+        [&](auto word, auto freq) { os << INDENT << word << ": " << freq << std::endl; });
 
     return os;
 }

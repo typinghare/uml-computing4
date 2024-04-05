@@ -51,6 +51,16 @@ class SymbolTable {
      */
     unordered_map<T, int> frequencyMapOf(S symbol) const;
 
+    /**
+     * Traverses through the symbol table, invoking provided callbacks for symbol and token
+     * information.
+     * @param symbolCallback A callback function accepting a symbol and its total frequency;
+     * @param tokenCallback A callback function accepting a token and its frequency;
+     */
+    void traverse(
+        std::function<void(S, int)> symbolCallback,
+        std::function<void(T, int)> tokenCallback) const;
+
  private:
     /**
      * @brief Map to store symbols and their corresponding frequency maps.
@@ -100,6 +110,17 @@ template <typename S, typename T>
 unordered_map<T, int, std::hash<T>, std::equal_to<T>>
 SymbolTable<S, T>::frequencyMapOf(S symbol) const {
     return frequency_table_.at(symbol);
+}
+
+template <typename S, typename T>
+void SymbolTable<S, T>::traverse(
+    std::function<void(S, int)> symbolCallback, std::function<void(T, int)> tokenCallback) const {
+    for (auto const& [symbol, totalFrequency] : frequency_map_) {
+        symbolCallback(symbol, totalFrequency);
+        for (auto const& [token, frequency] : frequencyMapOf(symbol)) {
+            tokenCallback(token, frequency);
+        }
+    }
 }
 
 #endif
