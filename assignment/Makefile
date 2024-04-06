@@ -19,4 +19,4 @@ ps6: clean
 	find $@ -type f ! -name "*.txt" | zip -ur $(ZIP_FILENAME) $@
 
 ps7: clean
-	find $@ -type f ! -name "*.txt" | zip -ur $(ZIP_FILENAME) $@
+	find $@ -type f \( -name "*.rpt" -o -name "*.cpp" -o -name "Makefile" -o -name "Readme-ps7.md" \) | zip -ur $(ZIP_FILENAME) -@

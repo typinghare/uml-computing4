@@ -11,35 +11,20 @@ LIB = -lboost_unit_test_framework -lboost_date_time
 SRC = ./
 
 # Hpp files (dependencies)
-DEPS =
-
-# The object files that the static library includes
-STATIC_LIB_OBJECTS = $(SRC)ps7.cpp
+DEPS = $(SRC)LogPattern.hpp
 
 # Program
 PROGRAM = ps7
 
 # Program object files
-MAIN_OBJECTS = $(SRC)ps7.o
+MAIN_OBJECTS = $(SRC)main.o
 
-# Test program
-TEST_PROGRAM = test
-
-# Test object files
-TEST_OBJECTS = $(SRC)test.o
-
-all: $(PROGRAM) $(TEST_PROGRAM)
+all: $(PROGRAM)
 
 $(SRC)%.o: $(SRC)%.cpp $(DEPS)
 	$(COMPILER) $(CFLAGS) -c $<
 
-$(PROGRAM): $(MAIN_OBJECTS) $(STATIC_LIB)
-	$(COMPILER) $(CFLAGS) -o $@ $^ $(LIB)
-
-$(STATIC_LIB): $(STATIC_LIB_OBJECTS)
-	ar rcs $@ $^
-
-$(TEST_PROGRAM): $(TEST_OBJECTS) $(STATIC_LIB)
+$(PROGRAM): $(MAIN_OBJECTS) 
 	$(COMPILER) $(CFLAGS) -o $@ $^ $(LIB)
 
 clean:
@@ -48,8 +33,13 @@ clean:
 lint:
 	cpplint *.hpp *.cpp
 
-boost: $(TEST_PROGRAM)
-	./$(TEST_PROGRAM)
-
 run: $(PROGRAM)
 	./$(PROGRAM) logs/device5_intouch.log
+
+run-all: $(PROGRAM)
+	./$(PROGRAM) logs/device1_intouch.log && \
+	./$(PROGRAM) logs/device2_intouch.log && \
+	./$(PROGRAM) logs/device3_intouch.log && \
+	./$(PROGRAM) logs/device4_intouch.log && \
+	./$(PROGRAM) logs/device5_intouch.log && \
+	./$(PROGRAM) logs/device6_intouch.log &&
