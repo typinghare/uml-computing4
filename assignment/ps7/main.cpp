@@ -7,9 +7,34 @@
 #include <regex>
 #include <string>
 #include <boost/date_time/posix_time/posix_time.hpp>
-#include "LogPattern.hpp"
 
 using boost::posix_time::ptime;
+
+/**
+ * @brief Log file regex patterns.
+ */
+namespace LogPattern {
+
+// Match datetime string in the format of "YYYY-MM-DD HH:MM:SS"
+constexpr auto* datetimePatternString = R"((\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}))";
+
+// Match server start line
+const std::regex
+    SERVER_START(std::string(datetimePatternString) + R"(: \(log\.c\.166\) server started.*)");
+
+// Match server boot complete line
+const std::regex SERVER_COMPLETE(
+    std::string(datetimePatternString) +
+    R"(\.\d{3}:INFO:oejs\.AbstractConnector:Started SelectChannelConnector@0\.0\.0\.0:9080.*)");
+
+// Match service start line
+const std::regex SERVICE_START(R"(Starting Service\.\s*(\w*).*)");
+
+// Match service complete line
+const std::regex
+    SERVICE_COMPLETE(R"(Service started successfully\.\s*(\w*)\s+\S*\s*\((\d+) ms\).*)");
+
+}  // namespace LogPattern
 
 struct LogEntry {
     // Name of the log file
@@ -167,11 +192,17 @@ int main(const int argc, const char* argv[]) {
         });
 
         // Match "service complete" lines
-        match(line, LogPattern::SERVICE_COMPLETE, [&](auto elapsed_time, auto index) {
+        std::string service_name;
+        match(line, LogPattern::SERVICE_COMPLETE, [&](auto matched_string, auto index) {
             if (index == 1) {
-                auto& log_entry = service_boot_log_entries.back();
-                log_entry.completed_line_number = line_number;
-                log_entry.elapsed_time = std::stoi(elapsed_time);
+                service_name = matched_string;
+            } else if (index == 2) {
+                for (auto& entry : service_boot_log_entries) {
+                    if (!service_name.empty() && entry.service_name == service_name) {
+                        entry.completed_line_number = line_number;
+                        entry.elapsed_time = std::stoi(matched_string);
+                    }
+                }
             }
         });
     });

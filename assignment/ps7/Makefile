@@ -11,7 +11,7 @@ LIB = -lboost_unit_test_framework -lboost_date_time
 SRC = ./
 
 # Hpp files (dependencies)
-DEPS = $(SRC)LogPattern.hpp
+DEPS =
 
 # Program
 PROGRAM = ps7
@@ -37,9 +37,9 @@ run: $(PROGRAM)
 	./$(PROGRAM) logs/device5_intouch.log
 
 run-all: $(PROGRAM)
-	./$(PROGRAM) logs/device1_intouch.log && \
-	./$(PROGRAM) logs/device2_intouch.log && \
-	./$(PROGRAM) logs/device3_intouch.log && \
-	./$(PROGRAM) logs/device4_intouch.log && \
-	./$(PROGRAM) logs/device5_intouch.log && \
-	./$(PROGRAM) logs/device6_intouch.log &&
+	./$(PROGRAM) logs/device1_intouch.log
+	./$(PROGRAM) logs/device2_intouch.log
+	./$(PROGRAM) logs/device3_intouch.log
+	./$(PROGRAM) logs/device4_intouch.log
+	./$(PROGRAM) logs/device5_intouch.log
+	./$(PROGRAM) logs/device6_intouch.log
