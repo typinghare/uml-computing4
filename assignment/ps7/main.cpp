@@ -136,6 +136,31 @@ void outputDeviceBootLogItems(
  */
 int main(const int argc, const char* argv[]) {
     constexpr auto STATUS_ERROR = 1;
+    // Names of all services that are started in every boot
+    const std::vector<std::string> serviceNameVector = { "Logging",
+                                                         "DatabaseInitialize",
+                                                         "MessagingService",
+                                                         "HealthMonitorService",
+                                                         "Persistence",
+                                                         "ConfigurationService",
+                                                         "CacheService",
+                                                         "ThemingService",
+                                                         "PortConfigurationService",
+                                                         "LandingPadService",
+                                                         "DeviceIOService",
+                                                         "StagingService",
+                                                         "GateService",
+                                                         "AVFeedbackService",
+                                                         "ReaderDataService",
+                                                         "BellService",
+                                                         "StateManager",
+                                                         "OfflineSmartviewService",
+                                                         "DatabaseThreads",
+                                                         "ProtocolService",
+                                                         "SoftLoadService",
+                                                         "WATCHDOG",
+                                                         "DiagnosticsService",
+                                                         "BiometricService" };
 
     // Check the arguments
     if (argc != 2) {
@@ -156,13 +181,38 @@ int main(const int argc, const char* argv[]) {
     const int numScannedLine = traverseFile(fileStream, [&](auto& line, auto line_number) {
         // Match "server start" lines
         match(line, LogPattern::SERVER_START, [&](auto datetimeString, auto index) {
-            if (index == 1) {
-                DeviceBootLogEntry log_entry;
-                log_entry.filename = filename;
-                log_entry.start_line_number = line_number;
-                log_entry.start_datetime = parseDatetime(datetimeString);
-                device_boot_log_entries.push_back(log_entry);
+            if (index != 1) {
+                return;
             }
+
+            // Add absent services to previous device boot log entry
+            if (!device_boot_log_entries.empty()) {
+                auto& previous_entry = device_boot_log_entries.back();
+                auto& service_log_entries = previous_entry.service_log_entries;
+                for (const auto& serviceName : serviceNameVector) {
+                    bool found = false;
+                    for (const auto& entry : service_log_entries) {
+                        if (entry.service_name == serviceName) {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        ServiceBootLogEntry new_entry;
+                        new_entry.filename = filename;
+                        new_entry.service_name = serviceName;
+                        service_log_entries.push_back(new_entry);
+                    }
+                }
+            }
+
+            // Add new boot log entry
+            DeviceBootLogEntry log_entry;
+            log_entry.filename = filename;
+            log_entry.start_line_number = line_number;
+            log_entry.start_datetime = parseDatetime(datetimeString);
+            device_boot_log_entries.push_back(log_entry);
         });
 
         // Match "server complete" lines
@@ -288,15 +338,20 @@ void outputDeviceBootLogItems(
 
     const auto serviceBootLogEntryHandler = [&](const ServiceBootLogEntry& entry) {
         ostream << "\t" << entry.service_name << std::endl;
-        ostream << "\t\t Start: " << entry.start_line_number << "(" << entry.filename << ")"
-                << std::endl;
+        if (entry.start_line_number > 0) {
+            ostream << "\t\t Start: " << entry.start_line_number << "(" << entry.filename << ")"
+                    << std::endl;
+        } else {
+            ostream << "\t\t Start: Not started(" << entry.filename << ")" << std::endl;
+        }
+
         if (entry.completed_line_number > 0) {
             ostream << "\t\t Completed: " << entry.completed_line_number << "(" << entry.filename
                     << ")" << std::endl;
             ostream << "\t\t Elapsed Time: " << entry.elapsed_time << " ms" << std::endl;
         } else {
             ostream << "\t\t Completed: Not Completed(" << entry.filename << ")" << std::endl;
-            ostream << "\t\t Elapsed Time:" << std::endl;
+            ostream << "\t\t Elapsed Time: " << std::endl;
         }
     };
 

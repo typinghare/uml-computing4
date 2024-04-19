@@ -49,5 +49,4 @@ class SokobanScore : public virtual sf::Drawable {
 
 }  // namespace SB
 
-
 #endif

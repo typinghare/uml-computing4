@@ -120,5 +120,4 @@ class SokobanTileGrid : public virtual sf::Drawable {
 
 }  // namespace SB
 
-
 #endif

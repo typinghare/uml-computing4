@@ -186,10 +186,10 @@ target_link_libraries(ps7 -lboost_date_time)
 # playground
 add_executable(playground-any playground/any.cpp)
 add_executable(playground-size playground/size.cpp)
-add_executable(bitwise-test playground/bitwise-test.cpp
-        playground/abstract-class.cpp)
+add_executable(bitwise-test playground/bitwise-test.cpp)
 add_executable(rand-between playground/rand-between.cpp)
 add_executable(swap playground/swap.cpp)
 add_executable(findMode playground/find-mode.cpp)
 add_executable(box playground/Box.h playground/Box.cpp)
 add_executable(abstract-class playground/abstract-class.cpp)
+add_executable(extension playground/extension.cpp)

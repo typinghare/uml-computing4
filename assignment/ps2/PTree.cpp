@@ -3,7 +3,6 @@
 #include "PTree.hpp"
 #include <cmath>
 #include <iostream>
-
 #include <SFML/Graphics.hpp>
 
 namespace PTree {
@@ -78,11 +77,6 @@ std::array<Square, 2> getNextSquares(const Square& square, const float& deltaAlp
 inline float degreeToRadian(const float& degree) {
     static constexpr float C = M_PI / 180;
     return C * degree;
-}
-
-inline float radianToDegree(const float& radian) {
-    static constexpr float C = 180 / M_PI;
-    return C * radian;
 }
 
 inline float sinDeg(const float& degree) { return std::sin(degreeToRadian(degree)); }

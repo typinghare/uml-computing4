@@ -175,7 +175,7 @@ My program ran this correctly.
 ### Runs
 
 | Data File       | Distance | Memory (MB) | Time (seconds) | Time (seconds, with -O3) |
-| --------------- | -------- | ----------- | -------------- | ------------------------ |
+|-----------------|----------|-------------|----------------|--------------------------|
 | ecoli2500.txt   | 118      | 1.3 MB      | 0.164          | 0.089                    |
 | ecoli5000.txt   | 160      | 1.7 MB      | 0.576          | 0.337                    |
 | ecoli10000.txt  | 223      | 2.5 MB      | 2.197          | 1.130                    |
@@ -217,12 +217,13 @@ Assume the two strings are the same length (M = N). Look at your code and determ
 
 1. The distinction between `min3` and `std::min` lies in their functionalities. While `std::min` utilizes templates, enabling it to handle various variable types, `min3` is limited to operating solely on three integers.
 
-2. The program is implemented using **Hirschberg's algorithm**, so the program can handle large data set.
+2. The program is implemented using **Hirschberg's algorithm
+   **, so the program can handle large data set.
 
 3. The difference between **optimization levels** are as follows:
 
    | Flag | Compilation Time | Running Time | Comment                                                      |
-      | ---- | ---------------- | ------------ | ------------------------------------------------------------ |
+         | ---- | ---------------- | ------------ | ------------------------------------------------------------ |
    | -O0  | .                | .            | No optimization                                              |
    | -O1  | +                | +            | Optimize for speed while avoiding code size increase.        |
    | -O2  | ++               | +            | Enables vectorization; Allows inlining of intrinsics and intra-file interprocedural optimization. |

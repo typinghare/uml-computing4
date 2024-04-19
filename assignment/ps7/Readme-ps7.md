@@ -11,6 +11,7 @@
 > Time to Complete: Apr 6, 2024
 
 ## Description
+
 This project entails developing a program designed to scan through log files in their entirety. The objective is to generate a comprehensive report file that chronologically details every instance when the device and its associated services underwent restart procedures.
 
 ### Features
@@ -18,23 +19,24 @@ This project entails developing a program designed to scan through log files in 
 This project is easy to implement, so I added many features to the program to enhance its readability, extensibility, and maintainability.
 
 * `LogPattern` namespace: A namespace containing all regular expressions (constants).
-Here's an improved version:
+  Here's an improved version:
 * Structs in a hierarchy:
-  * `LogEntry`: Contains metadata about a log file, such as its name.
-  * `BootLogEntry`: Extends `LogEntry` to include information about boot processes, such as the start and completion line numbers.
-  * `ServiceBootLogEntry`: Represents a log entry specific to the boot process of a service. Extends `LogEntry` to include details like service name and elapsed time.
-  * `DeviceBootLogEntry`: Represents a log entry specific to the boot process of a server. Extends `BootLogEntry` to include start and completion date times, as well as a collection of `ServiceBootLogEntry` instances.
+    * `LogEntry`: Contains metadata about a log file, such as its name.
+    * `BootLogEntry`: Extends `LogEntry` to include information about boot processes, such as the start and completion line numbers.
+    * `ServiceBootLogEntry`: Represents a log entry specific to the boot process of a service. Extends `LogEntry` to include details like service name and elapsed time.
+    * `DeviceBootLogEntry`: Represents a log entry specific to the boot process of a server. Extends `BootLogEntry` to include start and completion date times, as well as a collection of `ServiceBootLogEntry` instances.
 * Helper functions accepting lambda as parameters reduce code complexity. There are two essential functions in this program:
-  * `traverseFile`: Traverses the lines of a file, invoking a callback function for each line. This function reads each line from the provided input file stream and invokes the specified callback function for each line. The callback function is called with two parameters: the current line as a string and its corresponding line number.
-  * `match`: Finds matches in a given string using a regular expression pattern. This function searches for matches of the specified regular expression pattern within the provided string. If one or more matches are found, the callback function is invoked for each match, providing the matched substring and its index within the original string as parameters.
-
+    * `traverseFile`: Traverses the lines of a file, invoking a callback function for each line. This function reads each line from the provided input file stream and invokes the specified callback function for each line. The callback function is called with two parameters: the current line as a string and its corresponding line number.
+    * `match`: Finds matches in a given string using a regular expression pattern. This function searches for matches of the specified regular expression pattern within the provided string. If one or more matches are found, the callback function is invoked for each match, providing the matched substring and its index within the original string as parameters.
 
 ### Approach
+
 I tackled this challenge by employing a line-by-line reading approach to the file, leveraging regular expressions to identify specific patterns within each line. When a line corresponds to a server initialization indication, I instantiate a `DeviceBootLogEntry`, capture the start time as well as the line number, and append it to a vector. Conversely, when encountering a line indicating the completion of server startup, I update the completion time for the most recent `DeviceBootLogEntry` in the vector.
 
 Upon finishing the scanning, all instances of `DeviceBootLogEntry` are systematically outputted to a report file, adhering to a predefined format and maintaining chronological order.
 
 ### Regex
+
 Four regular expressions are used in this project:
 
 *  ```c++
@@ -66,7 +68,38 @@ Four regular expressions are used in this project:
   ```
 
 ### Extra Credit
-1. I added a summary header and tracked the start and elapsed time of each service.
+
+1. I added a summary header and tracked the start and elapsed time of each service. I assumed that there are 23 services that are started in every boot:
+
+   ```c++
+   const std::vector<std::string> serviceNameVector = { 
+       "Logging",
+       "DatabaseInitialize",
+       "MessagingService",
+       "HealthMonitorService",
+       "Persistence",
+       "ConfigurationService",
+       "CacheService",
+       "ThemingService",
+       "PortConfigurationService",
+       "LandingPadService",
+       "DeviceIOService",
+       "StagingService",
+       "GateService",
+       "AVFeedbackService",
+       "ReaderDataService",
+       "BellService",
+       "StateManager",
+       "OfflineSmartviewService",
+       "DatabaseThreads",
+       "ProtocolService",
+       "SoftLoadService",
+       "WATCHDOG",
+       "DiagnosticsService",
+       "BiometricService"
+   };
+   ```
 
 ## Acknowledgments
+
 [regex101](https://regex101.com)

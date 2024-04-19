@@ -1,6 +1,7 @@
 # PS6: RandWriter
 
 ## Contact
+
 > Name: Zhuojian Chen (James)
 >
 > Student ID: 02151380
@@ -9,8 +10,8 @@
 >
 > Time to Complete: March 31, 2024
 
-
 ## Description
+
 This program serves as a random text generator utilizing the Markov model. It operates by accepting two parameters: the order "k" and the desired length of the generated text. Additionally, it necessitates training data input. The program then proceeds to construct a Markov model based on this training data, subsequently producing text of the specified length.
 
 ### Features
@@ -132,6 +133,7 @@ ga: 5
 ```
 
 ### Extra Credit
+
 1. I implemented `WordWriter` based on `SymbolTable`. You can run the following command to test it:
 
    ```bash
@@ -145,6 +147,7 @@ ga: 5
    ```
 
 ## Acknowledgements
+
 [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
 
 [std::unordered_map](https://cplusplus.com/reference/unordered_map/unordered_map/)

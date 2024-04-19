@@ -77,13 +77,15 @@ void displayImages(sf::Image& inputImage, sf::Image& outputImage) {
     while (inputImageWindow.isOpen() && outputImageWindow.isOpen()) {
         sf::Event event{};
         while (inputImageWindow.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) {
                 inputImageWindow.close();
+            }
         }
 
         while (outputImageWindow.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) {
                 outputImageWindow.close();
+            }
         }
     }
 }

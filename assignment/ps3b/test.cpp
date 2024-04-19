@@ -1,13 +1,12 @@
 // Copyright 2024 James Chen
 
+#define BOOST_TEST_DYN_LINK
+#define BOOST_TEST_MODULE Main
+
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
-
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE Main
-
 #include <boost/test/unit_test.hpp>
 #include "Sokoban.hpp"
 

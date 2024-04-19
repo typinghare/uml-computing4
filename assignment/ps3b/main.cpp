@@ -60,12 +60,12 @@ int main(const int size, const char* arguments[]) {
                     sokoban.movePlayer(itDirection->second);
                 }
 
-                // Reset game
+                // Reset the game
                 if (event.key.code == sf::Keyboard::R) {
                     sokoban.reset();
                 }
 
-                // Undo move
+                // Undo a move
                 if (event.key.code == sf::Keyboard::U) {
                     sokoban.undo();
                 }

@@ -1,8 +1,8 @@
 // Copyright 2024 James Chen
+
 #include <cmath>
 #include <filesystem>
 #include <iostream>
-
 #include <SFML/Graphics.hpp>
 
 // Global constants
@@ -49,30 +49,28 @@ class Direction {
     Orientation orientation;
 };
 
-const Direction Direction::UP{Orientation::UP};
-const Direction Direction::DOWN{Orientation::DOWN};
-const Direction Direction::LEFT{Orientation::LEFT};
-const Direction Direction::RIGHT{Orientation::RIGHT};
+const Direction Direction::UP{ Orientation::UP };
+const Direction Direction::DOWN{ Orientation::DOWN };
+const Direction Direction::LEFT{ Orientation::LEFT };
+const Direction Direction::RIGHT{ Orientation::RIGHT };
 
 /**
  * @brief In game development, a sprite is a movable texture. Last semester I
  * created a 2D farming game using Python, and I try to transplant the logic to
  * here.
- * \see
- * https://github.com/typinghare/wildtrace-farm/blob/main/src/world/character.py
  */
 class ControllableSprite final : public sf::Sprite {
     /**
      * @brief To simplify the logic, the sprite moves at a constant speed.
      */
-    constexpr static float SPEED{0.5};
+    constexpr static float SPEED{ 0.5 };
 
  public:
     /**
      * @brief Creates a sprite.
      * @param filepath The filepath of the texture file.
      */
-    explicit ControllableSprite(const std::string& filepath) : sf::Sprite() {
+    explicit ControllableSprite(const std::string& filepath) {
         const std::filesystem::path absolutePath =
             std::filesystem::absolute(filepath);
         std::cout << "Loading texture file: " << absolutePath << std::endl;
@@ -82,7 +80,7 @@ class ControllableSprite final : public sf::Sprite {
         }
 
         this->setTexture(texture);
-        this->setPosition(sf::Vector2f(0.0f, 0.0f));
+        this->setPosition(sf::Vector2f(0.0F, 0.0F));
     }
 
     /**
@@ -121,21 +119,23 @@ class ControllableSprite final : public sf::Sprite {
      * @param dt Delta time in milliseconds.
      */
     void update(const int& dt) {
-        int x = 0, y = 0;
+        int x = 0;
+        int y = 0;
 
-        if (movementState[Direction::UP.toInt()])
+        if (movementState[Direction::UP.toInt()]) {
             y = -1;
-        if (movementState[Direction::DOWN.toInt()])
+        }
+        if (movementState[Direction::DOWN.toInt()]) {
             y = 1;
-        if (movementState[Direction::LEFT.toInt()])
+        }
+        if (movementState[Direction::LEFT.toInt()]) {
             x = -1;
-        if (movementState[Direction::RIGHT.toInt()])
+        }
+        if (movementState[Direction::RIGHT.toInt()]) {
             x = 1;
+        }
 
-        if (x == 0 && y == 0)
-            return;
-
-        const float ds = 1.0f / static_cast<float>(sqrt(x * x + y * y));
+        const float ds = 1.0F / static_cast<float>(sqrt(x * x + y * y));
         auto position = this->getPosition();
         position.x += static_cast<float>(x) * ds * static_cast<float>(dt);
         position.y += static_cast<float>(y) * ds * static_cast<float>(dt);
@@ -150,17 +150,18 @@ class ControllableSprite final : public sf::Sprite {
 
 int main() {
     // Create a window
-    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT),
-                            WINDOW_TITLE);
+    sf::RenderWindow window(
+        sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_TITLE);
     window.setFramerateLimit(WINDOW_FPS);
 
     // Create a circle and a sprite
-    constexpr int CIRCLE_RADIUS = 100.f;
+    constexpr int CIRCLE_RADIUS = 100.F;
+    constexpr float HALF = 0.5F;
     sf::CircleShape circleShape(CIRCLE_RADIUS);
     circleShape.setFillColor(sf::Color::Green);
-    circleShape.setPosition(
-        sf::Vector2f(static_cast<float>(WINDOW_WIDTH) / 2.0f - CIRCLE_RADIUS,
-                     static_cast<float>(WINDOW_HEIGHT) / 2.0f - CIRCLE_RADIUS));
+    circleShape.setPosition(sf::Vector2f(
+        static_cast<float>(WINDOW_WIDTH) * HALF - CIRCLE_RADIUS,
+        static_cast<float>(WINDOW_HEIGHT) * HALF - CIRCLE_RADIUS));
     ControllableSprite sprite(SPRITE_FILEPATH);
 
     // Game loop

@@ -3,17 +3,14 @@
 // test.cpp for PS1a
 // updated 1/8/2024
 
+#define BOOST_TEST_DYN_LINK
+#define BOOST_TEST_MODULE Main
+
 #include <iostream>
 #include <sstream>
 #include <string>
-
-#include "FibLFSR.hpp"
-
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE Main
 #include <boost/test/unit_test.hpp>
-
-
+#include "FibLFSR.hpp"
 #include "PhotoMagic.hpp"
 
 using PhotoMagic::FibLFSR;
@@ -79,8 +76,8 @@ BOOST_AUTO_TEST_CASE(testConvertPasswordToSeed) {
 
 // An image should be completely the same as the original image after being
 // transformed twice by the same seed.
-BOOST_AUTO_TEST_CASE(testM) {
-    static const auto SEED = "0000111100001111";
+BOOST_AUTO_TEST_CASE(testTwoTranformation) {
+    static const auto* const SEED = "0000111100001111";
 
     sf::Image image;
     image.loadFromFile("assets/cat.jpg");

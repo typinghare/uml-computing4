@@ -1,4 +1,5 @@
 // Copyright 2024 James Chen
+
 #include <string>
 #include "PhotoMagic.hpp"
 
@@ -23,11 +24,14 @@ int main(const int size, const char* arguments[]) {
     const std::string seed{ PhotoMagic::convertPasswordToSeed(arguments[3]) };
 
     // Create images
-    sf::Image originalImage, processedImage;
-    if (!originalImage.loadFromFile(inputFilename))
+    sf::Image originalImage;
+    sf::Image processedImage;
+    if (!originalImage.loadFromFile(inputFilename)) {
         return -1;
-    if (!processedImage.loadFromFile(inputFilename))
+    }
+    if (!processedImage.loadFromFile(inputFilename)) {
         return -1;
+    }
 
     // Create a FibLFSR instance with the initial seed
     PhotoMagic::FibLFSR fibLfsr{ seed };

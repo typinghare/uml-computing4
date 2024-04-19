@@ -60,9 +60,10 @@ void Sokoban::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     // Draw tiles
     for (int row = 0; row < m_height; ++row) {
         for (int col = 0; col < m_width; ++col) {
-            const auto tile = getTile({ col, row });
-            if (tile == nullptr)
+            auto* const tile = getTile({ col, row });
+            if (tile == nullptr) {
                 continue;
+            }
 
             auto position = sf::Vector2f{ static_cast<float>(col * TILE_WIDTH),
                                           static_cast<float>(row * TILE_HEIGHT) };
@@ -79,11 +80,11 @@ void Sokoban::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(*player);
 
     // Draw the elapsed time for extra credit
-    const unsigned seconds = timeElapsedInMs / 1000u;
-    const unsigned minutes = seconds / 60u;
-    const unsigned hours = minutes / 60u;
-    const unsigned second = seconds % 60u;
-    const unsigned minute = minutes % 60u;
+    const unsigned seconds = timeElapsedInMs / 1000U;
+    const unsigned minutes = seconds / 60U;
+    const unsigned hours = minutes / 60U;
+    const unsigned second = seconds % 60U;
+    const unsigned minute = minutes % 60U;
     const std::string secondStr = (second < 10 ? "0" : "") + std::to_string(second);
     const std::string minuteStr = (minute < 10 ? "0" : "") + std::to_string(minute);
     const std::string hourStr = std::to_string(hours);
@@ -117,7 +118,7 @@ std::ifstream& operator>>(std::ifstream& ifstream, Sokoban& sokoban) {
         getline(ifstream, line);
         for (int col = 0; col < sokoban.m_width; ++col) {
             const char c = line.at(col);
-            const auto tile = sokoban.charToTile(c);
+            auto* const tile = sokoban.charToTile(c);
             if (tile == nullptr) {
                 continue;
             }
@@ -149,18 +150,18 @@ sf::Sprite* Sokoban::charToTile(const char& c) const {
         return nullptr;
     }
 
-    const auto texture{ it->second };
-    const auto sprite{ new sf::Sprite };
+    const auto* const texture{ it->second };
+    auto* const sprite{ new sf::Sprite };
     sprite->setTexture(*texture);
 
     return sprite;
 }
 
 void Sokoban::initTileMap() {
-    const auto groundTexture{ new sf::Texture };
-    const auto groundStorageTexture{ new sf::Texture };
-    const auto crateTexture{ new sf::Texture };
-    const auto wallTexture{ new sf::Texture };
+    auto* const groundTexture{ new sf::Texture };
+    auto* const groundStorageTexture{ new sf::Texture };
+    auto* const crateTexture{ new sf::Texture };
+    auto* const wallTexture{ new sf::Texture };
 
     groundTexture->loadFromFile(TILE_GROUND_01_FILENAME);
     groundStorageTexture->loadFromFile(TILE_GROUND_04_FILENAME);
@@ -176,10 +177,10 @@ void Sokoban::initTileMap() {
 }
 
 void Sokoban::initPlayerTextureMap() {
-    const auto playerUpTexture{ new sf::Texture };
-    const auto playerRightTexture{ new sf::Texture };
-    const auto playerDownTexture{ new sf::Texture };
-    const auto playerLeftTexture{ new sf::Texture };
+    auto* const playerUpTexture{ new sf::Texture };
+    auto* const playerRightTexture{ new sf::Texture };
+    auto* const playerDownTexture{ new sf::Texture };
+    auto* const playerLeftTexture{ new sf::Texture };
 
     playerUpTexture->loadFromFile(TILE_PLAYER_08_FILENAME);
     playerRightTexture->loadFromFile(TILE_PLAYER_17_FILENAME);
@@ -195,8 +196,8 @@ void Sokoban::initPlayerTextureMap() {
 void Sokoban::setPlayerOrientation(const Direction& direction) {
     delete player;
 
-    const auto texture{ playerTextureMap.at(direction) };
-    const auto sprite{ new sf::Sprite };
+    const auto* const texture{ playerTextureMap.at(direction) };
+    auto* const sprite{ new sf::Sprite };
     sprite->setTexture(*texture);
     player = sprite;
 }

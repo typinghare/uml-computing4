@@ -16,12 +16,12 @@ struct Square {
     /**
      * @brief The top-left vertex.
      */
-    sf::Vector2f tlVertex{};
+    sf::Vector2f tlVertex;
 
     /**
      * @brief The top-right vertex.
      */
-    sf::Vector2f trVertex{};
+    sf::Vector2f trVertex;
 
     /**
      * @brief The length of the side.
@@ -46,7 +46,7 @@ struct Square {
 void pTree(sf::RenderWindow* window, const Square& square, const float& deltaAlpha, int N);
 
 /**
- * @brief Draws a square based on the main side.
+ * @brief Draws a square.
  * @param window The window to draw onto.
  * @param square THe square to draw.
  * @param color The fill color of the square.
@@ -65,12 +65,6 @@ std::array<Square, 2> getNextSquares(const Square& square, const float& deltaAlp
  * @param degree The degree to convert.
  */
 inline float degreeToRadian(const float& degree);
-
-/**
- * @brief Converts a radian into degree.
- * @param radian The radian to convert.
- */
-inline float radianToDegree(const float& radian);
 
 /**
  * @brief Finds the sine value of a degree.

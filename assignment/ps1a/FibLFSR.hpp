@@ -50,7 +50,6 @@ class FibLFSR {
     [[nodiscard]] std::string getLfsrBinaryString() const;
 
  private:
-    // The LFSR
     std::bitset<SEED_LENGTH> lfsr;
 };
 

@@ -8,8 +8,8 @@
 #include "PTree.hpp"
 
 // Global constants
-const char* WINDOW_TITLE = "Pythagoras Tree";
-const char* ICON_FILENAME = "./assets/icon.png";
+auto WINDOW_TITLE = "Pythagoras Tree";
+auto ICON_FILENAME = "./assets/icon.png";
 constexpr unsigned WINDOW_FPS = 60;
 constexpr int EXIT_CODE = 1;
 constexpr int DEFAULT_ANGLE = 45;
@@ -67,7 +67,7 @@ int main(const int size, const char* arguments[]) {
     // Determine the coordinates of top-left corner and right-left corner
     const float leftX{ (static_cast<float>(windowWidth) - L) / 2 - (A - 45) * 5 };
     const float rightX{ (static_cast<float>(windowWidth) + L) / 2 - (A - 45) * 5 };
-    const float y{ static_cast<float>(windowHeight) * 0.7f };
+    const float y{ static_cast<float>(windowHeight) * 0.7F };
     const sf::Vector2f baseSquareTlVertex{ leftX, y };
     const sf::Vector2f baseSquareTrVertex{ rightX, y };
 
@@ -82,8 +82,9 @@ int main(const int size, const char* arguments[]) {
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed) {
                 window.close();
+            }
         }
     }
 
@@ -92,7 +93,8 @@ int main(const int size, const char* arguments[]) {
 
 std::tuple<float, int, float>
 parseArguments(const std::string& LStr, const std::string& NStr, const std::string& AStr) {
-    float L, A;
+    float L;
+    float A;
     int N;
 
     try {

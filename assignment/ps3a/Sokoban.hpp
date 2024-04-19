@@ -13,7 +13,7 @@
 namespace SB {
 
 // The name of the game
-inline const char* GAME_NAME = "Sokoban";
+inline auto GAME_NAME = "Sokoban";
 
 // The size of each tile
 inline constexpr int TILE_HEIGHT = 64;
