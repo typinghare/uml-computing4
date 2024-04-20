@@ -1,7 +1,6 @@
 // Copyright 2024 James Chen
 
 #include "WordWriter.hpp"
-
 #include <iostream>
 #include <random>
 #include <sstream>

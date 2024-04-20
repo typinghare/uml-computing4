@@ -68,7 +68,7 @@ run-input17: $(PROGRAM)
 	./$(PROGRAM) 2 11 < input17.txt
 
 run-romeo: $(PROGRAM)
-	./$(PROGRAM) 3 100 < romeo.txt
+	./$(PROGRAM) 3 200 < romeo.txt
 
 run-tomsawyer: $(PROGRAM)
 	./$(PROGRAM) 8 400 < tomsawyer.txt
