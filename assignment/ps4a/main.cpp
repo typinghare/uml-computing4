@@ -12,8 +12,6 @@ int main() {
     std::cin >> universe;
     universe.loadResources();
 
-    std::cout << universe;
-
     const sf::VideoMode windowVideoMode{ NB::WINDOW_WIDTH, NB::WINDOW_HEIGHT };
     sf::RenderWindow window(windowVideoMode, std::string(NB::WINDOW_TITLE));
     while (window.isOpen()) {

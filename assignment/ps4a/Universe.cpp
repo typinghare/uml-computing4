@@ -5,7 +5,6 @@
 #include <iostream>
 #include <limits>
 #include "CelestialBody.hpp"
-#include "Common.hpp"
 #include "NBodyConstant.hpp"
 
 namespace NB {

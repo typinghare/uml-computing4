@@ -13,16 +13,14 @@ SRC = ./
 # Hpp files (dependencies)
 DEPS = $(SRC)Universe.hpp \
        $(SRC)CelestialBody.hpp \
-       $(SRC)NBodyConstant.hpp \
-       $(SRC)Common.hpp \
+       $(SRC)NBodyConstant.hpp
 
 # Static library
 STATIC_LIB = NBody.a
 
 # The object files that the static library includes
 STATIC_LIB_OBJECTS = $(SRC)Universe.o \
-				     $(SRC)CelestialBody.o \
-				     $(SRC)Common.o
+				     $(SRC)CelestialBody.o
 
 # Program
 PROGRAM = NBody
