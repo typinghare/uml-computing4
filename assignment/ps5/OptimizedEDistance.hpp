@@ -34,7 +34,8 @@ class OptimizedEDistance final : AbstractEDistance {
     [[nodiscard]] std::string alignment() const override;
 
     /**
-     * @brief Returns the row array containing the first row's elements during the populating.
+     * @brief Returns the row array containing the first row's elements during the .
+     * population process.
      */
     [[nodiscard]] std::vector<int> row() const;
 
@@ -45,7 +46,7 @@ class OptimizedEDistance final : AbstractEDistance {
     std::vector<int> m_column;
 
     /**
-     * @brief The row vector containing the first row's elements during the populating.
+     * @brief The row vector containing the first row's elements during the population process.
      */
     std::vector<int> m_row;
 };

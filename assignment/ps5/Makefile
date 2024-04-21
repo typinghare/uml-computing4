@@ -64,3 +64,6 @@ boost: $(TEST_PROGRAM)
 
 run: $(PROGRAM)
 	./$(PROGRAM) < sequence/example10.txt
+
+run-20: $(PROGRAM)
+	./$(PROGRAM) < sequence/bothgaps20.txt

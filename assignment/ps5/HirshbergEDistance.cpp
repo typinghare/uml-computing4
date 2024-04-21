@@ -12,71 +12,6 @@
 HirshbergEDistance::HirshbergEDistance(const std::string& geneX, const std::string& geneY) :
     AbstractEDistance(geneX, geneY) {}
 
-int HirshbergEDistance::optDistance() {
-    static constexpr std::pair<size_t, size_t> ZERO_PAIR(0, 0);
-
-    // Initialize arrowPath
-    const auto xLength = m_geneX.length();
-    const auto yLength = m_geneY.length();
-    for (size_t i = 0; i < xLength + yLength; ++i) {
-        arrowPath.emplace_back(0, 0);
-    }
-    arrowPath.emplace_back(xLength, yLength);
-
-    // Align the two genes
-    align(m_geneX, m_geneY, { 0, 0 });
-
-    // Find the total cost according to the arrow path
-    const auto length = m_geneX.length() + m_geneY.length();
-    int totalCost = 0;
-    for (size_t i = 0; i < length; ++i) {
-        if (arrowPath[i] == ZERO_PAIR && i != 0) {
-            continue;
-        }
-
-        if (arrowPath[i + 1] != ZERO_PAIR) {
-            // Either from right or from bottom
-            totalCost += 2;
-            // From diagonal
-        } else {
-            const auto xChar = m_geneX.at(arrowPath[i].first);
-            const auto yChar = m_geneY.at(arrowPath[i].second);
-            totalCost += penalty(xChar, yChar);
-        }
-    }
-
-    return totalCost;
-}
-
-std::string HirshbergEDistance::alignment() const {
-    static constexpr auto CHAR_GAP = '-';
-    static constexpr auto CHAR_SPACE = ' ';
-    static constexpr std::pair<size_t, size_t> ZERO_PAIR(0, 0);
-
-    const auto xLength = m_geneX.length();
-    const auto yLength = m_geneY.length();
-    std::ostringstream ostringstream;
-    for (size_t i = 0; i < m_geneX.length() + m_geneY.length(); ++i) {
-        if (arrowPath[i] == ZERO_PAIR && i != 0) {
-            continue;
-        }
-
-        const auto [xIndex, yIndex] = arrowPath[i];
-        const auto isFromRightOrBottom = arrowPath[i + 1] != ZERO_PAIR;
-        const auto isFromRight =
-            isFromRightOrBottom && arrowPath[i].first == arrowPath[i + 1].first;
-        const auto isFromBottom = isFromRightOrBottom && !isFromRight;
-        const auto xChar = xIndex < xLength && !isFromRight ? m_geneX.at(xIndex) : CHAR_GAP;
-        const auto yChar = yIndex < yLength && !isFromBottom ? m_geneY.at(yIndex) : CHAR_GAP;
-        const auto cost = isFromRightOrBottom ? 2 : penalty(xChar, yChar);
-
-        // Output: "<xChar> <yChar> <cost>\n"
-        ostringstream << xChar << CHAR_SPACE << yChar << CHAR_SPACE << cost << std::endl;
-    }
-
-    return ostringstream.str();
-}
-
 std::vector<int>
 HirshbergEDistance::allYPrefixCosts(const std::string& geneX, const std::string& geneY) {
     auto reversedGeneX = geneX;
@@ -149,6 +84,71 @@ void HirshbergEDistance::align(
     // Recursively find the other coordinates of the arrow path
     align(xHalf1, geneY.substr(0, bestQ), offset);
     align(xHalf2, geneY.substr(bestQ), coordinate);
+}
+
+int HirshbergEDistance::optDistance() {
+    static constexpr std::pair<size_t, size_t> ZERO_PAIR(0, 0);
+
+    // Initialize arrowPath
+    const auto xLength = m_geneX.length();
+    const auto yLength = m_geneY.length();
+    for (size_t i = 0; i < xLength + yLength; ++i) {
+        arrowPath.emplace_back(0, 0);
+    }
+    arrowPath.emplace_back(xLength, yLength);
+
+    // Align the two genes
+    align(m_geneX, m_geneY, { 0, 0 });
+
+    // Find the total cost according to the arrow path
+    const auto length = m_geneX.length() + m_geneY.length();
+    int totalCost = 0;
+    for (size_t i = 0; i < length; ++i) {
+        if (arrowPath[i] == ZERO_PAIR && i != 0) {
+            continue;
+        }
+
+        if (arrowPath[i + 1] != ZERO_PAIR) {
+            // Either from right or from bottom
+            totalCost += 2;
+            // From diagonal
+        } else {
+            const auto xChar = m_geneX.at(arrowPath[i].first);
+            const auto yChar = m_geneY.at(arrowPath[i].second);
+            totalCost += penalty(xChar, yChar);
+        }
+    }
+
+    return totalCost;
+}
+
+std::string HirshbergEDistance::alignment() const {
+    static constexpr auto CHAR_GAP = '-';
+    static constexpr auto CHAR_SPACE = ' ';
+    static constexpr std::pair<size_t, size_t> ZERO_PAIR(0, 0);
+
+    const auto xLength = m_geneX.length();
+    const auto yLength = m_geneY.length();
+    std::ostringstream ostringstream;
+    for (size_t i = 0; i < m_geneX.length() + m_geneY.length(); ++i) {
+        if (arrowPath[i] == ZERO_PAIR && i != 0) {
+            continue;
+        }
+
+        const auto [xIndex, yIndex] = arrowPath[i];
+        const auto isFromRightOrBottom = arrowPath[i + 1] != ZERO_PAIR;
+        const auto isFromRight =
+            isFromRightOrBottom && arrowPath[i].first == arrowPath[i + 1].first;
+        const auto isFromBottom = isFromRightOrBottom && !isFromRight;
+        const auto xChar = xIndex < xLength && !isFromRight ? m_geneX.at(xIndex) : CHAR_GAP;
+        const auto yChar = yIndex < yLength && !isFromBottom ? m_geneY.at(yIndex) : CHAR_GAP;
+        const auto cost = isFromRightOrBottom ? 2 : penalty(xChar, yChar);
+
+        // Output: "<xChar> <yChar> <cost>\n"
+        ostringstream << xChar << CHAR_SPACE << yChar << CHAR_SPACE << cost << std::endl;
+    }
+
+    return ostringstream.str();
 }
 
 void HirshbergEDistance::insertArrowPathCoordinate(const std::pair<size_t, size_t>& coordinate) {

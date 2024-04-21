@@ -44,15 +44,11 @@ The `OptimizedEDistance` class optimizes memory usage by retaining only one colu
 In `HirshbergEDistance`, the **arrow path
 ** serves as a critical component representing the path drawn from `matrix[0][0]` through `matrix[n][m]`. Once the arrow path is determined, both the calculation of edit distance and the generation of the alignment string become efficient. This is facilitated by the `align` method, which employs a divide and conquer technique to recursively align two strings. The `align` method accomplishes the following:
 
-1. **Base Case Handling
-   **: If the lengths of the strings `X` or `Y` are less than 2, the standard alignment approach (`NeedlemanWunschEDistance`) is utilized. Subsequently, the arrow path is recorded, and the method returns. This serves as the base case of the recursion.
-2. **String Division
-   **: The string `X` is divided into two parts: `X1` and `X2`. Prefix costs are computed for `X1` and `Y`, while suffix costs are computed for `X2` and `Y`.
-3. **Cost Calculation
-   **: Iterate over `q` from 0 to `m` to determine the minimal cost sum of `yPrefix[q] + ySuffix[q]`, identifying the corresponding `bestQ` value in this context.
+1. **Base Case Handling**: If the lengths of the strings `X` or `Y` are less than 2, the standard alignment approach (`NeedlemanWunschEDistance`) is utilized. Subsequently, the arrow path is recorded, and the method returns. This serves as the base case of the recursion.
+2. **String Division**: The string `X` is divided into two parts: `X1` and `X2`. Prefix costs are computed for `X1` and `Y`, while suffix costs are computed for `X2` and `Y`.
+3. **Cost Calculation**: Iterate over `q` from 0 to `m` to determine the minimal cost sum of `yPrefix[q] + ySuffix[q]`, identifying the corresponding `bestQ` value in this context.
 4. **Arrow Path Expansion**: Incorporate the coordinate `(n // 2, bestQ)` into the arrow path.
-5. **Recursive Exploration
-   **: Recursively explore and determine the coordinates of the remaining segments of the arrow path.
+5. **Recursive Exploration**: Recursively explore and determine the coordinates of the remaining segments of the arrow path.
 
 The arrow path in `HirshbergEDistance` is represented by the data structure `std::vector<std::pair<size_t, size_t>>`. In this structure, the index corresponds to the summation of the pair, where each pair represents a coordinate on the dynamic programming matrix. Notably, the summations of coordinates along the path are distinct.
 
@@ -205,11 +201,9 @@ Assume the two strings are the same length (M = N). Look at your code and determ
 ### Valgrind
 
 > I am using a MacBook with an M1 chip. It does not support Valgrind, and Virtual Box crashes for no reason. I utilized
-**Activity Monitor
-** on macOS to monitor the memory used by the program, and the memory used is within expectation.
+**Activity Monitor** on macOS to monitor the memory used by the program, and the memory used is within expectation.
 >
-> I also used an alternative tool called **Instruments
-** on macOS to detect the memory leaks, and no warnings were detected.
+> I also used an alternative tool called **Instruments** on macOS to detect the memory leaks, and no warnings were detected.
 >
 > Oh come on, give me a break, I've been spending 7 hours implementing Hirshberg's algorithm.
 
@@ -217,8 +211,7 @@ Assume the two strings are the same length (M = N). Look at your code and determ
 
 1. The distinction between `min3` and `std::min` lies in their functionalities. While `std::min` utilizes templates, enabling it to handle various variable types, `min3` is limited to operating solely on three integers.
 
-2. The program is implemented using **Hirschberg's algorithm
-   **, so the program can handle large data set.
+2. The program is implemented using **Hirschberg's algorithm**, so the program can handle large data set.
 
 3. The difference between **optimization levels** are as follows:
 
