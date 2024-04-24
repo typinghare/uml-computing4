@@ -1,4 +1,4 @@
-# PS4: N-Body Simulation
+PS4: N-Body Simulation
 
 ## Contact
 
