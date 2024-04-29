@@ -96,8 +96,6 @@ add_executable(ps4a
         assignment/ps4a/CelestialBody.hpp
         assignment/ps4a/CelestialBody.cpp
         assignment/ps4a/NBodyConstant.hpp
-        assignment/ps4a/Common.hpp
-        assignment/ps4a/Common.cpp
 )
 target_link_libraries(ps4a -lsfml-graphics -lsfml-audio)
 
@@ -109,8 +107,6 @@ add_executable(ps4a-test
         assignment/ps4a/CelestialBody.hpp
         assignment/ps4a/CelestialBody.cpp
         assignment/ps4a/NBodyConstant.hpp
-        assignment/ps4a/Common.hpp
-        assignment/ps4a/Common.cpp
 )
 target_link_libraries(ps4a -lboost_unit_test_framework)
 
@@ -193,3 +189,4 @@ add_executable(findMode playground/find-mode.cpp)
 add_executable(box playground/Box.h playground/Box.cpp)
 add_executable(abstract-class playground/abstract-class.cpp)
 add_executable(extension playground/extension.cpp)
+add_executable(lambda-calculus playground/lambda-calculus.cpp)
