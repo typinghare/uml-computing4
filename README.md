@@ -1,9 +1,5 @@
 # Computing IV Coursework
 
-> This repository is a personal profile for Computing IV course (UMass Lowell).
+This repository serves as my personal profile for the **Computer IV** course at UMass Lowell.
 
-## Build
-
-```bash
-zip -ur JamesChen.zip <dir>
-```
+⚠️  If you come across this repository as a fellow student, please refrain from plagiarizing my work. Let's all maintain our academic integrity by adhering to the Student Code of Conduct.
