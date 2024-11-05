@@ -43,9 +43,8 @@ void SB::Sokoban::movePlayer(const Direction dir) {
     // Change player's orientation
     player_dir_ = dir;
 
-    const auto nextCoord = Sokoban::nextCoord(player_loc_, dir);
     // auto& currTileChar = tileAt(player_loc_);
-    switch (auto& nextTileChar = tileAt(nextCoord)) {
+    switch (const auto nextCoord = Sokoban::nextCoord(player_loc_, dir); tileAt(nextCoord)) {
         case TileChar::EmptySpace:
             player_loc_ = nextCoord;
             break;

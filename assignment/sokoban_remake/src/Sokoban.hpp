@@ -61,6 +61,8 @@ class Sokoban final : public sf::Drawable {
     [[nodiscard]] static sf::Vector2u nextCoord(const sf::Vector2u& coord, Direction dir);
 
     // Check if a box can be moved along a specified direction
+    // If the box cannot be moved, then return its current coordinate
+    // If the box can be moved, then return its next coordinate
     [[nodiscard]] std::pair<bool, sf::Vector2u>
     testBoxNextCoord(const sf::Vector2u& boxCoord, Direction dir) const;
 

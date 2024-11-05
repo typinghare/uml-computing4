@@ -14,7 +14,7 @@ $(PROGRAM): $(OBJECTS)
 	$(CC) $(OPTS) -o $@ $^ $(LIBS)
 
 test: $(PROGRAM)
-	./$< ../assets/level/level2.lvl
+	./$< ../assets/level/level4.lvl
 
 clean:
-	rm -f $(PROGRAM) *.o
+	rm -f $(PROGRAM) *.o *.gch
